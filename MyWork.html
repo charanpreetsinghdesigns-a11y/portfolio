@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Work – Charanpreet Singh</title>
+
+  <!-- Gothic A1 SemiBold (600) + Bold (700) for headings -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Local fonts ── */
+    @font-face {
+      font-family: 'Franklin Gothic Demi';
+      src: url('Assets.html/Franklin Gothic Demi Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Franklin Gothic Book';
+      src: url('Assets.html/Franklin Gothic SSi Book.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Franklin Gothic';
+      src: url('Assets.html/FranklinGothic.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    /* ── Global reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── Shared tokens ── */
+    :root {
+      --green:      #00d2a0;
+      --grey:       #eaeaea;
+      --col-gap:    12px;
+      /* Left sidebar width: 420px at 1920 → 21.875vw */
+      --sidebar-w:  clamp(300px, 21.875vw, 420px);
+      /* Font stacks */
+      --f-demi:     'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
+      --f-book:     'Franklin Gothic Book', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
+      --f-reg:      'Franklin Gothic', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
+      --f-gothic:   'Gothic A1', sans-serif;
+    }
+
+    /* ════════════════════════════════════════
+       TOP BAR  (sticky, 48px, black)
+    ════════════════════════════════════════ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 48px;
+      background: #000;
+      padding: 0 24px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: none;
+      height: 31px;
+    }
+
+    .back-label {
+      font-family: var(--f-demi);
+      /* 22.4px at 1920 → 1.1667vw */
+      font-size: clamp(14px, 1.1667vw, 22.4px);
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .home-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 31px;
+      background: transparent;
+      text-decoration: none;
+    }
+
+    /* ════════════════════════════════════════
+       INFORMATION BAR  (height: 179px at 1920)
+       Green "Projects" panel | Design Process grid
+    ════════════════════════════════════════ */
+    .info-bar {
+      display: flex;
+      width: 100%;
+      gap: var(--col-gap);
+    }
+
+    /* Left: green "Projects" label */
+    .info-left {
+      flex: 0 0 var(--sidebar-w);
+      background: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .projects-label {
+      font-family: var(--f-gothic);
+      font-weight: 600;
+      /* 68px at 1920 → 3.5417vw */
+      font-size: clamp(40px, 3.5417vw, 68px);
+      color: #fff;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* Right: grey Design Process panel */
+    .info-right {
+      flex: 1;
+      background: var(--grey);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 4px 12px 20px;
+    }
+
+    .process-heading {
+      font-family: var(--f-demi);
+      /* 36px at 1920 → 1.875vw */
+      font-size: clamp(20px, 1.875vw, 36px);
+      color: #000;
+      height: clamp(36px, 2.8125vw, 54px);
+      display: flex;
+      align-items: center;
+    }
+
+    /* All 4 steps in one flex row (2 pairs), matching Figma layout */
+    .process-steps {
+      display: flex;
+      gap: var(--col-gap);
+      width: 100%;
+    }
+
+    .process-pair {
+      display: flex;
+      flex: 1;
+      gap: 18px;
+    }
+
+    .process-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .process-item-title {
+      font-family: var(--f-demi);
+      /* 24px at 1920 → 1.25vw */
+      font-size: clamp(14px, 1.25vw, 24px);
+      color: #000;
+      line-height: normal;
+    }
+
+    .process-item-desc {
+      font-family: var(--f-book);
+      /* 16px at 1920 → 0.8333vw */
+      font-size: clamp(11px, 0.8333vw, 16px);
+      color: #000;
+      line-height: 1.5;
+    }
+
+    /* ════════════════════════════════════════
+       BODY  (black sidebar | scrollable content)
+    ════════════════════════════════════════ */
+    .body-section {
+      display: flex;
+      width: 100%;
+      gap: var(--col-gap);
+      align-items: stretch;
+    }
+
+    /* Black left bar — stretches to full content height */
+    .black-sidebar {
+      flex: 0 0 var(--sidebar-w);
+      background: #000;
+      min-height: 100%;
+    }
+
+    /* Right content column */
+    .body-content {
+      flex: 1;
+      /* 24px top/bottom, 12px left/right — mirrors Figma px-12 py-24 */
+      padding: 24px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 39px;
+    }
+
+    /* ── Breadcrumb + Page title (Nav Bar, 133px) ── */
+    .page-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;  /* y of "MY WORK" = 38, breadcrumb height = 24 → gap = 14 ✓ */
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 24px;
+    }
+
+    .breadcrumb a,
+    .breadcrumb span {
+      font-family: var(--f-book);
+      /* 20px at 1920 → 1.0417vw */
+      font-size: clamp(13px, 1.0417vw, 20px);
+      color: #000;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .breadcrumb a:hover { opacity: 0.7; }
+
+    .page-title {
+      font-family: var(--f-gothic);
+      font-weight: 600;
+      /* 68px at 1920 → 3.5417vw */
+      font-size: clamp(40px, 3.5417vw, 68px);
+      color: #000;
+      line-height: normal;
+    }
+
+    /* ── Work Cards grid (gap 48px, 966px wide) ── */
+    .work-cards {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(30px, 2.5vw, 48px);  /* 48px at 1920 */
+      /* 966px = 480 + 36 + 450 at 1920 */
+      width: clamp(700px, 50.3125vw, 966px);
+    }
+
+    .work-card {
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 1.875vw, 36px);  /* 36px at 1920 */
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* ── Illustration box (480×480 square) ── */
+    .card-img-box {
+      flex-shrink: 0;
+      /* 480px at 1920 → 25vw */
+      width:  clamp(280px, 25vw, 480px);
+      height: clamp(280px, 25vw, 480px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Illustration image — percentage positions scale with the box */
+    .card-illus {
+      position: absolute;
+      display: block;
+      object-fit: contain;
+    }
+
+    /* ── Card text content (450px wide, 480px tall) ── */
+    .card-content {
+      flex-shrink: 0;
+      /* 450px at 1920 → 23.4375vw */
+      width:  clamp(260px, 23.4375vw, 450px);
+      height: clamp(280px, 25vw, 480px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-top    { display: flex; flex-direction: column; gap: 24px; }
+    .card-bottom { display: flex; flex-direction: column; gap: 24px; }
+
+    /* Category label — height 54px */
+    .card-category {
+      font-family: var(--f-demi);
+      font-size: clamp(16px, 1.4583vw, 28px);  /* 28px at 1920 */
+      color: #000;
+      height: clamp(34px, 2.8125vw, 54px);
+      display: flex;
+      align-items: center;
+    }
+
+    /* Project title */
+    .card-title {
+      font-family: var(--f-demi);
+      font-size: clamp(16px, 1.4583vw, 28px);
+      color: #000;
+      line-height: normal;
+    }
+
+    /* Description — 24px / lh 36px */
+    .card-desc {
+      font-family: var(--f-book);
+      font-size: clamp(14px, 1.25vw, 24px);   /* 24px at 1920 */
+      color: #000;
+      line-height: clamp(22px, 1.875vw, 36px); /* 36px at 1920 */
+    }
+
+    /* Date */
+    .card-date {
+      font-family: var(--f-demi);
+      font-size: clamp(16px, 1.4583vw, 28px);
+      color: #000;
+    }
+
+    /* Tags */
+    .card-tags {
+      font-family: var(--f-book);
+      font-size: clamp(14px, 1.25vw, 24px);
+      color: #000;
+      line-height: clamp(22px, 1.875vw, 36px);
+    }
+
+    /* ════════════════════════════════════════
+       FOOTER  (220px, green)
+    ════════════════════════════════════════ */
+    .footer {
+      width: 100%;
+      height: 220px;
+      background: var(--green);
+    }
+
+    /* ════════════════════════════════════════
+       SCROLL TO TOP (fixed, bottom-right)
+       Figma: left=1640px, width=220px → right edge at 1860px
+       → 60px from right of 1920px frame
+    ════════════════════════════════════════ */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 60px;
+      right: clamp(40px, 3.125vw, 60px);  /* 60px at 1920 */
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #000;
+      border: none;
+      cursor: pointer;
+      padding: 10px 20px;
+      width: clamp(160px, 11.458vw, 220px);
+      box-shadow: 0 6px 14px rgba(24, 39, 75, 0.24),
+                  0 10px 32px rgba(24, 39, 75, 0.20);
+      z-index: 200;
+    }
+
+    .scroll-top-text {
+      font-family: var(--f-reg);
+      font-size: clamp(15px, 1.25vw, 24px);  /* 24px at 1920 */
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    /* ═══════════════════════════════════════════════
+       REFINEMENTS
+    ═══════════════════════════════════════════════ */
+
+    /* Font rendering */
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Focus states */
+    :focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* Remove whitespace gaps between panels */
+    .info-bar     { gap: 0; }
+    .body-section { gap: 0; }
+
+    /* ── Scroll-reveal animations ── */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.visible { opacity: 1; transform: none; }
+      .reveal.d1 { transition-delay: 0.10s; }
+      .reveal.d2 { transition-delay: 0.20s; }
+      .reveal.d3 { transition-delay: 0.30s; }
+      .reveal.d4 { transition-delay: 0.40s; }
+    }
+
+    /* ── Back / Home button micro-interactions ── */
+    .back-btn { transition: opacity 0.2s; }
+    .back-btn:hover { opacity: 0.75; }
+    .back-btn svg { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .back-btn:hover svg { transform: translateX(-4px); }
+    .home-btn { transition: opacity 0.2s; }
+    .home-btn:hover { opacity: 0.75; }
+
+    /* ── Work cards: lift + image zoom on hover ── */
+    .work-card {
+      border-radius: 4px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .work-card:hover {
+      transform: translateY(-6px);
+    }
+    .work-card:active { transform: translateY(-2px); }
+    .card-illus {
+      transform-origin: center center;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .work-card:hover .card-illus { transform: scale(1.07); }
+
+    /* ── Design Process steps: highlight on hover ── */
+    .process-item {
+      padding: 6px 8px;
+      border-radius: 4px;
+      margin: -6px -8px;
+      transition: background 0.2s;
+    }
+    .process-item:hover { background: rgba(0, 210, 160, 0.12); }
+
+    /* ── Scroll-to-top: lift on hover ── */
+    .scroll-top-btn {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.25s, background 0.2s;
+    }
+    .scroll-top-btn:hover {
+      background: #1a1a1a;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(24, 39, 75, 0.30),
+                  0 18px 44px rgba(24, 39, 75, 0.22);
+    }
+    .scroll-top-btn:active { transform: scale(0.97); }
+    .scroll-top-btn svg { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .scroll-top-btn:hover svg { transform: translateY(-3px); }
+  </style>
+</head>
+<body id="top">
+
+  <!-- ══ TOP BAR ══════════════════════════════════════════════════ -->
+  <div class="topbar">
+    <!-- Back button: arrow (rotated 180°) + label -->
+    <button class="back-btn"
+            onclick="history.length > 1 ? history.back() : (window.location.href='Portfolio.html')">
+      <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
+        <path d="M27 8H2M2 8L9 1M2 8L9 15"
+              stroke="white" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="back-label">Back</span>
+    </button>
+
+    <!-- Home icon button -->
+    <a href="Portfolio.html" class="home-btn" aria-label="Go to Home">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M3 10.5L12 3L21 10.5V20C21 20.5523 20.5523 21 20 21H15.5V16H8.5V21H4C3.44772 21 3 20.5523 3 20V10.5Z"
+              fill="white"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- ══ INFORMATION BAR ═══════════════════════════════════════════
+       Green "Projects" (420px) | Grey Design Process (flex-1)
+       Total height at 1920px: 179px
+  ══════════════════════════════════════════════════════════════════ -->
+  <div class="info-bar">
+
+    <div class="info-left">
+      <span class="projects-label">Projects</span>
+    </div>
+
+    <div class="info-right">
+      <div class="process-heading">Design Process</div>
+
+      <!-- 4 steps in one row (2 pairs), each pair 50% width -->
+      <div class="process-steps">
+        <div class="process-pair">
+          <div class="process-item">
+            <div class="process-item-title">Research</div>
+            <div class="process-item-desc">Research includes understanding about the project scope, performing competitive analysis as well as doing the primary and secondary user research.</div>
+          </div>
+          <div class="process-item">
+            <div class="process-item-title">Requirements</div>
+            <div class="process-item-desc">After all the research and analysis part, problem and vision statements are introduced. This step also involves the User personas and User Scenarios.</div>
+          </div>
+        </div>
+        <div class="process-pair">
+          <div class="process-item">
+            <div class="process-item-title">Framework</div>
+            <div class="process-item-desc">Framework is the base of the design which includes the work on backend structure. This step involves creating the Information Architecture and User flows</div>
+          </div>
+          <div class="process-item">
+            <div class="process-item-title">Detailed Design</div>
+            <div class="process-item-desc">This is the last step in the design process that focus on creating color palettes, introducing typography, wireframing UI screens and working on prototyping</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /info-bar -->
+
+  <!-- ══ BODY ═══════════════════════════════════════════════════════
+       Black sidebar (420px) | Scrollable content (flex-1)
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="body-section">
+    <div class="black-sidebar"></div>
+
+    <div class="body-content">
+
+      <!-- Breadcrumb + MY WORK heading -->
+      <div class="page-nav">
+        <nav class="breadcrumb">
+          <a href="Portfolio.html">Home</a>
+          <!-- Right-pointing arrow (matches imgFrame16 in Figma) -->
+          <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
+            <path d="M1 8H26M26 8L19 1M26 8L19 15"
+                  stroke="black" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>My Work</span>
+        </nav>
+        <h1 class="page-title">MY WORK</h1>
+      </div>
+
+      <!-- ── Work Cards (4 projects) ────────────────────────────── -->
+      <div class="work-cards">
+
+        <!-- ─ Work 1: Teacher Hiring ─────────────────────────── -->
+        <a class="work-card" href="TeacherHiring.html">
+          <!-- Illustration box: coral #fc7a57 -->
+          <!-- undraw_educator_6dgp: left=8.48/480=1.77%, top=100.66/480=20.97%,
+               width=425.52/480=88.65%, height=278.67/480=58.06% -->
+          <div class="card-img-box" style="background:#fc7a57;">
+            <img class="card-illus"
+                 src="https://www.figma.com/api/mcp/asset/802f072b-203a-4bf7-926f-09643e68ecf6"
+                 alt="Teacher Hiring and Upskilling Platform illustration"
+                 loading="lazy"
+                 style="left:1.77%;top:20.97%;width:88.65%;height:58.06%;" />
+          </div>
+          <div class="card-content">
+            <div class="card-top">
+              <div class="card-category">Personal Case Study</div>
+              <div class="card-title">Teacher Hiring and Upskilling Platform</div>
+              <div class="card-desc">A case study to find a snag in existing hiring process of teachers in India and to provide with a possible effective solution.</div>
+            </div>
+            <div class="card-bottom">
+              <div class="card-date">Feb 2023</div>
+              <div class="card-tags">#AppDesiign #Edtech #figma #UXDesign #Research #Analysis #Schools #Teachers</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- ─ Work 2: Xane AI ────────────────────────────────── -->
+        <a class="work-card" href="XaneAI.html">
+          <!-- Illustration box: blue #3698bf -->
+          <!-- undraw_electric-car container: left=36/480=7.5%, top=83/480=17.29%,
+               width=409.64/480=85.34%, height=313.99/480=65.42% -->
+          <div class="card-img-box" style="background:#3698bf;">
+            <img class="card-illus"
+                 src="https://www.figma.com/api/mcp/asset/eac5e8b7-e488-4aaa-9a99-dc88ffd2ad82"
+                 alt="Xane AI illustration"
+                 loading="lazy"
+                 style="left:7.5%;top:17.29%;width:85.34%;height:65.42%;" />
+          </div>
+          <div class="card-content">
+            <div class="card-top">
+              <div class="card-category">Xane AI</div>
+              <div class="card-title">AI-driven Automobile/Appliances Platform</div>
+              <div class="card-desc">One of the recent project where got the opportunity to redesign website experience for an ai-backed appliances' related solution provider technology platform.</div>
+            </div>
+            <div class="card-bottom">
+              <div class="card-date">Oct 2024 - Jan 2025</div>
+              <div class="card-tags">#Websiteredesign #AI #figma #UXDesign #Automobiles #Jittervideo</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- ─ Work 3: Nagrik ─────────────────────────────────── -->
+        <a class="work-card" href="Nagrik.html">
+          <!-- Illustration box: salmon #f27f74 -->
+          <!-- undraw_candidate: left=6/480=1.25%, top=89/480=18.54%,
+               width=469/480=97.71%, height=302/480=62.92% -->
+          <div class="card-img-box" style="background:#f27f74;">
+            <img class="card-illus"
+                 src="https://www.figma.com/api/mcp/asset/6733ff5b-4335-4262-8dae-60fc9a639e9c"
+                 alt="Nagrik Political Media illustration"
+                 loading="lazy"
+                 style="left:1.25%;top:18.54%;width:97.71%;height:62.92%;" />
+          </div>
+          <div class="card-content">
+            <div class="card-top">
+              <div class="card-category">Nagrik</div>
+              <div class="card-title">Political Media Application</div>
+              <div class="card-desc">Focus was to create a user-friendly interface for citizens to explore the list of candidates and there profile in respective constituencies. Further explorations on idea of map view and polls were performed.</div>
+            </div>
+            <div class="card-bottom">
+              <div class="card-date">Feb 2024 - May 2024</div>
+              <div class="card-tags">#AppDesign #Politics #figma #UXDesign</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- ─ Work 4: upsurge ────────────────────────────────── -->
+        <a class="work-card" href="Upsurge.html">
+          <!-- Illustration box: teal #17d1bc -->
+          <!-- imgGroup33 fills the illustration container:
+               left=33/480=6.875%, top=106/480=22.08%,
+               width=414.75/480=86.41%, height=293.99/480=61.25% -->
+          <div class="card-img-box" style="background:#17d1bc;">
+            <img class="card-illus"
+                 src="https://www.figma.com/api/mcp/asset/a2cefdbf-1ad2-4676-a47e-587c5d3c676a"
+                 alt="upsurge Edutainment Platform illustration"
+                 loading="lazy"
+                 style="left:6.875%;top:22.08%;width:86.41%;height:61.25%;" />
+          </div>
+          <div class="card-content">
+            <div class="card-top">
+              <div class="card-category">upsurge</div>
+              <div class="card-title">Kids' Based Edutainment Platform</div>
+              <div class="card-desc">With user-centered approach, the goal was to redesign the website and app experience. Collaborate with different teams to create user friendly kids' based financial edtech.</div>
+            </div>
+            <div class="card-bottom">
+              <div class="card-date">May 2023 - Dec 2023</div>
+              <div class="card-tags">#WebsiteRedesign #UserExperienceDesign #AppDesign #Edtech #figma</div>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /work-cards -->
+    </div><!-- /body-content -->
+  </div><!-- /body-section -->
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+  <div class="footer"></div>
+
+  <!-- ══ SCROLL TO TOP (fixed) ═════════════════════════════════════ -->
+  <button class="scroll-top-btn"
+          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    <span class="scroll-top-text">Scroll to Top</span>
+    <!-- Up-pointing arrow (matches imgFrame15 rotated -90° in Figma) -->
+    <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+      <path d="M8 27V2M8 2L1 9M8 2L15 9"
+            stroke="white" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* 1. Lazy-load gallery images (AboutMe.html) */
+    document.querySelectorAll('.gallery img').forEach(function (img) {
+      img.setAttribute('loading', 'lazy');
+    });
+
+    /* 2. Auto-mark elements for scroll reveal */
+    [
+      '.work-card',
+      '.case-study > .explanation',
+      '.case-study > .explanation-lg',
+      '.case-study > .explanation-wide',
+      '.case-study > .img-600',
+      '.case-study > .img-hero',
+      '.case-study > .img-aspect',
+      '.case-study > .img-ui',
+      '.case-study > .img-persona',
+      '.case-study > .phone-row-box',
+      '.case-study > .section-header',
+      '.case-study > .stats-row',
+      '.case-study > .competitor-list',
+      '.gallery > *',
+      '.quote-section',
+      '.body-text'
+    ].forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        el.classList.add('reveal');
+      });
+    });
+
+    /* Stagger delays for work cards (2nd, 3rd, 4th) */
+    document.querySelectorAll('.work-card').forEach(function (el, i) {
+      if (i > 0 && i < 5) el.classList.add('d' + i);
+    });
+
+    /* 3. Intersection Observer */
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        el.classList.add('visible');
+      });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      io.observe(el);
+    });
+  }());
+  </script>
+
+</body>
+</html>
