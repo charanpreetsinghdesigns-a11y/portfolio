@@ -4,315 +4,628 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Charanpreet Singh – UX Designer</title>
-
-  <!-- Gothic A1 Bold — used for CHARANPREET SINGH and USER EXPERIENCE DESIGNER -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
-    /* ── Local fonts ── */
-    @font-face {
-      font-family: 'Franklin Gothic Demi';
-      src: url('Assets.html/Franklin Gothic Demi Regular.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Franklin Gothic';
-      src: url('Assets.html/FranklinGothic.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
-
-    /* ── Global reset ── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    /* ── Page shell: vertical stack filling the viewport ── */
-    body {
-      display: flex;
-      flex-direction: column;
-    }
-
     /* ── Design tokens ── */
     :root {
-      --green:      #00d2a0;
-      --grey:       #eaeaea;
-      /* Column split: 1004 / 1920 = 52.2917% */
-      --split:      52.2917%;
-      /* Topbar: fixed 48px */
-      --topbar-h:   48px;
-      /* Navbar: 165px at 1920px → 8.5938vw */
-      --navbar-h:   clamp(110px, 8.5938vw, 165px);
-      /* Left pad: 64px at 1920px → 3.3333vw (navbar name) / 62px body → 3.2292vw */
-      --pad-name:   clamp(40px, 3.3333vw, 64px);
-      --pad-body:   clamp(40px, 3.2292vw, 62px);
-      /* Body gap (between intro and picture): 72px → 3.75vw */
-      --body-gap:   clamp(44px, 3.75vw, 72px);
+      --bg:         #f7f8fa;
+      --surface:    #ffffff;
+      --accent:     #00e5ff;
+      --accent-dim: rgba(0, 229, 255, 0.12);
+      --ink:        #0a0e14;
+      --ink-muted:  #6b7280;
+      --border:     rgba(10, 14, 20, 0.10);
+      --f-display:  'Space Grotesk', sans-serif;
+      --f-mono:     'Space Mono', monospace;
+      --f-body:     'Inter', sans-serif;
+      --nav-h:      64px;
+      --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ════════════════════════════════════════
-       TOP BAR
-    ════════════════════════════════════════ */
-    .topbar {
-      width: 100%;
-      height: var(--topbar-h);
-      background: #000;
-      flex-shrink: 0;
-    }
-
-    /* ════════════════════════════════════════
-       NAV BAR
-    ════════════════════════════════════════ */
-    .navbar {
-      display: flex;
-      width: 100%;
-      height: var(--navbar-h);
-      flex-shrink: 0;
-    }
-
-    /* Left zone: green, holds the name */
-    .navbar-name {
-      flex: 0 0 var(--split);
-      background: var(--green);
-      display: flex;
-      align-items: center;
-      padding-left: var(--pad-name);
-      padding-right: 20px;
-    }
-
-    .navbar-name h1 {
-      font-family: 'Gothic A1', sans-serif;
-      font-weight: 700;
-      /* 84px at 1920px → 4.375vw */
-      font-size: clamp(52px, 4.375vw, 84px);
-      color: #fff;
-      line-height: 1;
-      white-space: nowrap;
-    }
-
-    /* Right zone: grey, holds nav links */
-    .navbar-nav {
-      flex: 1;
-      background: var(--grey);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      /* 48px gap at 1920px → 2.5vw */
-      gap: clamp(28px, 2.5vw, 48px);
-    }
-
-    .navbar-nav a {
-      font-family: 'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      /* 28px at 1920px → 1.4583vw */
-      font-size: clamp(16px, 1.4583vw, 28px);
-      color: #000;
-      text-decoration: none;
-      font-weight: 400;
-      white-space: nowrap;
-    }
-
-    .navbar-nav a:hover { opacity: 0.7; }
-
-    /* ════════════════════════════════════════
-       HERO BODY
-       Figma: 867px tall, padding-left 62px, gap 72px, items-center
-    ════════════════════════════════════════ */
-    .hero {
-      flex: 1;                      /* fills remaining viewport height */
-      display: flex;
-      align-items: center;          /* vertically centres the intro column */
-      background: var(--green);
-      padding-left: var(--pad-body);
-      gap: var(--body-gap);
-      min-height: 0;                /* prevents flex overflow */
-    }
-
-    /* Left frame: intro content */
-    .hero-intro {
-      flex: 1 0 0;
-      /* 1029px max at 1920 → 53.59vw */
-      max-width: clamp(700px, 53.59vw, 1029px);
-      display: flex;
-      flex-direction: column;
-      /* 56px gap between all three content blocks */
-      gap: clamp(36px, 2.9167vw, 56px);
-    }
-
-    .hero-title {
-      font-family: 'Gothic A1', sans-serif;
-      font-weight: 700;
-      /* 110px at 1920px → 5.7292vw */
-      font-size: clamp(68px, 5.7292vw, 110px);
-      color: #000;
-      /* 2 lines × 138px = 276px total; 138/110 ≈ 1.254 */
-      line-height: 1.254;
-    }
-
-    .hero-subtitle {
-      font-family: 'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      /* 36px at 1920px → 1.875vw */
-      font-size: clamp(22px, 1.875vw, 36px);
-      color: #fff;
-      font-weight: 400;
-      /* 54px line-height at 36px font → 54/36 = 1.5 */
-      line-height: 1.5;
-    }
-
-    /* CTA button */
-    .btn-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-      /* 289px × 52px at 1920px */
-      width:  clamp(180px, 15.0521vw, 289px);
-      height: clamp(34px,  2.7083vw,  52px);
-      text-decoration: none;
-      cursor: pointer;
-      flex-shrink: 0;
-      align-self: flex-start;
-    }
-
-    .btn-cta:hover { background: #222; }
-
-    .btn-cta span {
-      font-family: 'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      /* 28px at 1920px → 1.4583vw */
-      font-size: clamp(16px, 1.4583vw, 28px);
-      color: #fff;
-      font-weight: 400;
-      white-space: nowrap;
-    }
-
-    /* Right frame: hero photograph */
-    .hero-picture {
-      flex: 1 0 0;
-      /* 757px max at 1920px → 39.4271vw */
-      max-width: clamp(500px, 39.4271vw, 757px);
-      /* stretch overrides parent's align-items: center so image fills full height */
-      align-self: stretch;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-picture img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ═══════════════════════════════════════════════
-       REFINEMENTS
-    ═══════════════════════════════════════════════ */
-
-    /* Font rendering */
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
+      cursor: none;
+      scroll-behavior: smooth;
+    }
+    @media (pointer: coarse) { html { cursor: auto; } }
+    body { background: var(--bg); color: var(--ink); font-family: var(--f-body); }
+
+    /* ── Progress bar ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+      background: var(--accent); z-index: 9999;
+      transition: width 0.1s linear;
+      pointer-events: none;
     }
 
-    /* Focus states */
-    :focus-visible {
-      outline: 2px solid var(--green);
-      outline-offset: 3px;
-      border-radius: 2px;
+    /* ── Page curtain ── */
+    #page-curtain {
+      position: fixed; inset: 0;
+      background: var(--ink); z-index: 9998;
+      transform-origin: top;
+      animation: curtainUp 0.6s var(--ease-out) 0.1s forwards;
+      pointer-events: none;
+    }
+    @keyframes curtainUp {
+      from { transform: scaleY(1); }
+      to   { transform: scaleY(0); }
     }
 
-    /* Nav link underline slide-in on hover */
-    .navbar-nav a { position: relative; }
-    .navbar-nav a::after {
+    /* ── Custom cursor ── */
+    #cursor-dot, #cursor-ring {
+      position: fixed; top: 0; left: 0;
+      border-radius: 50%;
+      pointer-events: none; z-index: 9997;
+      transform: translate(-50%, -50%);
+    }
+    #cursor-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      transition: opacity 0.2s;
+    }
+    #cursor-ring {
+      width: 28px; height: 28px;
+      border: 1.5px solid var(--accent);
+      opacity: 0.6;
+      transition: transform 0.1s, opacity 0.2s, width 0.2s, height 0.2s;
+    }
+    @media (pointer: coarse) { #cursor-dot, #cursor-ring { display: none; } }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex; align-items: center;
+      padding: 0 48px;
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+    .nav.scrolled {
+      background: rgba(247, 248, 250, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--f-mono);
+      font-size: 15px;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      margin-right: auto;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; align-items: center; }
+    .nav-links a {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      color: var(--ink-muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      left: 0; right: 0; bottom: -4px;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--ink); }
+
+    /* ── Scroll-reveal base ── */
+    .reveal-clip {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 0.7s var(--ease-out);
+    }
+    .reveal-clip.visible { clip-path: inset(0 0% 0 0); }
+    .reveal-fade {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    }
+    .reveal-fade.visible { opacity: 1; transform: none; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: calc(var(--nav-h) + 60px) 48px 80px;
+      position: relative; overflow: hidden;
+    }
+    /* Dot-grid background */
+    .hero::before {
       content: '';
-      position: absolute;
-      left: 0; right: 0; bottom: -3px;
-      height: 2px;
-      background: currentColor;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.06;
+      pointer-events: none;
     }
-    .navbar-nav a:hover { opacity: 1; }
-    .navbar-nav a:hover::after { transform: scaleX(1); }
 
-    /* CTA button hover + press effect */
-    .btn-cta {
-      transition: background 0.2s,
-                  transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.25s;
+    .hero-inner {
+      width: 100%; max-width: 1320px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
     }
-    .btn-cta:hover {
-      background: #1a1a1a;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
-    }
-    .btn-cta:active { transform: scale(0.97); box-shadow: none; }
 
-    /* Hero elements: fade-in on page load */
-    @media (prefers-reduced-motion: no-preference) {
-      @keyframes heroFadeUp {
-        from { opacity: 0; transform: translateY(22px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-      .hero-title    { animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both; }
-      .hero-subtitle { animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.20s both; }
-      .btn-cta       { animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
-      .hero-picture  { animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.10s both; }
+    .hero-left { display: flex; flex-direction: column; gap: 28px; }
+
+    .hero-label {
+      font-family: var(--f-mono);
+      font-size: 13px; letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .hero-label::before { content: '// '; opacity: 0.6; }
+
+    .hero-name {
+      font-family: var(--f-display);
+      font-size: clamp(48px, 5.5vw, 88px);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--ink);
+      min-height: 2.1em;
+    }
+    .hero-name .cursor-blink {
+      display: inline-block;
+      width: 3px; height: 0.85em;
+      background: var(--accent);
+      vertical-align: middle;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-tagline {
+      font-family: var(--f-body);
+      font-size: clamp(16px, 1.3vw, 20px);
+      color: var(--ink-muted);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+
+    .btn-primary, .btn-ghost {
+      font-family: var(--f-mono);
+      font-size: 13px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 2px;
+      cursor: none;
+      transition: transform 0.25s var(--ease-out), box-shadow 0.25s, background 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary {
+      background: var(--ink); color: var(--bg);
+      border: 1px solid var(--ink);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(10, 14, 20, 0.22);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent); color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .btn-primary:active, .btn-ghost:active { transform: scale(0.97); box-shadow: none; }
+
+    /* ── Radar canvas ── */
+    .hero-right {
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    #radar-canvas {
+      display: block;
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 1;
+    }
+
+    /* ── Ticker ── */
+    .ticker-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .ticker-track {
+      display: flex; gap: 0;
+      white-space: nowrap;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-item {
+      font-family: var(--f-mono);
+      font-size: 12px; letter-spacing: 0.1em;
+      color: var(--ink-muted);
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+    .ticker-item span { color: var(--accent); margin-right: 8px; }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 36px 48px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: var(--f-mono); font-size: 12px;
+      color: var(--ink-muted); letter-spacing: 0.06em;
+    }
+    .footer-accent-line {
+      height: 1px; width: 60px; background: var(--accent);
+    }
+
+    /* ── Focus ── */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px; border-radius: 2px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .nav { padding: 0 24px; }
+      .hero { padding: calc(var(--nav-h) + 40px) 24px 60px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-right { display: none; }
+      footer { padding: 28px 24px; flex-direction: column; gap: 16px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── TOP BAR ── -->
-  <div class="topbar"></div>
+  <div id="progress-bar"></div>
+  <div id="page-curtain"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
 
-  <!-- ── NAV BAR ── -->
-  <header class="navbar">
-    <div class="navbar-name">
-      <h1>CHARANPREET SINGH</h1>
-    </div>
-    <nav class="navbar-nav">
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a href="Portfolio.html" class="nav-logo">C<span>S</span></a>
+    <nav class="nav-links">
       <a href="MyWork.html">My Work</a>
       <a href="AboutMe.html">About Me</a>
-      <a href="Resume_Charanpreet_Singh.pdf" target="_blank">Resume</a>
+      <a href="Resume_Charanpreet_Singh.pdf" target="_blank" rel="noopener">Resume</a>
     </nav>
   </header>
 
-  <!-- ── HERO BODY ── -->
+  <!-- HERO -->
   <section class="hero">
-
-    <div class="hero-intro">
-      <p class="hero-title">USER EXPERIENCE DESIGNER</p>
-      <p class="hero-subtitle">
-        Combining creativity and empathy to craft digital experiences that are
-        visually engaging, intuitive, and impactful for every user
-      </p>
-      <a href="MyWork.html" class="btn-cta">
-        <span>View Projects</span>
-      </a>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <p class="hero-label reveal-fade">UX Designer</p>
+        <h1 class="hero-name" id="hero-name" aria-label="Charanpreet Singh">
+          <span class="cursor-blink" id="type-cursor"></span>
+        </h1>
+        <p class="hero-tagline reveal-fade">
+          Combining creativity and empathy to craft digital experiences that are
+          visually engaging, intuitive, and impactful for every user.
+        </p>
+        <div class="hero-ctas reveal-fade">
+          <a href="MyWork.html" class="btn-primary" data-magnetic>View Projects →</a>
+          <a href="Resume_Charanpreet_Singh.pdf" target="_blank" rel="noopener" class="btn-ghost" data-magnetic>Resume ↗</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <canvas id="radar-canvas"></canvas>
+      </div>
     </div>
-
-    <div class="hero-picture">
-      <img
-        src="https://www.figma.com/api/mcp/asset/6cb4262f-66ec-454d-b26b-da8b0022b3ee"
-        alt="Charanpreet Singh"
-      />
-    </div>
-
   </section>
 
+  <!-- SKILLS TICKER -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Charanpreet Singh</span>
+    <div class="footer-accent-line"></div>
+    <span>UX Designer · Toronto</span>
+  </footer>
+
+  <script>
+  (function () {
+    /* ── Curtain ── */
+    const curtain = document.getElementById('page-curtain');
+    setTimeout(() => curtain && (curtain.style.display = 'none'), 700);
+
+    /* ── Scroll progress bar ── */
+    const bar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      bar.style.width = pct + '%';
+    }, { passive: true });
+
+    /* ── Nav scroll class ── */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    /* ── Active nav link ── */
+    const page = location.pathname.split('/').pop() || 'Portfolio.html';
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      const href = a.getAttribute('href');
+      if (href === page || (page === '' && href === 'Portfolio.html')) a.classList.add('active');
+      if (['TeacherHiring.html','XaneAI.html','Nagrik.html','Upsurge.html'].includes(page) && href === 'MyWork.html') a.classList.add('active');
+    });
+
+    /* ── Custom cursor ── */
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    if (dot && ring && window.matchMedia('(pointer: fine)').matches) {
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+      dot.style.display = 'block'; ring.style.display = 'block';
+
+      let hovered = false;
+      document.querySelectorAll('a, button, [data-magnetic]').forEach(el => {
+        el.addEventListener('mouseenter', () => { hovered = true; });
+        el.addEventListener('mouseleave', () => { hovered = false; });
+      });
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function tickCursor() {
+        dot.style.left  = mx + 'px';
+        dot.style.top   = my + 'px';
+        rx = lerp(rx, mx, 0.15);
+        ry = lerp(ry, my, 0.15);
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        ring.style.transform = `translate(-50%,-50%) scale(${hovered ? 1.8 : 1})`;
+        ring.style.opacity = hovered ? '0.4' : '0.6';
+        requestAnimationFrame(tickCursor);
+      }
+      tickCursor();
+    }
+
+    /* ── Scroll-reveal ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal-clip, .reveal-fade').forEach(el => io.observe(el));
+
+    /* ── Magnetic buttons ── */
+    document.querySelectorAll('[data-magnetic]').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top  + r.height / 2);
+        btn.style.transform = `translate(${dx * 0.35}px, ${dy * 0.35}px) translateY(-3px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+    });
+
+    /* ── Typewriter ── */
+    const nameEl  = document.getElementById('hero-name');
+    const cursorEl = document.getElementById('type-cursor');
+    const text1 = 'CHARANPREET';
+    const text2 = 'SINGH';
+    const delay = 800;
+    const speed = 65;
+
+    function typeWriter() {
+      let i = 0;
+      const line1 = document.createElement('span');
+      nameEl.insertBefore(line1, cursorEl);
+      const br = document.createElement('br');
+
+      function tick() {
+        if (i < text1.length) {
+          line1.textContent += text1[i++];
+          setTimeout(tick, speed);
+        } else if (i === text1.length) {
+          nameEl.insertBefore(br, cursorEl);
+          const line2 = document.createElement('span');
+          nameEl.insertBefore(line2, cursorEl);
+          i++;
+          let j = 0;
+          function tick2() {
+            if (j < text2.length) {
+              line2.textContent += text2[j++];
+              setTimeout(tick2, speed);
+            }
+          }
+          setTimeout(tick2, speed);
+        }
+      }
+      setTimeout(tick, delay);
+    }
+    typeWriter();
+
+    /* ── Skills ticker ── */
+    const skills = [
+      'UX Design', 'Figma', 'User Research',
+      'Prototyping', 'Wireframing', 'Usability Testing',
+      'Design Systems', 'Information Architecture',
+      'Visual Design', 'Interaction Design',
+    ];
+    const track = document.getElementById('ticker-track');
+    if (track) {
+      const items = [...skills, ...skills].map(s => {
+        const d = document.createElement('span');
+        d.className = 'ticker-item';
+        d.innerHTML = `<span>#</span>${s}`;
+        return d;
+      });
+      items.forEach(i => track.appendChild(i));
+    }
+
+    /* ── Radar canvas ── */
+    const canvas = document.getElementById('radar-canvas');
+    if (!canvas) return;
+
+    function initRadar() {
+      const dpr = window.devicePixelRatio || 1;
+      const size = canvas.offsetWidth;
+      canvas.width  = size * dpr;
+      canvas.height = size * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+
+      const cx = size / 2, cy = size / 2;
+      const R  = size * 0.42;
+      const accent = '#00e5ff';
+
+      const fixedDots = [
+        { angle: 0.45, r: 0.55 },
+        { angle: 1.8,  r: 0.35 },
+        { angle: 2.9,  r: 0.75 },
+        { angle: 4.7,  r: 0.50 },
+      ];
+      const orbitDots = [
+        { angle: 0, speed: 0.008, r: 0.65 },
+        { angle: Math.PI, speed: 0.014, r: 0.40 },
+      ];
+
+      let sweep = 0;
+      function draw() {
+        ctx.clearRect(0, 0, size, size);
+        ctx.globalAlpha = 1;
+
+        /* Rings */
+        for (let i = 1; i <= 4; i++) {
+          ctx.beginPath();
+          ctx.arc(cx, cy, R * (i / 4), 0, Math.PI * 2);
+          ctx.strokeStyle = accent;
+          ctx.globalAlpha = 0.15 + (i === 4 ? 0.1 : 0);
+          ctx.lineWidth = i === 4 ? 1.5 : 0.8;
+          ctx.stroke();
+        }
+
+        /* Cross-hairs */
+        ctx.globalAlpha = 0.08;
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(cx - R * 1.1, cy); ctx.lineTo(cx + R * 1.1, cy);
+        ctx.moveTo(cx, cy - R * 1.1); ctx.lineTo(cx, cy + R * 1.1);
+        ctx.stroke();
+
+        /* Sweep wedge */
+        const wedgeArc = Math.PI / 5;
+        const grd = ctx.createConicalGradient
+          ? ctx.createConicalGradient(cx, cy, sweep - wedgeArc, sweep)
+          : null;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, R, sweep - wedgeArc, sweep);
+        ctx.closePath();
+
+        if (grd) {
+          grd.addColorStop(0, 'transparent');
+          grd.addColorStop(1, accent);
+          ctx.fillStyle = grd;
+        } else {
+          /* Fallback: radial gradient approximation */
+          const rg = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+          rg.addColorStop(0, `rgba(0,229,255,0.25)`);
+          rg.addColorStop(1, `rgba(0,229,255,0.05)`);
+          ctx.fillStyle = rg;
+        }
+        ctx.globalAlpha = 0.5;
+        ctx.fill();
+
+        /* Sweep leading edge */
+        ctx.globalAlpha = 0.7;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(sweep) * R, cy + Math.sin(sweep) * R);
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
+
+        /* Fixed dots */
+        fixedDots.forEach(d => {
+          const x = cx + Math.cos(d.angle) * R * d.r;
+          const y = cy + Math.sin(d.angle) * R * d.r;
+          ctx.globalAlpha = 0.9;
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = accent;
+          ctx.fill();
+
+          /* Ping ring */
+          const phase = (sweep % (Math.PI * 2)) / (Math.PI * 2);
+          const pingR = 3 + phase * 12;
+          ctx.globalAlpha = (1 - phase) * 0.4;
+          ctx.beginPath();
+          ctx.arc(x, y, pingR, 0, Math.PI * 2);
+          ctx.strokeStyle = accent;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        });
+
+        /* Orbiting dots */
+        orbitDots.forEach(d => {
+          d.angle += d.speed;
+          const x = cx + Math.cos(d.angle) * R * d.r;
+          const y = cy + Math.sin(d.angle) * R * d.r;
+          ctx.globalAlpha = 1;
+          ctx.beginPath();
+          ctx.arc(x, y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = accent;
+          ctx.fill();
+          /* Outer ring */
+          ctx.globalAlpha = 0.35;
+          ctx.beginPath();
+          ctx.arc(x, y, 8, 0, Math.PI * 2);
+          ctx.strokeStyle = accent;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        });
+
+        /* Center dot */
+        ctx.globalAlpha = 1;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+        ctx.fillStyle = accent;
+        ctx.fill();
+
+        sweep += 0.018;
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    /* Wait for fonts + layout */
+    if (document.readyState === 'complete') {
+      initRadar();
+    } else {
+      window.addEventListener('load', initRadar);
+    }
+
+    /* Resize */
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(initRadar, 150);
+    });
+  })();
+  </script>
 </body>
 </html>

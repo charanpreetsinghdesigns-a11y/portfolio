@@ -4,962 +4,472 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Teacher Hiring – Charanpreet Singh</title>
-
-  <!-- Gothic A1 Regular + SemiBold for headings & section numbers -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
-    /* ── Local fonts ── */
-    @font-face {
-      font-family: 'Franklin Gothic Demi';
-      src: url('Assets.html/Franklin Gothic Demi Regular.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Franklin Gothic Book';
-      src: url('Assets.html/Franklin Gothic SSi Book.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Franklin Gothic';
-      src: url('Assets.html/FranklinGothic.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
-
-    /* ── Global reset ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: #fff; overflow-x: hidden; }
-
-    /* ── Shared tokens ── */
     :root {
-      --green:     #00d2a0;
-      --grey:      #eaeaea;
-      --col-gap:   12px;
-      --sidebar-w: clamp(300px, 21.875vw, 420px);
-      --f-demi:    'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      --f-book:    'Franklin Gothic Book', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      --f-reg:     'Franklin Gothic', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      --f-gothic:  'Gothic A1', sans-serif;
+      --bg:         #f7f8fa;
+      --surface:    #ffffff;
+      --accent:     #00e5ff;
+      --accent-dim: rgba(0, 229, 255, 0.12);
+      --project:    #fc7a57;
+      --ink:        #0a0e14;
+      --ink-muted:  #6b7280;
+      --border:     rgba(10, 14, 20, 0.10);
+      --f-display:  'Space Grotesk', sans-serif;
+      --f-mono:     'Space Mono', monospace;
+      --f-body:     'Inter', sans-serif;
+      --nav-h:      64px;
+      --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; cursor: none; scroll-behavior: smooth; }
+    @media (pointer: coarse) { html { cursor: auto; } }
+    body { background: var(--bg); color: var(--ink); font-family: var(--f-body); }
+
+    #progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 9999; transition: width 0.1s linear; pointer-events: none; }
+    #page-curtain { position: fixed; inset: 0; background: var(--ink); z-index: 9998; transform-origin: top; animation: curtainUp 0.6s var(--ease-out) 0.1s forwards; pointer-events: none; }
+    @keyframes curtainUp { from{transform:scaleY(1)} to{transform:scaleY(0)} }
+    #cursor-dot, #cursor-ring { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9997; transform: translate(-50%,-50%); }
+    #cursor-dot  { width: 6px; height: 6px; background: var(--accent); }
+    #cursor-ring { width: 28px; height: 28px; border: 1.5px solid var(--accent); opacity: 0.6; }
+    @media (pointer: coarse) { #cursor-dot, #cursor-ring { display: none; } }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); display: flex; align-items: center; padding: 0 48px; border-bottom: 1px solid var(--border); z-index: 100; transition: background 0.3s, backdrop-filter 0.3s; }
+    .nav.scrolled { background: rgba(247,248,250,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .nav-logo { font-family: var(--f-mono); font-size: 15px; color: var(--ink); text-decoration: none; letter-spacing: 0.05em; margin-right: auto; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; align-items: center; }
+    .nav-links a { font-family: var(--f-mono); font-size: 13px; color: var(--ink-muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; position: relative; transition: color 0.2s; }
+    .nav-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.25s var(--ease-out); }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--ink); }
+
+    .reveal-clip { clip-path: inset(0 100% 0 0); transition: clip-path 0.7s var(--ease-out); }
+    .reveal-clip.visible { clip-path: inset(0 0% 0 0); }
+    .reveal-fade { opacity: 0; transform: translateY(20px); transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out); }
+    .reveal-fade.visible { opacity: 1; transform: none; }
+
+    /* ── CS Hero ── */
+    .cs-hero {
+      padding: calc(var(--nav-h) + 64px) 48px 64px;
+      max-width: 960px; margin: 0 auto; width: 100%;
+    }
+    .cs-back {
+      font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.1em;
+      color: var(--ink-muted); text-decoration: none; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 40px; transition: color 0.2s;
+    }
+    .cs-back:hover { color: var(--accent); }
+    .cs-back svg { transition: transform 0.2s var(--ease-out); }
+    .cs-back:hover svg { transform: translateX(-4px); }
+
+    .cs-project-num {
+      font-family: var(--f-mono); font-size: 13px; letter-spacing: 0.12em;
+      color: var(--project); margin-bottom: 12px;
+    }
+    .cs-category {
+      font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em;
+      color: var(--ink-muted); text-transform: uppercase; margin-bottom: 20px;
+    }
+    .cs-title {
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(32px, 4vw, 60px); line-height: 1.1; color: var(--ink);
+      margin-bottom: 32px;
+    }
+    .cs-meta {
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+      font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.06em;
+      color: var(--ink-muted); margin-bottom: 40px;
+    }
+    .cs-meta-sep { width: 4px; height: 4px; border-radius: 50%; background: var(--border); }
+    .cs-accent-line { height: 2px; width: 60px; background: var(--project); }
+
+    /* ── CS Body ── */
+    .cs-body {
+      padding: 0 48px 96px;
+      max-width: 960px; margin: 0 auto; width: 100%;
+      display: flex; flex-direction: column; gap: 48px;
     }
 
-    /* ════════════════════════════════════════
-       TOP BAR  (sticky, 48px, black)
-    ════════════════════════════════════════ */
-    .topbar {
-      position: sticky;
-      top: 0; z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      height: 48px;
-      background: #000;
-      padding: 0 24px;
+    /* Section header */
+    .cs-section {
+      display: flex; align-items: center; gap: 16px; margin-top: 16px;
     }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      text-decoration: none;
-      height: 31px;
+    .cs-section-num {
+      font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em;
+      color: var(--accent); text-transform: uppercase;
     }
-    .back-label {
-      font-family: var(--f-demi);
-      font-size: clamp(14px, 1.1667vw, 22.4px);
-      color: #fff;
-      white-space: nowrap;
-    }
-    .home-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 31px;
-      background: transparent;
-      text-decoration: none;
+    .cs-section-line { flex: 1; height: 1px; background: var(--border); }
+    .cs-section-title {
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(20px, 2vw, 28px); color: var(--ink); margin-top: 20px;
     }
 
-    /* ════════════════════════════════════════
-       INFORMATION BAR  (min-height: 180px)
-    ════════════════════════════════════════ */
-    .info-bar {
-      display: flex;
-      width: 100%;
-      min-height: 180px;
+    /* Sub headings */
+    .cs-subhead {
+      font-family: var(--f-display); font-weight: 700;
+      font-size: 18px; color: var(--ink); margin-bottom: 12px;
     }
-    .info-left {
-      flex: 0 0 var(--sidebar-w);
-      background: var(--green);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-    }
-    .project-name {
-      font-family: var(--f-gothic);
-      font-weight: 600;
-      font-size: clamp(36px, 3.5417vw, 68px);
-      color: #fff;
-      line-height: 1;
-      white-space: nowrap;
-    }
-    .info-right {
-      flex: 1;
-      background: var(--grey);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding: 4px 12px 20px;
-      justify-content: center;
-    }
-    .info-date {
-      font-family: var(--f-demi);
-      font-size: clamp(16px, 1.4583vw, 28px);
-      color: #000;
-      height: clamp(34px, 2.8125vw, 54px);
-      display: flex;
-      align-items: center;
-    }
-    .info-tags {
-      font-family: var(--f-book);
-      font-size: clamp(14px, 1.25vw, 24px);
-      color: #000;
-      line-height: clamp(22px, 1.875vw, 36px);
-    }
-
-    /* ════════════════════════════════════════
-       BODY
-    ════════════════════════════════════════ */
-    .body-section {
-      display: flex;
-      width: 100%;
-      gap: var(--col-gap);
-      align-items: stretch;
-    }
-    .black-sidebar {
-      flex: 0 0 var(--sidebar-w);
-      background: #000;
-      min-height: 100%;
-    }
-    .body-content {
-      flex: 1;
-      padding: 24px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 39px;
-    }
-
-    /* ── Breadcrumb + title ── */
-    .page-nav { display: flex; flex-direction: column; gap: 14px; }
-    .breadcrumb { display: flex; align-items: center; gap: 12px; }
-    .breadcrumb a, .breadcrumb span {
-      font-family: var(--f-book);
-      font-size: clamp(13px, 1.0417vw, 20px);
-      color: #000;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    .breadcrumb a:hover { opacity: 0.7; }
-    .page-title {
-      font-family: var(--f-gothic);
-      font-weight: 600;
-      font-size: clamp(36px, 3.5417vw, 68px);
-      color: #000;
-      line-height: normal;
-    }
-
-    /* ════════════════════════════════════════
-       CASE STUDY
-    ════════════════════════════════════════ */
-    .case-study {
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
-      max-width: 1200px;
-    }
-
-    /* ── Image blocks ── */
-    .img-600 {
-      width: min(1200px, 100%);
-      height: 600px;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .img-600 img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    /* User Persona images: 966×483 */
-    .img-persona {
-      width: min(966px, 100%);
-      height: 483px;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .img-persona img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    /* ── Explanation blocks ── */
-    .explanation {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      max-width: 834px;
-    }
-    .explanation-lg {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      max-width: 834px;
-    }
-    /* wider variant used for Research Insights (910px in Figma) */
-    .explanation-wide {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      max-width: 910px;
-    }
-
-    /* Headings */
-    .exp-heading {
-      font-family: var(--f-demi);
-      font-size: clamp(16px, 1.4583vw, 28px);
-      color: #000;
-      line-height: normal;
-    }
-    .exp-heading-italic {
-      font-family: var(--f-demi);
-      font-style: italic;
-      font-size: clamp(16px, 1.4583vw, 28px);
-      color: #000;
-      line-height: normal;
+    .cs-subhead-italic {
+      font-family: var(--f-body); font-size: 16px; font-style: italic;
+      font-weight: 500; color: var(--ink); margin-bottom: 12px;
     }
 
     /* Body text */
-    .exp-body {
-      font-family: var(--f-book);
-      font-size: clamp(14px, 1.25vw, 24px);
-      color: #000;
-      line-height: clamp(22px, 1.875vw, 36px);
+    .cs-text {
+      font-family: var(--f-body); font-size: 18px;
+      color: var(--ink-muted); line-height: 1.75;
     }
-    .exp-body p { margin-bottom: 0; }
-    .exp-body p + p { margin-top: 0; }
+    .cs-text p + p { margin-top: 16px; }
+    .cs-text ul { padding-left: 24px; display: flex; flex-direction: column; gap: 8px; }
+    .cs-text li { line-height: 1.7; }
+    .c-green { color: #00b89a; font-weight: 500; }
+    .c-red   { color: #e57373; font-weight: 500; }
+    .c-blue  { color: #4fa3d1; font-weight: 500; }
+    .stat-num { font-family: var(--f-display); font-weight: 700; font-size: 1.1em; }
 
-    /* Inline text colours */
-    .c-green { color: var(--green); }
-    .c-red   { color: #ff9494; }
-    .c-blue  { color: #94d2ff; }
+    /* Images */
+    .cs-img {
+      width: 100%; overflow: hidden; border-radius: 2px;
+      border: 1px solid var(--border);
+    }
+    .cs-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cs-img-600 { height: 500px; }
+    .cs-img-persona { height: 400px; }
 
-    /* Stat numbers (larger, Gothic A1 Regular) */
-    .stat-num {
-      font-family: var(--f-gothic);
-      font-weight: 400;
-      font-size: clamp(22px, 1.875vw, 36px);
-      line-height: clamp(22px, 1.875vw, 36px);
+    /* Stats row */
+    .cs-stats-row {
+      display: flex; align-items: flex-start; gap: 40px; flex-wrap: wrap;
     }
+    .cs-stats-illus { width: 280px; height: auto; flex-shrink: 0; object-fit: contain; }
+    .cs-stats-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
 
-    /* Demi italic inline labels ("Research:", "Modeling:", etc.) */
-    .proc-label {
-      font-family: var(--f-demi);
-      font-style: italic;
-    }
+    /* Competitor list */
+    .cs-competitor-list { display: flex; flex-direction: column; gap: 24px; }
+    .cs-competitor-item { display: flex; align-items: flex-start; gap: 20px; }
+    .cs-competitor-logo { width: 72px; height: 72px; border-radius: 12px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--border); }
+    .cs-competitor-desc { font-family: var(--f-body); font-size: 16px; color: var(--ink-muted); line-height: 1.65; padding-top: 4px; }
 
-    /* Sub-labels that aren't italic ("School Education:", etc.) */
-    .sub-label { font-family: var(--f-book); }
+    /* Conclusion illustration */
+    .cs-conclusion-illus { width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; }
+    .cs-conclusion-illus img { width: 100%; height: 100%; object-fit: contain; transform: scaleY(-1); }
 
-    .exp-body ul {
-      padding-left: 36px;
-      display: flex;
-      flex-direction: column;
-    }
-    .exp-body li { line-height: clamp(22px, 1.875vw, 36px); }
+    /* ── Footer ── */
+    footer { padding: 36px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-family: var(--f-mono); font-size: 12px; color: var(--ink-muted); letter-spacing: 0.06em; }
+    .footer-accent-line { height: 1px; width: 60px; background: var(--accent); }
 
-    /* ── Section number headers (01 Research, 02 Modeling…) ── */
-    .section-header {
-      display: flex;
-      align-items: flex-end;
-      flex-shrink: 0;
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+    @media (max-width: 860px) {
+      .nav, .cs-hero, .cs-body { padding-left: 24px; padding-right: 24px; }
+      .cs-stats-illus { width: 100%; }
+      footer { flex-direction: column; gap: 16px; }
     }
-    .section-num {
-      font-family: var(--f-gothic);
-      font-weight: 400;
-      font-size: clamp(54px, 4.375vw, 84px);
-      color: #000;
-      line-height: 1;
-      /* match Figma: num takes 97–107px width */
-      min-width: clamp(70px, 5.573vw, 107px);
-      display: flex;
-      align-items: flex-end;
-      padding-bottom: 2px;
-    }
-    .section-label-box {
-      background: #000;
-      height: clamp(44px, 3.333vw, 64px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-    }
-    .section-label {
-      font-family: var(--f-gothic);
-      font-weight: 400;
-      font-size: clamp(20px, 1.667vw, 32px);
-      color: #fff;
-      white-space: nowrap;
-    }
-
-    /* ── Side-by-side: illustration + stats text ── */
-    .stats-row {
-      display: flex;
-      align-items: center;
-      gap: clamp(20px, 1.875vw, 36px);
-      flex-shrink: 0;
-    }
-    .stats-illus {
-      width: clamp(220px, 22.551vw, 433px);
-      height: clamp(200px, 19.74vw, 379px);
-      object-fit: contain;
-      display: block;
-      flex-shrink: 0;
-    }
-    .stats-content {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(16px, 1.25vw, 24px);
-    }
-
-    /* ── Competitor list ── */
-    .competitor-list {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      flex-shrink: 0;
-    }
-    .competitor-item {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-    .competitor-logo {
-      width: 95px;
-      height: 95px;
-      border-radius: 20px;
-      box-shadow: 0.8px 0.8px 8px rgba(0, 0, 0, 0.25);
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    .competitor-desc {
-      font-family: var(--f-book);
-      font-size: clamp(14px, 1.25vw, 24px);
-      color: #000;
-      line-height: clamp(22px, 1.875vw, 36px);
-    }
-
-    /* ── Conclusion illustration (320×320, flipped) ── */
-    .conclusion-illus {
-      width: 320px;
-      height: 320px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .conclusion-illus img {
-      width: 78%;
-      height: 78%;
-      object-fit: contain;
-      transform: scaleY(-1);
-      display: block;
-    }
-
-    /* ════════════════════════════════════════
-       FOOTER  (220px, green)
-    ════════════════════════════════════════ */
-    .footer { width: 100%; height: 220px; background: var(--green); }
-
-    /* ════════════════════════════════════════
-       SCROLL TO TOP (fixed, bottom-right)
-    ════════════════════════════════════════ */
-    .scroll-top-btn {
-      position: fixed;
-      bottom: 60px;
-      right: clamp(40px, 3.125vw, 60px);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #000;
-      border: none;
-      cursor: pointer;
-      padding: 10px 20px;
-      width: clamp(160px, 11.458vw, 220px);
-      box-shadow: 0 6px 14px rgba(24, 39, 75, 0.24),
-                  0 10px 32px rgba(24, 39, 75, 0.20);
-      z-index: 200;
-    }
-    .scroll-top-text {
-      font-family: var(--f-reg);
-      font-size: clamp(15px, 1.25vw, 24px);
-      color: #fff;
-      white-space: nowrap;
-    }
-
-    /* ═══════════════════════════════════════════════
-       REFINEMENTS
-    ═══════════════════════════════════════════════ */
-
-    /* Font rendering */
-    body {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-    }
-
-    /* Focus states */
-    :focus-visible {
-      outline: 2px solid var(--green);
-      outline-offset: 3px;
-      border-radius: 2px;
-    }
-
-    /* Remove whitespace gaps between panels */
-    .info-bar     { gap: 0; }
-    .body-section { gap: 0; }
-
-    /* ── Scroll-reveal animations ── */
-    @media (prefers-reduced-motion: no-preference) {
-      .reveal {
-        opacity: 0;
-        transform: translateY(28px);
-        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .reveal.visible { opacity: 1; transform: none; }
-      .reveal.d1 { transition-delay: 0.10s; }
-      .reveal.d2 { transition-delay: 0.20s; }
-    }
-
-    /* ── Back / Home button micro-interactions ── */
-    .back-btn { transition: opacity 0.2s; }
-    .back-btn:hover { opacity: 0.75; }
-    .back-btn svg { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-    .back-btn:hover svg { transform: translateX(-4px); }
-    .home-btn { transition: opacity 0.2s; }
-    .home-btn:hover { opacity: 0.75; }
-
-    /* ── Scroll-to-top: lift on hover ── */
-    .scroll-top-btn {
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.25s, background 0.2s;
-    }
-    .scroll-top-btn:hover {
-      background: #1a1a1a;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(24, 39, 75, 0.30),
-                  0 18px 44px rgba(24, 39, 75, 0.22);
-    }
-    .scroll-top-btn:active { transform: scale(0.97); }
-    .scroll-top-btn svg { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-    .scroll-top-btn:hover svg { transform: translateY(-3px); }
   </style>
 </head>
-<body id="top">
+<body>
 
-  <!-- ══ TOP BAR ══════════════════════════════════════════════════ -->
-  <div class="topbar">
-    <button class="back-btn"
-            onclick="history.length > 1 ? history.back() : (window.location.href='MyWork.html')">
-      <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
-        <path d="M27 8H2M2 8L9 1M2 8L9 15"
-              stroke="white" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"/>
+  <div id="progress-bar"></div>
+  <div id="page-curtain"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <header class="nav" id="nav">
+    <a href="Portfolio.html" class="nav-logo">C<span>S</span></a>
+    <nav class="nav-links">
+      <a href="MyWork.html" class="active">My Work</a>
+      <a href="AboutMe.html">About Me</a>
+      <a href="Resume_Charanpreet_Singh.pdf" target="_blank" rel="noopener">Resume</a>
+    </nav>
+  </header>
+
+  <div class="cs-hero">
+    <a href="MyWork.html" class="cs-back">
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5H1M1 5L6 1M1 5L6 9"/>
       </svg>
-      <span class="back-label">Back</span>
-    </button>
-    <a href="Portfolio.html" class="home-btn" aria-label="Go to Home">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M3 10.5L12 3L21 10.5V20C21 20.5523 20.5523 21 20 21H15.5V16H8.5V21H4C3.44772 21 3 20.5523 3 20V10.5Z"
-              fill="white"/>
-      </svg>
+      Back to My Work
     </a>
+    <p class="cs-project-num">// 01</p>
+    <p class="cs-category reveal-fade">Personal Case Study</p>
+    <h1 class="cs-title reveal-clip">Teacher Hiring &amp; Upskilling Platform</h1>
+    <div class="cs-meta reveal-fade">
+      <span>Feb – Mar 2023</span>
+      <span class="cs-meta-sep"></span>
+      <span>#AppDesign</span>
+      <span class="cs-meta-sep"></span>
+      <span>#Edtech</span>
+      <span class="cs-meta-sep"></span>
+      <span>#UXDesign</span>
+      <span class="cs-meta-sep"></span>
+      <span>#Research</span>
+    </div>
+    <div class="cs-accent-line reveal-fade"></div>
   </div>
 
-  <!-- ══ INFORMATION BAR ══════════════════════════════════════════ -->
-  <div class="info-bar">
-    <div class="info-left">
-      <span class="project-name">Case Study</span>
+  <div class="cs-body">
+
+    <!-- Hero image -->
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/006719e2-82b1-41d3-baf0-8a005c0e9a64" alt="Teacher Hiring & Upskilling Platform showcase">
     </div>
-    <div class="info-right">
-      <div class="info-date">Feb 2023 - March 2023</div>
-      <div class="info-tags">#AppDesiign #Edtech #figma #UXDesign #Research #Analysis #Schools #Teachers</div>
-    </div>
-  </div>
 
-  <!-- ══ BODY ═══════════════════════════════════════════════════════ -->
-  <div class="body-section">
-    <div class="black-sidebar"></div>
-
-    <div class="body-content">
-
-      <!-- Breadcrumb + title -->
-      <div class="page-nav">
-        <nav class="breadcrumb">
-          <a href="Portfolio.html">Home</a>
-          <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
-            <path d="M1 8H26M26 8L19 1M26 8L19 15"
-                  stroke="black" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <a href="MyWork.html">My Work</a>
-          <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
-            <path d="M1 8H26M26 8L19 1M26 8L19 15"
-                  stroke="black" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>upsurge</span>
-        </nav>
-        <h1 class="page-title">Teacher Hiring &amp; Upskilling Platform</h1>
+    <!-- Overview -->
+    <div class="reveal-fade">
+      <div class="cs-subhead">Overview</div>
+      <div class="cs-text">
+        <p>In Class 12 (School) we faced a challenge in finding a stable Computer Science teacher. The previous teacher left due to personal reasons, and subsequent replacements also left after a few weeks. It always took a month or more for new teacher to join. This cycle repeated itself four times, resulting in 6-7 months of waiting for a teacher. It affected our studies.</p>
+        <p>This motivated me to think of some solution to the problem and eventually after completing my Certification in UX design, this became my First UX Case Study.</p>
       </div>
+    </div>
 
-      <!-- ── Case Study ─────────────────────────────────────────── -->
-      <div class="case-study">
+    <!-- Process -->
+    <div class="reveal-fade">
+      <div class="cs-subhead">Process</div>
+      <div class="cs-text">
+        <p><strong>Research:</strong> I started this case study with an idea in my head and while doing research about the problems faced by schools in hiring process. Competitive analysis, market research, primary and secondary research was performed.</p>
+        <p><strong>Modeling:</strong> Based on research, affinity mapping was performed and I also looked into the current teacher hiring process.</p>
+        <p><strong>Requirements:</strong> After clear knowledge on what are the drawbacks of current process, I introduced user personas and scenarios.</p>
+        <p><strong>Framework:</strong> This was the time to build Information architecture and understand user flows. Card-sorting was performed to understand user needs.</p>
+        <p><strong>Detailed Design:</strong> In the final step, I wireframed ideas to create an app for hiring and upskilling teachers.</p>
+      </div>
+    </div>
 
-        <!-- Hero -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/006719e2-82b1-41d3-baf0-8a005c0e9a64"
-               alt="Teacher Hiring & Upskilling Platform showcase">
+    <!-- 01 Research -->
+    <div class="cs-section reveal-fade">
+      <span class="cs-section-num">1.0</span>
+      <div class="cs-section-line"></div>
+    </div>
+    <div class="reveal-fade"><div class="cs-section-title">Research</div></div>
+
+    <div class="reveal-fade"><div class="cs-subhead">Secondary Research</div></div>
+
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/96b64dbc-22cd-42b4-9846-460dc1dc955c" alt="Secondary research data" loading="lazy">
+    </div>
+
+    <div class="cs-stats-row reveal-fade">
+      <img class="cs-stats-illus" src="https://www.figma.com/api/mcp/asset/f3440d91-d96f-4eee-bc9c-aeba10e976a5" alt="Research illustration" loading="lazy">
+      <div class="cs-stats-content">
+        <div class="cs-text">Dropout Rate of students as per 2020-21 at Secondary level (9-10) is <span class="stat-num c-red">14.6%</span></div>
+        <div class="cs-text">Nearly <span class="stat-num c-blue">35%</span> boys and <span class="stat-num c-blue">21%</span> of girls surveyed said they dropped out because they were <span class="c-green">not interested in studies</span></div>
+        <div>
+          <div class="cs-subhead-italic">Why Lack of interest in studies?</div>
+          <div class="cs-text"><ul><li>Find Studies Boring.</li><li>Lack of Appreciation</li><li>Lack of proper study environment</li><li>Failure</li></ul></div>
         </div>
+      </div>
+    </div>
 
-        <!-- Overview -->
-        <div class="explanation">
-          <div class="exp-heading">Overview</div>
-          <div class="exp-body">
-            In Class 12 (School) we faced a challenge in finding a stable Computer Science teacher. The previous teacher left due to personal reasons, and subsequent replacements also left after a few weeks. It always took a month or more for new teacher to join. This cycle repeated itself four times, resulting in 6-7 months of waiting for a teacher. It affected Our Studies.<br><br>
-            This motivated me to think of some solution to the problem and Eventually after completing my Certification in UX design, This became my First UX Case Study.
-          </div>
-        </div>
+    <div class="reveal-fade">
+      <div class="cs-subhead-italic">New Education Policy 2020</div>
+      <div class="cs-text">
+        <p><strong>School Education:</strong> It emphasizes the need for a multidisciplinary and holistic approach to education.</p>
+        <p><strong>Curriculum and Pedagogy:</strong> The policy emphasizes the need for a flexible, student-centered curriculum that promotes critical thinking, creativity, and problem-solving skills.</p>
+        <p><strong>Teacher Education:</strong> It also aims to improve the quality of teacher education programs and attract the best candidates to the teaching profession.</p>
+        <p><strong>Technology in Education:</strong> The policy recognizes the importance of technology in education and aims to use it to improve access, equity, quality, and efficiency.</p>
+      </div>
+    </div>
 
-        <!-- Process -->
-        <div class="explanation">
-          <div class="exp-heading">Process</div>
-          <div class="exp-body">
-            <span class="proc-label">Research: </span>I started this case study with an idea in my head and while doing research about the problems faced by schools in hiring process. Competitive analysis, market research, Primary and secondary research was performed<br>
-            <span class="proc-label">Modeling: </span>Based on research, affinity mapping was performed and I also looked into the current teacher hiring process.<br>
-            <span class="proc-label">Requirements: </span>After clear knowledge on what are the drawbacks of current process as well as what are the major changes are required along with enhancing hiring process. In this particular step, I introduced user personas and scenarios.<br>
-            <span class="proc-label">Framework: </span>This was the time to build Information architecture and understand user flows. To make the process more transparent and clear, Card-sorting was performed to understand user needs.<br>
-            <span class="proc-label">Detailed Design: </span>In the final step of Design process, I wireframed ideas to create an app for Hiring and upskilling teachers
-          </div>
-        </div>
+    <div class="reveal-fade">
+      <div class="cs-subhead">Market Research</div>
+      <div class="cs-text"><p>Market research primarily involves getting the broad picture, uncovering high-level information regarding the industry. I therefore looked into various existing products in the same line.</p></div>
+    </div>
 
-        <!-- ══ 01 Research ══ -->
-        <div class="section-header">
-          <span class="section-num">01</span>
-          <div class="section-label-box"><span class="section-label">Research</span></div>
-        </div>
+    <div class="cs-competitor-list reveal-fade">
+      <div class="cs-competitor-item">
+        <img class="cs-competitor-logo" src="https://www.figma.com/api/mcp/asset/c77184da-1c05-434a-a667-fa422c8c2410" alt="Competitor logo" loading="lazy">
+        <p class="cs-competitor-desc">Helps teacher to find job advertisement and school to post advertisement</p>
+      </div>
+      <div class="cs-competitor-item">
+        <img class="cs-competitor-logo" src="https://www.figma.com/api/mcp/asset/ffd74292-a4fa-4293-a451-803874495ee0" alt="Urban Pro logo" loading="lazy">
+        <p class="cs-competitor-desc">Basically connects teachers to students</p>
+      </div>
+      <div class="cs-competitor-item">
+        <img class="cs-competitor-logo" src="https://www.figma.com/api/mcp/asset/a51594d4-5d2b-44cc-ac79-33c8b1be83f7" alt="Eduvacancy logo" loading="lazy">
+        <p class="cs-competitor-desc">Again a platform to hire teachers through advertisement posting.</p>
+      </div>
+      <div class="cs-competitor-item">
+        <img class="cs-competitor-logo" src="https://www.figma.com/api/mcp/asset/bac01ce4-ff4c-41a8-ad70-750d640a58e2" alt="Indeed logo" loading="lazy">
+        <p class="cs-competitor-desc">A platform where all type of jobs are posted and candidates apply.</p>
+      </div>
+    </div>
 
-        <div class="explanation">
-          <div class="exp-heading">Secondary Research</div>
-        </div>
+    <div class="reveal-fade"><div class="cs-subhead">Primary Research</div></div>
 
-        <!-- 1307662 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/96b64dbc-22cd-42b4-9846-460dc1dc955c"
-               alt="Secondary research data" loading="lazy">
-        </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/347aa6c9-9522-4c77-b954-3f88a0a76afb" alt="Primary research surveys" loading="lazy">
+    </div>
 
-        <!-- Stats row: illustration + statistics text -->
-        <div class="stats-row">
-          <img class="stats-illus"
-               src="https://www.figma.com/api/mcp/asset/f3440d91-d96f-4eee-bc9c-aeba10e976a5"
-               alt="Research illustration" loading="lazy">
+    <div class="reveal-fade">
+      <div class="cs-subhead-italic">What are the major reasons of dropouts according to teachers?</div>
+      <div class="cs-text"><ul>
+        <li>Poor <span class="c-green">Teaching Methods</span></li>
+        <li>Lack of Opportunities for them after the study</li>
+        <li>Lack of <span class="c-green">guidance</span> etc.</li>
+        <li><span class="c-green">Teaching skills</span> may be one of the major factors that unable to generate interest and curiosity among learners.</li>
+        <li>Impractical <span class="c-green">curriculum</span> and lack of teaching interests.</li>
+        <li>Poor quality of teaching not relevant to life, <span class="c-green">poor infrastructure</span></li>
+        <li>Teachers without <span class="c-green">professional commitment</span></li>
+      </ul></div>
+    </div>
 
-          <div class="stats-content">
-            <div class="exp-body">
-              Dropout Rate of students as per 2020-21 at Secondary level (9-10) is
-              <span class="stat-num c-red">14.6%</span>
-            </div>
-            <div class="exp-body">
-              Nearly <span class="stat-num c-blue">35%</span> boys and
-              <span class="stat-num c-blue">21%</span> of girls surveyed said they dropped out because they were
-              <span class="c-green">not interested in studies</span>
-            </div>
-            <div class="explanation-lg" style="max-width:none;">
-              <div class="exp-heading-italic">Why Lack of interest in studies?</div>
-              <div class="exp-body">
-                Find Studies Boring.<br>
-                Lack of Appreciation<br>
-                Lack of proper study environment<br>
-                Failure
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/b6dbc78d-7d95-4052-9ed1-d449a870e36d" alt="Research data 1" loading="lazy">
+    </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/b9d0da8d-9c2c-4f29-ba1d-7af3c32e84e8" alt="Research data 2" loading="lazy">
+    </div>
 
-        <!-- New Education Policy 2020 -->
-        <div class="explanation-lg">
-          <div class="exp-heading-italic">New Education Policy 2020</div>
-          <div class="exp-body">
-            School Education:<br>
-            It emphasizes the need for a multidisciplinary and holistic approach to education.<br>
-            <br>
-            Curriculum and Pedagogy:<br>
-            The policy emphasizes the need for a flexible, student-centered curriculum that promotes critical thinking, creativity, and problem-solving skills. It also calls for a shift in pedagogy towards more experiential and inquiry-based learning.<br>
-            <br>
-            Teacher Education:<br>
-            It also aims to improve the quality of teacher education programs and attract the best candidates to the teaching profession.<br>
-            <br>
-            Technology in Education:<br>
-            The policy recognizes the importance of technology in education and aims to use it to improve access, equity, quality, and efficiency in education.
-          </div>
-        </div>
+    <div class="reveal-fade">
+      <div class="cs-subhead-italic">Schools on Hiring!</div>
+      <div class="cs-text"><ul>
+        <li>In a school, specific requirement and <span class="c-green">too many applications</span> makes the process tedious.</li>
+        <li>We could not reach <span class="c-green">exact person</span>.</li>
+        <li>Teachers who are appointed through agencies are not long standing and are very <span class="c-green">demanding</span> without giving their 60% of work.</li>
+      </ul></div>
+    </div>
 
-        <!-- Market Research -->
-        <div class="explanation-lg">
-          <div class="exp-heading">Market Research</div>
-          <div class="exp-body">
-            Market research primarily involves getting the broad picture, uncovering high-level information regarding the industry. I therefore looked into various existing products in the same line.
-          </div>
-        </div>
+    <!-- 02 Modeling -->
+    <div class="cs-section reveal-fade">
+      <span class="cs-section-num">2.0</span>
+      <div class="cs-section-line"></div>
+    </div>
+    <div class="reveal-fade"><div class="cs-section-title">Modeling</div></div>
 
-        <!-- Competitor logos -->
-        <div class="competitor-list">
-          <div class="competitor-item">
-            <img class="competitor-logo"
-                 src="https://www.figma.com/api/mcp/asset/c77184da-1c05-434a-a667-fa422c8c2410"
-                 alt="Competitor app logo">
-            <p class="competitor-desc">Helps teacher to find job advertisement and school to post advertisement</p>
-          </div>
-          <div class="competitor-item">
-            <img class="competitor-logo"
-                 src="https://www.figma.com/api/mcp/asset/ffd74292-a4fa-4293-a451-803874495ee0"
-                 alt="Urban Pro logo">
-            <p class="competitor-desc">Basically connects teachers to students</p>
-          </div>
-          <div class="competitor-item">
-            <img class="competitor-logo"
-                 src="https://www.figma.com/api/mcp/asset/a51594d4-5d2b-44cc-ac79-33c8b1be83f7"
-                 alt="Eduvacancy logo">
-            <p class="competitor-desc">Again a platform to hire teachers through advertisement posting.</p>
-          </div>
-          <div class="competitor-item">
-            <img class="competitor-logo"
-                 src="https://www.figma.com/api/mcp/asset/bac01ce4-ff4c-41a8-ad70-750d640a58e2"
-                 alt="Indeed logo">
-            <p class="competitor-desc">A platform where all type of jobs a posted and candidates apply.</p>
-          </div>
-        </div>
+    <div class="reveal-fade"><div class="cs-subhead">Affinity Mapping</div></div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/d29019b8-8e8c-4e2a-93af-a31264f76f69" alt="Affinity mapping" loading="lazy">
+    </div>
 
-        <!-- Primary Research -->
-        <div class="explanation">
-          <div class="exp-heading">Primary Research</div>
-        </div>
+    <div class="reveal-fade"><div class="cs-subhead">Activity Diagram</div></div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/f26f86ca-5c1c-48a8-abc7-b0ea4d6c1f02" alt="Activity diagram" loading="lazy">
+    </div>
 
-        <!-- 1307663 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/347aa6c9-9522-4c77-b954-3f88a0a76afb"
-               alt="Primary research surveys" loading="lazy">
-        </div>
+    <div class="reveal-fade">
+      <div class="cs-subhead-italic">Research Insights</div>
+      <div class="cs-text"><ul>
+        <li>Education System needs major changes to make <span class="c-green">students' interest</span> in studies.</li>
+        <li><span class="c-green">Curriculum, holistic approach</span>, and student-centered learning system are today's needs.</li>
+        <li>School Infrastructure and Teachers are the pillars to provide <span class="c-green">quality education</span>.</li>
+        <li>Teacher Hiring in school needs <span class="c-green">time saving processes.</span></li>
+        <li>Fulfilling urgent requirements.</li>
+        <li>New <span class="c-green">teaching methods</span>.</li>
+        <li>Improving student-teacher ratio.</li>
+      </ul></div>
+    </div>
 
-        <!-- Major reasons of dropouts (teachers view) -->
-        <div class="explanation-lg">
-          <div class="exp-heading-italic">WHAT ARE THE MAJOR REASONS OF DROUPOUTS ACCORDING TO TEACHERS?</div>
-          <div class="exp-body">
-            <ul>
-              <li>Poor <span class="c-green">Teaching Methods</span>,</li>
-              <li>Lack of Opportunities for them after the study,</li>
-              <li>Lack of <span class="c-green">guidance</span> etc.</li>
-              <li><span class="c-green">Teaching skills</span> may be one of the major factor that unable to generate interest and curiosity among learners.</li>
-              <li>Impractical <span class="c-green">curriculum</span> and lack of teaching interests.</li>
-              <li>Lack of good <span class="c-green">Teaching methods</span>.</li>
-              <li>Poor quality of teaching not relevant to life, <span class="c-green">poor infrastructure</span>,</li>
-              <li>Teachers without <span class="c-green">professional commitment</span></li>
-              <li>The present curriculum is not for <span class="c-green">present use</span>.</li>
-            </ul>
-          </div>
-        </div>
+    <!-- 03 Requirements -->
+    <div class="cs-section reveal-fade">
+      <span class="cs-section-num">3.0</span>
+      <div class="cs-section-line"></div>
+    </div>
+    <div class="reveal-fade"><div class="cs-section-title">Requirements</div></div>
 
-        <!-- 1307664 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/b6dbc78d-7d95-4052-9ed1-d449a870e36d"
-               alt="Research data 1" loading="lazy">
-        </div>
+    <div class="reveal-fade">
+      <div class="cs-subhead">Problem Statement</div>
+      <div class="cs-text"><p>Hiring a <span class="c-green">Skilled</span>, as per requirement teacher on <span class="c-green">immediate basis</span> is a concern for schools while recruiting. Further, the existing process of hiring teacher is <span class="c-green">time-consuming</span>. Good <span class="c-green">teaching methods</span> are somewhere lacking in the Indian education system.</p></div>
+    </div>
 
-        <!-- 1307665 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/b9d0da8d-9c2c-4f29-ba1d-7af3c32e84e8"
-               alt="Research data 2" loading="lazy">
-        </div>
+    <div class="reveal-fade">
+      <div class="cs-subhead">Vision Statement</div>
+      <div class="cs-text"><p>A Platform that saves the <span class="c-green">data of teachers</span> who are open for jobs. Provides <span class="c-green">certifications</span> in enhancing <span class="c-green">teacher skills</span> and making it easier for Schools to hire teachers and <span class="c-green">saving the time</span>, was used for advertising and waiting for a candidate.</p></div>
+    </div>
 
-        <!-- Schools on Hiring -->
-        <div class="explanation-lg">
-          <div class="exp-heading-italic">Schools on Hiring!</div>
-          <div class="exp-body">
-            <ul>
-              <li>In a school, specific requirement and <span class="c-green">too many applications</span> makes the process tedious. A Bank is of no use as they get placed by the time you need them.</li>
-              <li>We could not reach <span class="c-green">exact person</span>.</li>
-              <li>We found that teachers who are appointed through agencies are not long standing and are very <span class="c-green">demanding</span> without giving their 60% of work.</li>
-            </ul>
-          </div>
-        </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/25829a4e-2e93-49ba-a262-8bb247e65d9f" alt="Requirements and personas" loading="lazy">
+    </div>
 
-        <!-- ══ 02 Modeling ══ -->
-        <div class="section-header">
-          <span class="section-num">02</span>
-          <div class="section-label-box"><span class="section-label">Modeling</span></div>
-        </div>
+    <div class="reveal-fade"><div class="cs-subhead">User Persona</div></div>
+    <div class="cs-img cs-img-persona reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/c9af1c87-ce4f-4241-a1df-7d9f5b484b1f" alt="User Persona 1" loading="lazy">
+    </div>
+    <div class="cs-img cs-img-persona reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/5de56f24-cba1-48ff-a84d-557afd294f59" alt="User Persona 2" loading="lazy">
+    </div>
 
-        <div class="explanation">
-          <div class="exp-heading">Affinity Mapping</div>
-        </div>
+    <div class="reveal-fade"><div class="cs-subhead">Card Sorting</div></div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/6866a5dc-b1d2-405f-ab75-099228df23c9" alt="Card sorting exercise" loading="lazy">
+    </div>
 
-        <!-- 1307666 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/d29019b8-8e8c-4e2a-93af-a31264f76f69"
-               alt="Affinity mapping" loading="lazy">
-        </div>
+    <!-- 04 Framework -->
+    <div class="cs-section reveal-fade">
+      <span class="cs-section-num">4.0</span>
+      <div class="cs-section-line"></div>
+    </div>
+    <div class="reveal-fade"><div class="cs-section-title">Framework</div></div>
 
-        <div class="explanation">
-          <div class="exp-heading">Activity Diagram</div>
-        </div>
+    <div class="reveal-fade"><div class="cs-subhead">Information Architecture</div></div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/c31f0a5e-f30f-45c3-ba27-d91e73e6efa9" alt="Information architecture" loading="lazy">
+    </div>
 
-        <!-- 1307667 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/f26f86ca-5c1c-48a8-abc7-b0ea4d6c1f02"
-               alt="Activity diagram" loading="lazy">
-        </div>
+    <!-- 05 Detailed Design -->
+    <div class="cs-section reveal-fade">
+      <span class="cs-section-num">5.0</span>
+      <div class="cs-section-line"></div>
+    </div>
+    <div class="reveal-fade"><div class="cs-section-title">Detailed Design</div></div>
 
-        <!-- Research Insights -->
-        <div class="explanation-wide">
-          <div class="exp-heading-italic">Research Insights</div>
-          <div class="exp-body">
-            <ul>
-              <li>Education System needs major changes to make <span class="c-green">students' interest</span> in studies.</li>
-              <li><span class="c-green">Curriculum, holistic approach</span>, and Student-centered learning system are today's needs</li>
-              <li>School Infrastructure and Teachers are the pillars to Provide <span class="c-green">quality education</span></li>
-            </ul>
-          </div>
-          <div class="exp-body">
-            <ul>
-              <li>Teacher Hiring in school needs <span class="c-green">Time saving processes.</span></li>
-              <li>Fulfilling urgent requirements.</li>
-              <li>Improving Quality teachers</li>
-            </ul>
-          </div>
-          <div class="exp-body">
-            <ul>
-              <li>Teacher education.</li>
-              <li>New <span class="c-green">teaching methods</span>.</li>
-              <li>Improving student-teacher ratio.</li>
-            </ul>
-          </div>
-        </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/67c23e7f-68f2-4faf-8fe5-cc0ebcd48b29" alt="Detailed design screens 1" loading="lazy">
+    </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/32e5d3b6-8385-4c7d-b1a1-88c0124c5891" alt="Detailed design screens 2" loading="lazy">
+    </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/2f1b46f1-dcc8-4c81-b240-ccfa0597a3b9" alt="Detailed design screens 3" loading="lazy">
+    </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/5702c1f3-fc4c-4456-804a-36855a5da12a" alt="Detailed design screens 4" loading="lazy">
+    </div>
+    <div class="cs-img cs-img-600 reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/0e59766f-f700-4ee7-b933-08cd79eaf708" alt="Detailed design screens 5" loading="lazy">
+    </div>
 
-        <!-- ══ 03 Requirements ══ -->
-        <div class="section-header">
-          <span class="section-num">03</span>
-          <div class="section-label-box"><span class="section-label">Requirements</span></div>
-        </div>
+    <div class="cs-conclusion-illus reveal-fade">
+      <img src="https://www.figma.com/api/mcp/asset/017747ac-08db-40ff-9a7f-1e426d539754" alt="Conclusion illustration" loading="lazy">
+    </div>
 
-        <!-- Problem Statement -->
-        <div class="explanation-lg">
-          <div class="exp-heading">Problem Statement</div>
-          <div class="exp-body">
-            Hiring a <span class="c-green">Skilled</span>, as per requirement teacher on <span class="c-green">immediate basis</span> is a concern for a schools while recruiting Process. Further, The existing process of hiring teacher is <span class="c-green">time-consuming</span>. Good <span class="c-green">teaching methods</span> are somewhere lacking in the Indian education system.
-          </div>
-        </div>
+    <div class="reveal-fade">
+      <div class="cs-subhead">Conclusion</div>
+      <div class="cs-text"><p>Completing this case study for my portfolio allowed me to deepen my design skills and put into practice what I learned from my certification. This experience helped me refine my process, apply user-centered design principles, and build confidence in my ability to tackle complex projects. It was a valuable opportunity to translate theory into real-world application, reinforcing my growth as a designer.</p></div>
+    </div>
 
-        <!-- Vision Statement -->
-        <div class="explanation-lg">
-          <div class="exp-heading">Vision Statement</div>
-          <div class="exp-body">
-            A Platform that saves the <span class="c-green">data of teachers</span> who are open for jobs. Provides <span class="c-green">certifications</span> in enhancing <span class="c-green">teacher skills</span> and making it easier for Schools to hire teachers and <span class="c-green">saving the time</span>, was used for advertising and waiting for a candidate.
-          </div>
-        </div>
+  </div>
 
-        <!-- 1307668 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/25829a4e-2e93-49ba-a262-8bb247e65d9f"
-               alt="Requirements and personas" loading="lazy">
-        </div>
-
-        <div class="explanation">
-          <div class="exp-heading">User Persona</div>
-        </div>
-
-        <!-- 1307669 -->
-        <div class="img-persona">
-          <img src="https://www.figma.com/api/mcp/asset/c9af1c87-ce4f-4241-a1df-7d9f5b484b1f"
-               alt="User Persona 1" loading="lazy">
-        </div>
-
-        <!-- 1307670 -->
-        <div class="img-persona">
-          <img src="https://www.figma.com/api/mcp/asset/5de56f24-cba1-48ff-a84d-557afd294f59"
-               alt="User Persona 2" loading="lazy">
-        </div>
-
-        <div class="explanation">
-          <div class="exp-heading">Card Sorting</div>
-        </div>
-
-        <!-- 1307671 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/6866a5dc-b1d2-405f-ab75-099228df23c9"
-               alt="Card sorting exercise" loading="lazy">
-        </div>
-
-        <!-- ══ 04 Framework ══ -->
-        <div class="section-header">
-          <span class="section-num">04</span>
-          <div class="section-label-box"><span class="section-label">Framework</span></div>
-        </div>
-
-        <div class="explanation">
-          <div class="exp-heading">Information Architecture</div>
-        </div>
-
-        <!-- 1307672 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/c31f0a5e-f30f-45c3-ba27-d91e73e6efa9"
-               alt="Information architecture" loading="lazy">
-        </div>
-
-        <!-- ══ 05 Detailed Design ══ -->
-        <div class="section-header">
-          <span class="section-num">05</span>
-          <div class="section-label-box"><span class="section-label">Detailed Design</span></div>
-        </div>
-
-        <!-- 1307673 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/67c23e7f-68f2-4faf-8fe5-cc0ebcd48b29"
-               alt="Detailed design screens 1" loading="lazy">
-        </div>
-
-        <!-- 1307674 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/32e5d3b6-8385-4c7d-b1a1-88c0124c5891"
-               alt="Detailed design screens 2" loading="lazy">
-        </div>
-
-        <!-- 1307675 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/2f1b46f1-dcc8-4c81-b240-ccfa0597a3b9"
-               alt="Detailed design screens 3" loading="lazy">
-        </div>
-
-        <!-- 1307676 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/5702c1f3-fc4c-4456-804a-36855a5da12a"
-               alt="Detailed design screens 4" loading="lazy">
-        </div>
-
-        <!-- 1307677 -->
-        <div class="img-600">
-          <img src="https://www.figma.com/api/mcp/asset/0e59766f-f700-4ee7-b933-08cd79eaf708"
-               alt="Detailed design screens 5" loading="lazy">
-        </div>
-
-        <!-- Conclusion illustration (flipped vertically) -->
-        <div class="conclusion-illus">
-          <img src="https://www.figma.com/api/mcp/asset/017747ac-08db-40ff-9a7f-1e426d539754"
-               alt="Conclusion illustration" loading="lazy">
-        </div>
-
-        <!-- Conclusion -->
-        <div class="explanation-lg">
-          <div class="exp-heading">Conclusion</div>
-          <div class="exp-body">
-            Completing this case study for my portfolio allowed me to deepen my design skills and put into practice what I learned from my certification. This experience helped me refine my process, apply user-centered design principles, and build confidence in my ability to tackle complex projects. It was a valuable opportunity to translate theory into real-world application, reinforcing my growth as a designer.
-          </div>
-        </div>
-
-      </div><!-- /case-study -->
-
-    </div><!-- /body-content -->
-  </div><!-- /body-section -->
-
-  <!-- ══ FOOTER ════════════════════════════════════════════════════ -->
-  <div class="footer"></div>
-
-  <!-- ══ SCROLL TO TOP (fixed) ═════════════════════════════════════ -->
-  <button class="scroll-top-btn"
-          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-    <span class="scroll-top-text">Scroll to Top</span>
-    <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
-      <path d="M8 27V2M8 2L1 9M8 2L15 9"
-            stroke="white" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
+  <footer>
+    <span>© 2025 Charanpreet Singh</span>
+    <div class="footer-accent-line"></div>
+    <span>UX Designer · Toronto</span>
+  </footer>
 
   <script>
   (function () {
-    'use strict';
-
-    /* 1. Lazy-load gallery images (AboutMe.html) */
-    document.querySelectorAll('.gallery img').forEach(function (img) {
-      img.setAttribute('loading', 'lazy');
-    });
-
-    /* 2. Auto-mark elements for scroll reveal */
-    [
-      '.work-card',
-      '.case-study > .explanation',
-      '.case-study > .explanation-lg',
-      '.case-study > .explanation-wide',
-      '.case-study > .img-600',
-      '.case-study > .img-hero',
-      '.case-study > .img-aspect',
-      '.case-study > .img-ui',
-      '.case-study > .img-persona',
-      '.case-study > .phone-row-box',
-      '.case-study > .section-header',
-      '.case-study > .stats-row',
-      '.case-study > .competitor-list',
-      '.gallery > *',
-      '.quote-section',
-      '.body-text'
-    ].forEach(function (sel) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        el.classList.add('reveal');
-      });
-    });
-
-    /* Stagger delays for work cards (2nd, 3rd, 4th) */
-    document.querySelectorAll('.work-card').forEach(function (el, i) {
-      if (i > 0 && i < 5) el.classList.add('d' + i);
-    });
-
-    /* 3. Intersection Observer */
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.reveal').forEach(function (el) {
-        el.classList.add('visible');
-      });
-      return;
+    const curtain = document.getElementById('page-curtain');
+    setTimeout(() => curtain && (curtain.style.display = 'none'), 700);
+    const bar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    }, { passive: true });
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
+    const dot = document.getElementById('cursor-dot'), ring = document.getElementById('cursor-ring');
+    if (dot && ring && window.matchMedia('(pointer: fine)').matches) {
+      let mx=0,my=0,rx=0,ry=0,hov=false;
+      document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+      document.querySelectorAll('a,button').forEach(el => { el.addEventListener('mouseenter',()=>hov=true); el.addEventListener('mouseleave',()=>hov=false); });
+      function lerp(a,b,t){return a+(b-a)*t;}
+      (function tick(){dot.style.cssText=`left:${mx}px;top:${my}px;`;rx=lerp(rx,mx,0.15);ry=lerp(ry,my,0.15);ring.style.cssText=`left:${rx}px;top:${ry}px;transform:translate(-50%,-50%) scale(${hov?1.8:1});opacity:${hov?0.4:0.6};`;requestAnimationFrame(tick);})();
     }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.reveal').forEach(function (el) {
-      io.observe(el);
-    });
-  }());
+    const io = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);} }); }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal-clip,.reveal-fade').forEach(el => io.observe(el));
+  })();
   </script>
-
 </body>
 </html>
