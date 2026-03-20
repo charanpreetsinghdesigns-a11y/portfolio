@@ -1,318 +1,786 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Charanpreet Singh – UX Designer</title>
-
-  <!-- Gothic A1 Bold — used for CHARANPREET SINGH and USER EXPERIENCE DESIGNER -->
+  <title>Charanpreet Singh — UX & Product Designer</title>
+  <meta name="description" content="UX & Product Designer crafting intuitive digital products that feel inevitable. Available for new opportunities.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ── Local fonts ── */
-    @font-face {
-      font-family: 'Franklin Gothic Demi';
-      src: url('Assets.html/Franklin Gothic Demi Regular.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Franklin Gothic';
-      src: url('Assets.html/FranklinGothic.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
 
-    /* ── Global reset ── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    /* ── Page shell: vertical stack filling the viewport ── */
-    body {
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ── Design tokens ── */
     :root {
-      --green:      #00d2a0;
-      --grey:       #eaeaea;
-      /* Column split: 1004 / 1920 = 52.2917% */
-      --split:      52.2917%;
-      /* Topbar: fixed 48px */
-      --topbar-h:   48px;
-      /* Navbar: 165px at 1920px → 8.5938vw */
-      --navbar-h:   clamp(110px, 8.5938vw, 165px);
-      /* Left pad: 64px at 1920px → 3.3333vw (navbar name) / 62px body → 3.2292vw */
-      --pad-name:   clamp(40px, 3.3333vw, 64px);
-      --pad-body:   clamp(40px, 3.2292vw, 62px);
-      /* Body gap (between intro and picture): 72px → 3.75vw */
-      --body-gap:   clamp(44px, 3.75vw, 72px);
+      --bg:     #F5F3EE;
+      --bg-alt: #ECEAE3;
+      --ink:    #111008;
+      --muted:  #7A7871;
+      --accent: #EB4A0A;
+      --border: #DDD9D0;
+      --white:  #FAFAF7;
+      --ease:   cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ════════════════════════════════════════
-       TOP BAR
-    ════════════════════════════════════════ */
-    .topbar {
-      width: 100%;
-      height: var(--topbar-h);
-      background: #000;
-      flex-shrink: 0;
-    }
-
-    /* ════════════════════════════════════════
-       NAV BAR
-    ════════════════════════════════════════ */
-    .navbar {
-      display: flex;
-      width: 100%;
-      height: var(--navbar-h);
-      flex-shrink: 0;
-    }
-
-    /* Left zone: green, holds the name */
-    .navbar-name {
-      flex: 0 0 var(--split);
-      background: var(--green);
-      display: flex;
-      align-items: center;
-      padding-left: var(--pad-name);
-      padding-right: 20px;
-    }
-
-    .navbar-name h1 {
-      font-family: 'Gothic A1', sans-serif;
-      font-weight: 700;
-      /* 84px at 1920px → 4.375vw */
-      font-size: clamp(52px, 4.375vw, 84px);
-      color: #fff;
-      line-height: 1;
-      white-space: nowrap;
-    }
-
-    /* Right zone: grey, holds nav links */
-    .navbar-nav {
-      flex: 1;
-      background: var(--grey);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      /* 48px gap at 1920px → 2.5vw */
-      gap: clamp(28px, 2.5vw, 48px);
-    }
-
-    .navbar-nav a {
-      font-family: 'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      /* 28px at 1920px → 1.4583vw */
-      font-size: clamp(16px, 1.4583vw, 28px);
-      color: #000;
-      text-decoration: none;
-      font-weight: 400;
-      white-space: nowrap;
-    }
-
-    .navbar-nav a:hover { opacity: 0.7; }
-
-    /* ════════════════════════════════════════
-       HERO BODY
-       Figma: 867px tall, padding-left 62px, gap 72px, items-center
-    ════════════════════════════════════════ */
-    .hero {
-      flex: 1;                      /* fills remaining viewport height */
-      display: flex;
-      align-items: center;          /* vertically centres the intro column */
-      background: var(--green);
-      padding-left: var(--pad-body);
-      gap: var(--body-gap);
-      min-height: 0;                /* prevents flex overflow */
-    }
-
-    /* Left frame: intro content */
-    .hero-intro {
-      flex: 1 0 0;
-      /* 1029px max at 1920 → 53.59vw */
-      max-width: clamp(700px, 53.59vw, 1029px);
-      display: flex;
-      flex-direction: column;
-      /* 56px gap between all three content blocks */
-      gap: clamp(36px, 2.9167vw, 56px);
-    }
-
-    .hero-title {
-      font-family: 'Gothic A1', sans-serif;
-      font-weight: 700;
-      /* 110px at 1920px → 5.7292vw */
-      font-size: clamp(68px, 5.7292vw, 110px);
-      color: #000;
-      /* 2 lines × 138px = 276px total; 138/110 ≈ 1.254 */
-      line-height: 1.254;
-    }
-
-    .hero-subtitle {
-      font-family: 'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      /* 36px at 1920px → 1.875vw */
-      font-size: clamp(22px, 1.875vw, 36px);
-      color: #fff;
-      font-weight: 400;
-      /* 54px line-height at 36px font → 54/36 = 1.5 */
-      line-height: 1.5;
-    }
-
-    /* CTA button */
-    .btn-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #000;
-      /* 289px × 52px at 1920px */
-      width:  clamp(180px, 15.0521vw, 289px);
-      height: clamp(34px,  2.7083vw,  52px);
-      text-decoration: none;
-      cursor: pointer;
-      flex-shrink: 0;
-      align-self: flex-start;
-    }
-
-    .btn-cta:hover { background: #222; }
-
-    .btn-cta span {
-      font-family: 'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      /* 28px at 1920px → 1.4583vw */
-      font-size: clamp(16px, 1.4583vw, 28px);
-      color: #fff;
-      font-weight: 400;
-      white-space: nowrap;
-    }
-
-    /* Right frame: hero photograph */
-    .hero-picture {
-      flex: 1 0 0;
-      /* 757px max at 1920px → 39.4271vw */
-      max-width: clamp(500px, 39.4271vw, 757px);
-      /* stretch overrides parent's align-items: center so image fills full height */
-      align-self: stretch;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-picture img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ═══════════════════════════════════════════════
-       REFINEMENTS
-    ═══════════════════════════════════════════════ */
-
-    /* Font rendering */
-    html {
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
     }
 
-    /* Focus states */
-    :focus-visible {
-      outline: 2px solid var(--green);
-      outline-offset: 3px;
-      border-radius: 2px;
+    ::selection { background: var(--accent); color: var(--white); }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 48px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px; padding: 0 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(245,243,238,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--border); }
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-weight: 700; font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo em { font-style: italic; color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink) !important;
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: 100px;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--accent) !important; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      padding-top: 64px;
+      display: flex; flex-direction: column;
+    }
+    .hero-main {
+      flex: 1;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 72px 48px 48px;
+      max-width: 1160px; margin: 0 auto; width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(16,200,100,0.1);
+      border: 1px solid rgba(16,200,100,0.28);
+      color: #0A7A3A;
+      font-size: 13px; font-weight: 500;
+      padding: 6px 14px; border-radius: 100px;
+      width: fit-content; margin-bottom: 36px;
+    }
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: #16C864; border-radius: 50%;
+      animation: blink 2s ease infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+    .hero-name {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: clamp(58px, 9.5vw, 136px);
+      line-height: 0.93;
+      letter-spacing: -0.03em;
+      margin-bottom: 36px;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-foot {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 40px;
+    }
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 300; line-height: 1.55;
+      color: var(--muted); max-width: 400px;
+    }
+    .hero-sub strong { color: var(--ink); font-weight: 500; }
+    .hero-scroll {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .scroll-bar {
+      width: 1px; height: 56px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: drip 1.8s ease-in-out infinite;
+    }
+    @keyframes drip {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
     }
 
-    /* Nav link underline slide-in on hover */
-    .navbar-nav a { position: relative; }
-    .navbar-nav a::after {
-      content: '';
-      position: absolute;
-      left: 0; right: 0; bottom: -3px;
-      height: 2px;
-      background: currentColor;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Hero stats bar */
+    .hero-stats {
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(4, 1fr);
     }
-    .navbar-nav a:hover { opacity: 1; }
-    .navbar-nav a:hover::after { transform: scaleX(1); }
+    .h-stat {
+      padding: 28px 40px;
+      border-right: 1px solid var(--border);
+    }
+    .h-stat:last-child { border-right: none; }
+    .h-stat-num {
+      font-family: 'Fraunces', serif;
+      font-weight: 700; font-size: 34px;
+      letter-spacing: -0.02em; line-height: 1;
+      margin-bottom: 6px;
+    }
+    .h-stat-num em { font-style: italic; color: var(--accent); }
+    .h-stat-label { font-size: 13px; color: var(--muted); }
 
-    /* CTA button hover + press effect */
-    .btn-cta {
-      transition: background 0.2s,
-                  transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.25s;
+    /* ── SECTION HEADER ── */
+    .sec { padding: 100px 0; }
+    .sec-head {
+      display: flex; align-items: baseline;
+      justify-content: space-between;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 64px;
     }
-    .btn-cta:hover {
-      background: #1a1a1a;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+    .sec-tag {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
     }
-    .btn-cta:active { transform: scale(0.97); box-shadow: none; }
+    .sec-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(34px, 5vw, 60px);
+      font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
+    }
+    .sec-title em { font-style: italic; }
+    .sec-more {
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s, gap 0.2s; white-space: nowrap;
+      align-self: flex-end;
+    }
+    .sec-more:hover { color: var(--accent); gap: 10px; }
 
-    /* Hero elements: fade-in on page load */
+    /* ── WORK GRID ── */
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .p-card {
+      display: block; position: relative;
+      overflow: hidden; cursor: pointer;
+    }
+    .p-card-xane    { grid-column: 1 / 3; }
+    .p-card-upsurge { grid-column: 3 / 4; }
+    .p-card-nagrik  { grid-column: 1 / 2; }
+    .p-card-teacher { grid-column: 2 / 4; }
+
+    .card-vis { position: relative; overflow: hidden; width: 100%; }
+    .p-card-xane    .card-vis { aspect-ratio: 8/5; }
+    .p-card-upsurge .card-vis { aspect-ratio: 4/5; }
+    .p-card-nagrik  .card-vis { aspect-ratio: 4/5; }
+    .p-card-teacher .card-vis { aspect-ratio: 8/5; }
+
+    .card-fill {
+      position: absolute; inset: 0;
+      transition: transform 0.6s var(--ease);
+    }
+    .p-card:hover .card-fill { transform: scale(1.05); }
+
+    .p-card-xane    .card-fill { background: linear-gradient(140deg,#060618 0%,#0A1240 55%,#011050 100%); }
+    .p-card-upsurge .card-fill { background: linear-gradient(140deg,#071A04 0%,#0F3A08 55%,#0B4A06 100%); }
+    .p-card-nagrik  .card-fill { background: linear-gradient(140deg,#130820 0%,#260D48 55%,#180828 100%); }
+    .p-card-teacher .card-fill { background: linear-gradient(140deg,#1A0A00 0%,#3A1600 55%,#502200 100%); }
+
+    .card-letter {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-weight: 900; font-style: italic;
+      font-size: clamp(120px, 20vw, 260px);
+      color: white; opacity: 0.07;
+      pointer-events: none; user-select: none;
+      transition: opacity 0.4s;
+    }
+    .p-card:hover .card-letter { opacity: 0.14; }
+
+    .card-chips {
+      position: absolute; top: 20px; left: 20px;
+      display: flex; gap: 6px; flex-wrap: wrap; z-index: 2;
+    }
+    .chip {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.75);
+      backdrop-filter: blur(6px);
+    }
+
+    .card-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px;
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
+      transform: translateY(6px);
+      transition: transform 0.4s var(--ease);
+      z-index: 2;
+    }
+    .p-card:hover .card-body { transform: none; }
+
+    .card-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .card-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .p-card-xane    .card-dot { background: #00F5FF; }
+    .p-card-upsurge .card-dot { background: #A8FF3E; }
+    .p-card-nagrik  .card-dot { background: #9B5DE5; }
+    .p-card-teacher .card-dot { background: #FF9F1C; }
+    .card-year { font-size: 12px; color: rgba(255,255,255,0.45); }
+
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 700; font-size: clamp(20px, 2.5vw, 28px);
+      color: white; letter-spacing: -0.01em; margin-bottom: 6px;
+    }
+    .card-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; margin-bottom: 16px; }
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 500; color: white;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity 0.25s 0.1s, transform 0.25s 0.1s var(--ease), gap 0.2s;
+    }
+    .p-card:hover .card-cta { opacity: 1; transform: none; }
+
+    /* ── PROCESS ── */
+    .process-strip { background: var(--bg-alt); padding: 80px 0; }
+    .process-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+    }
+    .proc-step {
+      padding: 40px 32px;
+      border-right: 1px solid var(--border);
+    }
+    .proc-step:last-child { border-right: none; }
+    .proc-num {
+      font-family: 'Fraunces', serif;
+      font-size: 64px; font-weight: 900; font-style: italic;
+      color: var(--border); line-height: 1; margin-bottom: 20px;
+    }
+    .proc-step h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 21px; font-weight: 700;
+      letter-spacing: -0.01em; margin-bottom: 10px;
+    }
+    .proc-step p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 80px; align-items: start;
+    }
+    .about-photo-wrap { position: sticky; top: 88px; }
+    .about-photo {
+      width: 100%; aspect-ratio: 4/5;
+      background: var(--bg-alt);
+      border-radius: 12px; overflow: hidden;
+      position: relative; margin-bottom: 20px;
+    }
+    .about-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+    }
+    .photo-init {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fraunces', serif; font-size: 72px; font-weight: 900;
+      font-style: italic; color: var(--border);
+    }
+    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .fact { padding: 14px 16px; background: var(--bg-alt); border-radius: 8px; }
+    .fact-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+    .fact-v { font-size: 14px; font-weight: 500; }
+
+    .about-h {
+      font-family: 'Fraunces', serif;
+      font-weight: 700; font-size: clamp(26px, 3.2vw, 42px);
+      letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 28px;
+    }
+    .about-h em { font-style: italic; color: var(--accent); }
+    .about-body { font-size: 17px; line-height: 1.8; color: var(--ink); opacity: 0.82; }
+    .about-body p + p { margin-top: 18px; }
+    .about-body strong { opacity: 1; font-weight: 600; color: var(--ink); }
+
+    .skills-wrap { margin-top: 40px; }
+    .skills-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    .skills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill {
+      font-size: 13px; font-weight: 500;
+      padding: 7px 14px; border-radius: 100px;
+      background: var(--bg-alt); border: 1px solid var(--border);
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      cursor: default;
+    }
+    .skill:hover { background: var(--accent); border-color: var(--accent); color: var(--white); }
+
+    .about-actions { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-fill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: var(--white);
+      font-size: 14px; font-weight: 500;
+      padding: 13px 26px; border-radius: 100px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-fill:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--ink); font-size: 14px; font-weight: 500;
+      padding: 13px 26px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+    /* ── CONTACT ── */
+    .contact-sec { background: var(--ink); padding: 120px 0; }
+    .contact-inner { text-align: center; }
+    .contact-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(245,243,238,0.4);
+      margin-bottom: 24px;
+    }
+    .contact-h {
+      font-family: 'Fraunces', serif;
+      font-weight: 900; font-size: clamp(40px, 7vw, 92px);
+      letter-spacing: -0.03em; line-height: 0.95;
+      color: var(--bg); margin-bottom: 48px;
+    }
+    .contact-h em { font-style: italic; color: var(--accent); }
+    .contact-email {
+      display: inline-block;
+      font-family: 'Fraunces', serif;
+      font-size: clamp(18px, 2.8vw, 34px); font-weight: 600;
+      color: var(--bg); letter-spacing: -0.01em;
+      border-bottom: 2px solid var(--accent); padding-bottom: 4px;
+      transition: color 0.2s; margin-bottom: 48px;
+    }
+    .contact-email:hover { color: var(--accent); }
+    .contact-links { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .c-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500;
+      padding: 10px 22px; border-radius: 100px;
+      border: 1px solid rgba(245,243,238,0.18);
+      color: rgba(245,243,238,0.6);
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .c-link:hover { border-color: rgba(245,243,238,0.6); color: var(--bg); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 48px; border-top: 1px solid var(--border);
+    }
+    .footer-l { font-size: 14px; color: var(--muted); }
+    .footer-r { display: flex; gap: 28px; }
+    .footer-r a { font-size: 14px; color: var(--muted); transition: color 0.2s; }
+    .footer-r a:hover { color: var(--ink); }
+
+    /* ── REVEAL ── */
     @media (prefers-reduced-motion: no-preference) {
-      @keyframes heroFadeUp {
-        from { opacity: 0; transform: translateY(22px); }
-        to   { opacity: 1; transform: translateY(0); }
+      .reveal {
+        opacity: 0; transform: translateY(22px);
+        transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
       }
-      .hero-title    { animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both; }
-      .hero-subtitle { animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.20s both; }
-      .btn-cta       { animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
-      .hero-picture  { animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.10s both; }
+      .reveal.in { opacity: 1; transform: none; }
+      .d1 { transition-delay: 0.1s; }
+      .d2 { transition-delay: 0.2s; }
+      .d3 { transition-delay: 0.3s; }
+      .d4 { transition-delay: 0.4s; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-photo-wrap { position: static; }
+      .about-photo { aspect-ratio: 1/1; max-width: 280px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links li:not(:last-child) { display: none; }
+      .hero-main { padding: 48px 20px 36px; }
+      .hero-foot { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .hero-scroll { display: none; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .h-stat { padding: 20px; }
+      .h-stat:nth-child(2) { border-right: none; }
+      .h-stat:nth-child(3) { border-top: 1px solid var(--border); border-right: none; }
+      .h-stat:nth-child(4) { border-top: 1px solid var(--border); }
+      .container { padding: 0 20px; }
+      .sec { padding: 64px 0; }
+      .sec-head { flex-direction: column; gap: 16px; }
+      .work-grid { grid-template-columns: 1fr; }
+      .p-card-xane, .p-card-upsurge,
+      .p-card-nagrik, .p-card-teacher { grid-column: 1; }
+      .p-card-xane .card-vis, .p-card-upsurge .card-vis,
+      .p-card-nagrik .card-vis, .p-card-teacher .card-vis { aspect-ratio: 4/3; }
+      .card-cta { opacity: 1; transform: none; }
+      .process-grid { grid-template-columns: 1fr; }
+      .proc-step { border-right: none; border-bottom: 1px solid var(--border); }
+      .proc-step:last-child { border-bottom: none; }
+      .contact-sec { padding: 80px 0; }
+      .site-footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 20px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── TOP BAR ── -->
-  <div class="topbar"></div>
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">Charan<em>preet</em></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="assets/Charanpreet-Singh-Resume.pdf" target="_blank" class="nav-cta">Resume ↓</a></li>
+    </ul>
+  </nav>
 
-  <!-- ── NAV BAR ── -->
-  <header class="navbar">
-    <div class="navbar-name">
-      <h1>CHARANPREET SINGH</h1>
-    </div>
-    <nav class="navbar-nav">
-      <a href="MyWork.html">My Work</a>
-      <a href="AboutMe.html">About Me</a>
-      <a href="Resume_Charanpreet_Singh.pdf" target="_blank">Resume</a>
-    </nav>
-  </header>
-
-  <!-- ── HERO BODY ── -->
+  <!-- HERO -->
   <section class="hero">
-
-    <div class="hero-intro">
-      <p class="hero-title">USER EXPERIENCE DESIGNER</p>
-      <p class="hero-subtitle">
-        Combining creativity and empathy to craft digital experiences that are
-        visually engaging, intuitive, and impactful for every user
-      </p>
-      <a href="MyWork.html" class="btn-cta">
-        <span>View Projects</span>
-      </a>
+    <div class="hero-main">
+      <div class="hero-badge reveal">
+        <span class="badge-dot"></span>
+        Available for opportunities
+      </div>
+      <h1 class="hero-name reveal d1">
+        Charanpreet<br><em>Singh.</em>
+      </h1>
+      <div class="hero-foot reveal d2">
+        <p class="hero-sub">
+          <strong>UX & Product Designer</strong> crafting products
+          that feel inevitable — where function and form become one.
+        </p>
+        <div class="hero-scroll">
+          <span>Scroll</span>
+          <div class="scroll-bar"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="hero-picture">
-      <img
-        src="assets/images/home-hero.jpg"
-        alt="Charanpreet Singh"
-      />
+    <div class="hero-stats">
+      <div class="h-stat reveal">
+        <div class="h-stat-num">4<em>+</em></div>
+        <div class="h-stat-label">End-to-end projects</div>
+      </div>
+      <div class="h-stat reveal d1">
+        <div class="h-stat-num">2<em>y</em></div>
+        <div class="h-stat-label">UX & Product experience</div>
+      </div>
+      <div class="h-stat reveal d2">
+        <div class="h-stat-num"><em>AI</em>&thinsp;·</div>
+        <div class="h-stat-label">EdTech · Civic Tech · SaaS</div>
+      </div>
+      <div class="h-stat reveal d3">
+        <div class="h-stat-num">DE</div>
+        <div class="h-stat-label">Based in Germany · Remote-ready</div>
+      </div>
     </div>
-
   </section>
 
+  <!-- WORK -->
+  <section class="sec" id="work">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div>
+          <p class="sec-tag">Selected Work</p>
+          <h2 class="sec-title">Projects that<br><em>mattered</em></h2>
+        </div>
+        <a href="#contact" class="sec-more">
+          Let's build yours
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="work-grid">
+
+        <a href="cs-xane-ai.html" class="p-card p-card-xane reveal">
+          <div class="card-vis">
+            <div class="card-fill"></div>
+            <div class="card-letter">X</div>
+            <div class="card-chips">
+              <span class="chip">B2B SaaS</span>
+              <span class="chip">AI Platform</span>
+            </div>
+            <div class="card-body">
+              <div class="card-row">
+                <div class="card-dot"></div>
+                <span class="card-year">Oct 2024 – Jan 2025 · Website Redesign</span>
+              </div>
+              <h3 class="card-title">Xane AI</h3>
+              <p class="card-desc">Redesigned an AI-driven B2B SaaS platform for automobile & appliances — modernising the experience for enterprise decision-makers.</p>
+              <div class="card-cta">
+                View Case Study
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="cs-upsurge.html" class="p-card p-card-upsurge reveal d1">
+          <div class="card-vis">
+            <div class="card-fill"></div>
+            <div class="card-letter">U</div>
+            <div class="card-chips">
+              <span class="chip">EdTech</span>
+              <span class="chip">Mobile App</span>
+            </div>
+            <div class="card-body">
+              <div class="card-row">
+                <div class="card-dot"></div>
+                <span class="card-year">2024 · End-to-end Design</span>
+              </div>
+              <h3 class="card-title">Upsurge</h3>
+              <p class="card-desc">Full UX for a kids' edutainment platform — from research to polished web & mobile design.</p>
+              <div class="card-cta">
+                View Case Study
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="cs-nagrik.html" class="p-card p-card-nagrik reveal d2">
+          <div class="card-vis">
+            <div class="card-fill"></div>
+            <div class="card-letter">N</div>
+            <div class="card-chips">
+              <span class="chip">Civic Tech</span>
+              <span class="chip">Social Impact</span>
+            </div>
+            <div class="card-body">
+              <div class="card-row">
+                <div class="card-dot"></div>
+                <span class="card-year">2024 · UX Design</span>
+              </div>
+              <h3 class="card-title">Nagrik</h3>
+              <p class="card-desc">Civic tech platform making government services accessible and intuitive for everyday citizens.</p>
+              <div class="card-cta">
+                View Case Study
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="cs-teacher-hiring.html" class="p-card p-card-teacher reveal d1">
+          <div class="card-vis">
+            <div class="card-fill"></div>
+            <div class="card-letter">T</div>
+            <div class="card-chips">
+              <span class="chip">EdTech</span>
+              <span class="chip">UX Research</span>
+            </div>
+            <div class="card-body">
+              <div class="card-row">
+                <div class="card-dot"></div>
+                <span class="card-year">2023–2024 · Full UX Process</span>
+              </div>
+              <h3 class="card-title">Teacher Hiring</h3>
+              <p class="card-desc">5-phase UX research & design process for a school teacher hiring platform — research to delivery.</p>
+              <div class="card-cta">
+                View Case Study
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW I WORK -->
+  <div class="process-strip">
+    <div class="container">
+      <div class="sec-head reveal" style="margin-bottom: 40px;">
+        <div>
+          <p class="sec-tag">How I Work</p>
+          <h2 class="sec-title">Design is a<br><em>conversation</em></h2>
+        </div>
+      </div>
+      <div class="process-grid">
+        <div class="proc-step reveal">
+          <div class="proc-num">01</div>
+          <h3>Understand</h3>
+          <p>Deep research into users, business goals, and existing systems before a single frame is drawn.</p>
+        </div>
+        <div class="proc-step reveal d1">
+          <div class="proc-num">02</div>
+          <h3>Define</h3>
+          <p>Synthesise findings into clear problem statements, personas, and opportunity areas that align teams.</p>
+        </div>
+        <div class="proc-step reveal d2">
+          <div class="proc-num">03</div>
+          <h3>Design</h3>
+          <p>Rapid ideation, wireframes, and high-fidelity prototypes — always anchored in real user needs.</p>
+        </div>
+        <div class="proc-step reveal d3">
+          <div class="proc-num">04</div>
+          <h3>Deliver</h3>
+          <p>Polished, developer-ready specs with clear rationale. Teams build from these with confidence.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="sec" id="about">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div>
+          <p class="sec-tag">About</p>
+          <h2 class="sec-title">The person<br>behind the <em>pixels</em></h2>
+        </div>
+      </div>
+      <div class="about-grid">
+        <div class="about-photo-wrap reveal">
+          <div class="about-photo">
+            <img
+              src="https://www.figma.com/api/mcp/asset/1269731d-6841-4a30-b3cb-b97c4427955d"
+              alt="Charanpreet Singh"
+              onerror="this.style.display='none'">
+            <div class="photo-init">CS</div>
+          </div>
+          <div class="facts">
+            <div class="fact">
+              <div class="fact-l">Location</div>
+              <div class="fact-v">Germany 🇩🇪</div>
+            </div>
+            <div class="fact">
+              <div class="fact-l">Open to</div>
+              <div class="fact-v">Full-time · Remote</div>
+            </div>
+            <div class="fact">
+              <div class="fact-l">Focus</div>
+              <div class="fact-v">UX · Product Design</div>
+            </div>
+            <div class="fact">
+              <div class="fact-l">Interests</div>
+              <div class="fact-v">AI · Education · Photography</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal d1">
+          <h2 class="about-h">I design things that make<br>complex systems feel <em>effortless</em></h2>
+          <div class="about-body">
+            <p>I'm a UX & Product Designer based in Germany, studying at the School of Design, Media & IT. I discovered my passion for design near the end of my studies — and haven't looked back since.</p>
+            <p>I believe the best design is <strong>invisible</strong>. Products people don't think about, because they just work. I start every project by asking "why" until I understand the problem deeply, then I work across the full stack — research, information architecture, interaction, and visual design — to deliver something both beautiful and purposeful.</p>
+            <p>My work spans <strong>AI platforms, EdTech, and Civic Tech</strong> — spaces where thoughtful design has real impact on people's lives. I'm drawn to complex, meaningful problems, especially where technology and human behaviour intersect.</p>
+            <p>Outside Figma, I'm a photographer. Seeing the world through a lens has made me a better designer — it trains you to notice light, composition, and the stories hidden in everyday moments.</p>
+          </div>
+          <div class="skills-wrap">
+            <p class="skills-label">Skills & Tools</p>
+            <div class="skills">
+              <span class="skill">Figma</span>
+              <span class="skill">UX Research</span>
+              <span class="skill">Interaction Design</span>
+              <span class="skill">Prototyping</span>
+              <span class="skill">User Testing</span>
+              <span class="skill">Information Architecture</span>
+              <span class="skill">Design Systems</span>
+              <span class="skill">Wireframing</span>
+              <span class="skill">Jitter Video</span>
+              <span class="skill">AI-assisted Design</span>
+              <span class="skill">Adobe XD</span>
+              <span class="skill">Photography</span>
+            </div>
+          </div>
+          <div class="about-actions">
+            <a href="assets/Charanpreet-Singh-Resume.pdf" target="_blank" class="btn-fill">
+              Download Resume
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 15V3M7 10l5 5 5-5M3 20h18"/></svg>
+            </a>
+            <a href="AboutMe.html" class="btn-outline">Photography & More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-sec" id="contact">
+    <div class="container">
+      <div class="contact-inner">
+        <p class="contact-eyebrow reveal">Let's talk</p>
+        <h2 class="contact-h reveal d1">
+          Got a project?<br>Let's make it <em>great.</em>
+        </h2>
+        <a href="mailto:chsingh@stud.mediadesign.de" class="contact-email reveal d2">
+          chsingh@stud.mediadesign.de
+        </a>
+        <div class="contact-links reveal d3">
+          <a href="https://linkedin.com/in/charanpreet-singh" target="_blank" class="c-link">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="assets/Charanpreet-Singh-Resume.pdf" target="_blank" class="c-link">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 15V3M7 10l5 5 5-5M3 20h18"/></svg>
+            Resume
+          </a>
+          <a href="AboutMe.html" class="c-link">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            About Me
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span class="footer-l">© 2026 Charanpreet Singh · UX & Product Designer</span>
+    <div class="footer-r">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="AboutMe.html">Photography</a>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
 </body>
 </html>
