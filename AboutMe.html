@@ -1,611 +1,437 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Me – Charanpreet Singh</title>
-
-  <!-- Gothic A1 Bold (name) + Regular (quote) -->
+  <title>Photography & More — Charanpreet Singh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ── Local fonts ── */
-    @font-face {
-      font-family: 'Franklin Gothic Demi';
-      src: url('Assets.html/Franklin Gothic Demi Regular.ttf') format('truetype');
-      font-weight: 400; font-style: normal;
-    }
-    @font-face {
-      font-family: 'Franklin Gothic Book';
-      src: url('Assets.html/Franklin Gothic SSi Book.ttf') format('truetype');
-      font-weight: 400; font-style: normal;
-    }
-    @font-face {
-      font-family: 'Franklin Gothic';
-      src: url('Assets.html/FranklinGothic.ttf') format('truetype');
-      font-weight: 400; font-style: normal;
-    }
-
-    /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: #00d2a0; overflow-x: hidden; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
 
-    /* ── Tokens ── */
     :root {
-      --green:    #00d2a0;
-      --grey:     #eaeaea;
-      --f-demi:   'Franklin Gothic Demi', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      --f-book:   'Franklin Gothic Book', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      --f-reg:    'Franklin Gothic', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
-      --f-gothic: 'Gothic A1', sans-serif;
+      --bg:     #F5F3EE;
+      --bg-alt: #ECEAE3;
+      --ink:    #111008;
+      --muted:  #7A7871;
+      --accent: #EB4A0A;
+      --border: #DDD9D0;
+      --white:  #FAFAF7;
+      --ease:   cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ════ TOP BAR ════ */
-    .topbar {
-      position: sticky; top: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: space-between;
-      width: 100%; height: 48px; background: #000; padding: 0 24px;
-    }
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: transparent; border: none; cursor: pointer;
-      padding: 0; text-decoration: none; height: 31px;
-    }
-    .back-label {
-      font-family: var(--f-demi);
-      font-size: clamp(14px, 1.1667vw, 22.4px);
-      color: #fff; white-space: nowrap;
-    }
-    .home-btn {
-      display: flex; align-items: center; justify-content: center;
-      width: 48px; height: 31px; background: transparent; text-decoration: none;
-    }
-
-    /* ════ NAV BAR ════ */
-    .navbar {
-      display: flex; align-items: center;
-      width: 100%; min-height: 180px; background: var(--grey);
-      padding: 10px 20px 10px clamp(40px, 3.3333vw, 64px);
-    }
-    .navbar-name {
-      font-family: var(--f-gothic); font-weight: 700;
-      font-size: clamp(42px, 4.375vw, 84px);
-      color: #333; line-height: 1; white-space: nowrap;
-    }
-
-    /* ════ BODY SECTION ════ */
-    .body-section {
-      display: flex; align-items: flex-start;
-      width: 100%; height: clamp(360px, 40.833vw, 784px);
-      gap: clamp(16px, 1.875vw, 36px);
-      padding-right: clamp(16px, 2.5vw, 48px);
-    }
-    .body-photo {
-      flex: 0 0 clamp(280px, 54.688vw, 1050px);
-      height: 100%; position: relative; overflow: hidden;
-    }
-    .body-photo img {
-      position: absolute; width: 100%; height: 220.06%;
-      top: -97.73%; left: 0; object-fit: cover; max-width: none;
-    }
-    .body-text {
-      flex: 1 0 0; min-width: 0; height: 100%;
-      display: flex; flex-direction: column; justify-content: center;
-      font-family: var(--f-demi);
-      font-size: clamp(13px, 1.25vw, 24px);
-      line-height: clamp(22px, 2.1875vw, 42px);
-      color: #000;
-    }
-    .body-text p + p { margin-top: 1em; }
-
-    /* ════ QUOTE ════ */
-    .quote-section {
-      display: flex; align-items: center; justify-content: center;
-      width: 100%; padding: 16px 24px;
-    }
-    .quote-text {
-      flex: 1 0 0; min-height: 122px;
-      font-family: var(--f-gothic); font-weight: 400;
-      font-size: clamp(28px, 3.333vw, 64px);
-      color: #000; text-align: center;
-      line-height: clamp(24px, 2.1875vw, 42px);
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    /* ════ GALLERY ════ */
-    .gallery-wrap {
-      display: flex; align-items: center; justify-content: center; width: 100%;
-    }
-    .gallery {
-      display: flex; flex-direction: column; gap: 21px;
-      width: min(1666.8px, 100%);
-    }
-    .gal-row {
-      display: flex; gap: 24px; width: 100%;
-    }
-    .r-end    { align-items: flex-end; }
-    .r-start  { align-items: flex-start; }
-    .r-center { align-items: center; }
-
-    /* Base image cell */
-    .gi {
-      position: relative; overflow: hidden; flex-shrink: 0;
-    }
-    .gi img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover; max-width: none; display: block;
-    }
-    .gi.f1 { flex: 1 0 0; min-width: 0; }
-    .gi.ss { align-self: stretch; }
-
-    /* Flex column sub-group */
-    .gal-col {
-      display: flex; flex-direction: column; gap: 24px; flex-shrink: 0;
-    }
-    .gal-col.f1 { flex: 1 0 0; min-width: 0; flex-shrink: unset; }
-    .gal-col.ss { align-self: stretch; }
-
-    /* ════ FOOTER ════ */
-    .footer { width: 100%; height: 220px; background: var(--grey); }
-
-    /* ════ SCROLL TO TOP ════ */
-    .scroll-top-btn {
-      position: fixed; bottom: 60px; right: clamp(40px, 3.125vw, 60px);
-      display: inline-flex; align-items: center; gap: 10px;
-      background: #000; border: none; cursor: pointer; padding: 10px 20px;
-      width: clamp(160px, 11.458vw, 220px);
-      box-shadow: 0 6px 14px rgba(24,39,75,0.24), 0 10px 32px rgba(24,39,75,0.20);
-      z-index: 200;
-    }
-    .scroll-top-text {
-      font-family: var(--f-reg); font-size: clamp(15px, 1.25vw, 24px);
-      color: #fff; white-space: nowrap;
-    }
-
-    /* ═══════════════════════════════════════════════
-       REFINEMENTS
-    ═══════════════════════════════════════════════ */
-
-    /* Font rendering */
     body {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--ink);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    ::selection { background: var(--accent); color: var(--white); }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 48px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px; padding: 0 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(245,243,238,0.88); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+    .nav-logo em { font-style: italic; color: var(--accent); }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      transition: color 0.2s, gap 0.2s;
+    }
+    .nav-back:hover { color: var(--ink); gap: 12px; }
+    .nav-back:hover svg { transform: translateX(-3px); }
+    .nav-back svg { transition: transform 0.2s var(--ease); }
+
+    /* HERO */
+    .page-hero {
+      padding-top: 64px;
+      min-height: 52vh;
+      display: flex; align-items: flex-end;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-inner {
+      padding: 64px 48px 56px;
+      max-width: 1160px; margin: 0 auto; width: 100%;
+    }
+    .hero-tag {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 20px; display: block;
+    }
+    .hero-title {
+      font-family: 'Fraunces', serif; font-weight: 900;
+      font-size: clamp(48px, 8vw, 104px);
+      letter-spacing: -0.03em; line-height: 0.95;
+      margin-bottom: 24px;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+    .hero-desc {
+      font-size: clamp(16px, 1.8vw, 20px); font-weight: 300;
+      color: var(--muted); line-height: 1.6; max-width: 560px;
     }
 
-    /* Focus states */
-    :focus-visible {
-      outline: 2px solid var(--green);
-      outline-offset: 3px;
-      border-radius: 2px;
+    /* BENTO GRID */
+    .bento-section { padding: 80px 0; }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 80px;
+      gap: 2px;
     }
 
-    /* ── Scroll-reveal animations ── */
+    /* BENTO CELLS */
+    .b-cell {
+      position: relative; overflow: hidden;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      transition: border-color 0.3s;
+    }
+    .b-cell:hover { border-color: var(--ink); }
+
+    .b-photo-1 { grid-column: 1 / 8;  grid-row: 1 / 6; }
+    .b-photo-2 { grid-column: 8 / 13; grid-row: 1 / 4; }
+    .b-text-1  { grid-column: 8 / 11; grid-row: 4 / 6; }
+    .b-stat-1  { grid-column: 11 / 13; grid-row: 4 / 6; }
+    .b-photo-3 { grid-column: 1 / 5;  grid-row: 6 / 10; }
+    .b-photo-4 { grid-column: 5 / 9;  grid-row: 6 / 10; }
+    .b-text-2  { grid-column: 9 / 13; grid-row: 6 / 8; }
+    .b-tag-row { grid-column: 9 / 13; grid-row: 8 / 10; }
+    .b-photo-5 { grid-column: 1 / 6;  grid-row: 10 / 14; }
+    .b-text-3  { grid-column: 6 / 10; grid-row: 10 / 12; }
+    .b-stat-2  { grid-column: 10 / 13; grid-row: 10 / 12; }
+    .b-photo-6 { grid-column: 6 / 13; grid-row: 12 / 14; }
+
+    /* Photo cells — CSS gradient placeholders; replace src with real photos */
+    .b-cell img { width: 100%; height: 100%; object-fit: cover; opacity: 0.88; transition: opacity 0.4s var(--ease), transform 0.6s var(--ease); display: block; }
+    .b-cell:hover img { opacity: 1; transform: scale(1.03); }
+
+    .ph-1 { background: linear-gradient(140deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+    .ph-2 { background: linear-gradient(140deg, #2d1b00 0%, #5a3500 60%, #7a4800 100%); }
+    .ph-3 { background: linear-gradient(140deg, #0a1f0a 0%, #1a3a1a 60%, #254025 100%); }
+    .ph-4 { background: linear-gradient(140deg, #1a0a2e 0%, #2d1548 60%, #3d1a5e 100%); }
+    .ph-5 { background: linear-gradient(140deg, #1a0a00 0%, #3a1800 60%, #5a2800 100%); }
+    .ph-6 { background: linear-gradient(140deg, #0a0a1a 0%, #1a1a38 60%, #252550 100%); }
+
+    .ph-label {
+      position: absolute; bottom: 16px; left: 16px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.45); text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* Text cells */
+    .b-text-inner {
+      padding: 28px;
+      height: 100%; display: flex; flex-direction: column; justify-content: center;
+    }
+    .b-text-label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .b-text-body { font-size: 15px; line-height: 1.65; color: var(--muted); }
+    .b-text-body strong { color: var(--ink); font-weight: 600; }
+
+    /* Stat cells */
+    .b-stat-inner {
+      padding: 28px;
+      height: 100%; display: flex; flex-direction: column; justify-content: center;
+      background: var(--ink);
+    }
+    .b-stat-num {
+      font-family: 'Fraunces', serif; font-weight: 900; font-style: italic;
+      font-size: 44px; letter-spacing: -0.03em; line-height: 1;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .b-stat-num em { color: var(--accent); font-style: normal; }
+    .b-stat-label { font-size: 12px; color: rgba(245,243,238,0.45); }
+
+    /* Tag row */
+    .b-tag-inner {
+      padding: 20px 28px;
+      height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 10px;
+    }
+    .b-tag-row-label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .b-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .b-tag {
+      font-size: 11px; font-weight: 500; padding: 5px 12px;
+      border-radius: 100px; background: var(--bg);
+      border: 1px solid var(--border); color: var(--muted);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .b-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* INTERESTS */
+    .interests-sec { padding: 80px 0; background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .sec-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: block; }
+    .sec-title { font-family: 'Fraunces', serif; font-size: clamp(32px, 4.5vw, 54px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 56px; }
+    .sec-title em { font-style: italic; }
+
+    .interests-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .interest-card {
+      padding: 40px 36px; background: var(--bg);
+      border: 1px solid var(--border); border-top: 3px solid var(--accent);
+      transition: background 0.2s;
+    }
+    .interest-card:hover { background: var(--bg-alt); }
+    .interest-icon { font-size: 28px; margin-bottom: 20px; }
+    .interest-card h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+    .interest-card p { font-size: 15px; color: var(--muted); line-height: 1.7; }
+
+    /* CTA */
+    .cta-sec { padding: 100px 0; }
+    .cta-inner { text-align: center; }
+    .cta-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .cta-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(36px, 5vw, 68px); letter-spacing: -0.03em; line-height: 0.95; margin-bottom: 36px; }
+    .cta-title em { font-style: italic; color: var(--accent); }
+    .cta-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-fill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: var(--white);
+      font-size: 14px; font-weight: 500;
+      padding: 13px 26px; border-radius: 100px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-fill:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--ink); font-size: 14px; font-weight: 500;
+      padding: 13px 26px; border-radius: 100px;
+      border: 1.5px solid var(--border);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+    /* FOOTER */
+    .site-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 48px; border-top: 1px solid var(--border);
+    }
+    .footer-l { font-size: 14px; color: var(--muted); }
+    .footer-r { display: flex; gap: 28px; }
+    .footer-r a { font-size: 14px; color: var(--muted); transition: color 0.2s; }
+    .footer-r a:hover { color: var(--ink); }
+
+    /* REVEAL */
     @media (prefers-reduced-motion: no-preference) {
-      .reveal {
-        opacity: 0;
-        transform: translateY(28px);
-        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .reveal.visible { opacity: 1; transform: none; }
-      .reveal.d1 { transition-delay: 0.10s; }
-      .reveal.d2 { transition-delay: 0.20s; }
+      .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+      .reveal.in { opacity: 1; transform: none; }
+      .d1 { transition-delay: 0.1s; }
+      .d2 { transition-delay: 0.2s; }
+      .d3 { transition-delay: 0.3s; }
     }
 
-    /* ── Back / Home button micro-interactions ── */
-    .back-btn { transition: opacity 0.2s; }
-    .back-btn:hover { opacity: 0.75; }
-    .back-btn svg { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-    .back-btn:hover svg { transform: translateX(-4px); }
-    .home-btn { transition: opacity 0.2s; }
-    .home-btn:hover { opacity: 0.75; }
-
-    /* ── Gallery image zoom on hover ── */
-    .gi img { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-    .gi:hover img { transform: scale(1.05); }
-
-    /* ── Scroll-to-top: lift on hover ── */
-    .scroll-top-btn {
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.25s, background 0.2s;
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .bento-grid { grid-template-columns: repeat(6, 1fr); }
+      .b-photo-1 { grid-column: 1 / 7;  grid-row: 1 / 5; }
+      .b-photo-2 { grid-column: 1 / 4;  grid-row: 5 / 9; }
+      .b-text-1  { grid-column: 4 / 7;  grid-row: 5 / 7; }
+      .b-stat-1  { grid-column: 4 / 7;  grid-row: 7 / 9; }
+      .b-photo-3 { grid-column: 1 / 4;  grid-row: 9 / 13; }
+      .b-photo-4 { grid-column: 4 / 7;  grid-row: 9 / 13; }
+      .b-text-2  { grid-column: 1 / 7;  grid-row: 13 / 15; }
+      .b-tag-row { grid-column: 1 / 7;  grid-row: 15 / 17; }
+      .b-photo-5 { grid-column: 1 / 7;  grid-row: 17 / 21; }
+      .b-text-3  { grid-column: 1 / 4;  grid-row: 21 / 23; }
+      .b-stat-2  { grid-column: 4 / 7;  grid-row: 21 / 23; }
+      .b-photo-6 { grid-column: 1 / 7;  grid-row: 23 / 27; }
     }
-    .scroll-top-btn:hover {
-      background: #1a1a1a;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(24, 39, 75, 0.30),
-                  0 18px 44px rgba(24, 39, 75, 0.22);
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .hero-inner { padding: 48px 20px 40px; }
+      .container { padding: 0 20px; }
+      .interests-grid { grid-template-columns: 1fr; }
+      .site-footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 20px; }
     }
-    .scroll-top-btn:active { transform: scale(0.97); }
-    .scroll-top-btn svg { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-    .scroll-top-btn:hover svg { transform: translateY(-3px); }
   </style>
 </head>
-<body id="top">
+<body>
 
-  <!-- ══ TOP BAR ══ -->
-  <div class="topbar">
-    <button class="back-btn"
-            onclick="history.length > 1 ? history.back() : (window.location.href='Portfolio.html')">
-      <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
-        <path d="M27 8H2M2 8L9 1M2 8L9 15"
-              stroke="white" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- NAV -->
+  <nav>
+    <a href="Portfolio.html" class="nav-logo">Charan<em>preet</em></a>
+    <a href="Portfolio.html" class="nav-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <span class="back-label">Back</span>
-    </button>
-    <a href="Portfolio.html" class="home-btn" aria-label="Go to Home">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M3 10.5L12 3L21 10.5V20C21 20.5523 20.5523 21 20 21H15.5V16H8.5V21H4C3.44772 21 3 20.5523 3 20V10.5Z"
-              fill="white"/>
-      </svg>
+      Back to Portfolio
     </a>
-  </div>
+  </nav>
 
-  <!-- ══ NAV BAR ══ -->
-  <div class="navbar">
-    <span class="navbar-name">CHARANPREET SINGH</span>
-  </div>
-
-  <!-- ══ BODY SECTION ══ -->
-  <div class="body-section">
-    <div class="body-photo">
-      <img src="https://www.figma.com/api/mcp/asset/1269731d-6841-4a30-b3cb-b97c4427955d"
-           alt="Charanpreet Singh">
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="hero-inner">
+      <span class="hero-tag reveal">Beyond the Screen</span>
+      <h1 class="hero-title reveal d1">
+        Photography<br>& <em>More</em>
+      </h1>
+      <p class="hero-desc reveal d2">
+        Design trains you to see systems. Photography trains you to see moments.
+        Here's what I see when I'm not in Figma.
+      </p>
     </div>
-    <div class="body-text">
-      <p>I discovered my passion for UX design towards the end of my graduation. With a strong interest in design, I was drawn to subjects like research design, design thinking, and principles of information systems during college. I believe that, in today's world, where Gen Z leads the market and AI is reshaping how we interact with technology, aesthetics are just as crucial as functionality. With people's attention span shrinking, I aim to make a strong first impression through thoughtful, appealing designs that leverage both human intuition and AI-powered insights.</p>
-      <p>I enjoy diving into existing process flows, spotting pain points, and creating solutions that make a meaningful difference. My expertise lies in both UI and UX design, and I'm increasingly exploring how AI tools can accelerate design workflows and enhance user experiences. I aspire to be an impactful designer who contributes to education and supports socially disadvantaged communities—using technology, including AI, as a force for good. Outside of design, I love capturing moments through photography and exploring new places, which further fuels my creativity and helps me see the world through different perspectives.</p>
-    </div>
-  </div>
+  </section>
 
-  <!-- ══ QUOTE ══ -->
-  <div class="quote-section">
-    <div class="quote-text">Illuminating Life's Beauty - A Story in Every Snapshot</div>
-  </div>
+  <!-- BENTO GRID -->
+  <section class="bento-section">
+    <div class="container">
+      <div class="bento-grid reveal">
 
-  <!-- ══ GALLERY ══ -->
-  <div class="gallery-wrap">
-    <div class="gallery">
+        <div class="b-cell b-photo-1 ph-1">
+          <!-- Replace with: <img src="assets/images/photo-1.jpg" alt="Streets · Munich"> -->
+          <p class="ph-label">Streets · Munich</p>
+        </div>
 
-      <!-- ROW 1: wide landscape flex-1 + portrait fixed (h=553, w=415) -->
-      <div class="gal-row r-center">
-        <div class="gi f1" style="aspect-ratio:4000/1844;">
-          <img src="https://www.figma.com/api/mcp/asset/3baa4726-0009-4695-9718-50c07dcd7512" alt="">
+        <div class="b-cell b-photo-2 ph-2">
+          <!-- Replace with: <img src="assets/images/photo-2.jpg" alt="Golden Hour"> -->
+          <p class="ph-label">Golden Hour</p>
         </div>
-        <div class="gi" style="width:415px;height:553px;">
-          <img src="https://www.figma.com/api/mcp/asset/9f73f5ba-9f39-428e-8811-dd8a1722ddf3" alt="">
-        </div>
-      </div>
 
-      <!-- ROW 2: square fixed + landscape flex-1 -->
-      <div class="gal-row r-center">
-        <div class="gi" style="width:609px;height:609px;">
-          <img src="https://www.figma.com/api/mcp/asset/8ab3086b-d491-4652-9330-d19cb647e54f" alt="">
-        </div>
-        <div class="gi f1" style="height:609px;">
-          <img src="https://www.figma.com/api/mcp/asset/f1124a0f-f881-4139-852b-3d788d3c1b70" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 3: full-width single landscape -->
-      <div class="gi" style="width:100%;aspect-ratio:3741/1844;">
-        <img src="https://www.figma.com/api/mcp/asset/e99df37c-6812-4c9f-bb6d-92f6366242d1" alt="">
-      </div>
-
-      <!-- ROW 4: fixed portrait + landscape flex-1 -->
-      <div class="gal-row r-end">
-        <div class="gi" style="width:708px;height:704px;">
-          <img src="https://www.figma.com/api/mcp/asset/d8ce9448-3935-4ad6-9cae-a88c8183533a" alt="">
-        </div>
-        <div class="gi f1" style="height:704px;">
-          <img src="https://www.figma.com/api/mcp/asset/c680d6ab-9469-4077-81c8-c98a6cf46e0d" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 5: landscape flex-1 + portrait fixed -->
-      <div class="gal-row r-end">
-        <div class="gi f1" style="height:662px;">
-          <img src="https://www.figma.com/api/mcp/asset/545dd65f-b811-46e1-bf09-72b466191fd4" alt="">
-        </div>
-        <div class="gi" style="width:762px;height:662px;">
-          <img src="https://www.figma.com/api/mcp/asset/20324ab3-275c-4731-95ac-dd6a8124e095" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 6: 2-col complex, h=1079px -->
-      <div class="gal-row r-start" style="height:1079px;">
-        <div class="gal-col" style="width:588px;height:100%;">
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/2cc63f3d-6baa-4053-98de-445bf835d71c" alt="">
-          </div>
-          <div class="gi" style="height:282px;width:100%;flex-shrink:0;">
-            <img src="https://www.figma.com/api/mcp/asset/37681afa-b46e-43f4-a0b2-19ec9585a23a" alt="">
+        <div class="b-cell b-text-1">
+          <div class="b-text-inner">
+            <p class="b-text-label">On Photography</p>
+            <p class="b-text-body">A lens teaches you <strong>patience</strong> — waiting for the right light, the decisive moment.</p>
           </div>
         </div>
-        <div class="gal-col f1" style="height:100%;">
-          <div class="gi" style="aspect-ratio:2759/1552;flex-shrink:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/3b167f1f-5ebd-4434-afb5-2fa279cf2e9f" alt="">
-          </div>
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/215f4340-634a-4229-8c69-26125827e165" alt="">
-          </div>
-        </div>
-      </div>
 
-      <!-- ROW 7: portrait fixed + landscape flex-1 -->
-      <div class="gal-row r-start">
-        <div class="gi" style="width:458px;height:608px;">
-          <img src="https://www.figma.com/api/mcp/asset/03d62fa2-1116-4aab-b42f-d3148372d1ce" alt="">
-        </div>
-        <div class="gi f1" style="height:612px;">
-          <img src="https://www.figma.com/api/mcp/asset/bc4c488e-e209-4245-93f6-5a8be32e9baf" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 8: landscape self-stretch + portrait fixed h=770px -->
-      <div class="gal-row r-center">
-        <div class="gi f1 ss">
-          <img src="https://www.figma.com/api/mcp/asset/39414498-8a89-4823-a9a6-146de76360e2" alt="">
-        </div>
-        <div class="gi" style="width:609px;height:770px;">
-          <img src="https://www.figma.com/api/mcp/asset/9c39db8b-2b68-4fa7-bada-c023694bba2d" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 9: wide fixed + flex-1 -->
-      <div class="gal-row r-center">
-        <div class="gi" style="width:741px;height:556px;">
-          <img src="https://www.figma.com/api/mcp/asset/07c2ed22-a9d9-4dd0-be20-e14475456b99" alt="">
-        </div>
-        <div class="gi f1" style="height:556px;">
-          <img src="https://www.figma.com/api/mcp/asset/ff3d3348-170d-48e6-ba6d-ce90075f8f48" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 10: flex-1 + wide fixed -->
-      <div class="gal-row r-center">
-        <div class="gi f1" style="height:583px;">
-          <img src="https://www.figma.com/api/mcp/asset/41ae82d1-08ad-4698-aa33-eccc68daacc5" alt="">
-        </div>
-        <div class="gi" style="width:600px;height:583px;">
-          <img src="https://www.figma.com/api/mcp/asset/def41ef3-780e-450b-beb4-66ce6d72021c" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 11: portrait fixed (with dark overlay) + flex-1 landscape -->
-      <div class="gal-row r-center">
-        <div class="gi" style="width:288px;height:624px;">
-          <img src="https://www.figma.com/api/mcp/asset/41e69fee-69c7-4efc-bdc8-954d4e288968" alt="">
-          <div style="position:absolute;inset:0;background:rgba(0,0,0,0.1);pointer-events:none;"></div>
-        </div>
-        <div class="gi f1" style="height:624px;">
-          <img src="https://www.figma.com/api/mcp/asset/b76429a0-ad83-4ff8-ab16-9b27c257fb60" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 12: rotated-image flex-1 + portrait fixed × 2 (row h=453px) -->
-      <div class="gal-row r-end" style="height:453px;">
-        <div style="flex:1 0 0;min-width:0;height:453px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;">
-          <div style="transform:rotate(-90deg);flex-shrink:0;width:719px;height:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/d2aee2f0-fdf2-4669-99a2-955433f27ad2" alt=""
-                 style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="b-cell b-stat-1">
+          <div class="b-stat-inner">
+            <div class="b-stat-num">3<em>+</em></div>
+            <div class="b-stat-label">Years shooting</div>
           </div>
         </div>
-        <div class="gi" style="width:296px;height:453px;">
-          <img src="https://www.figma.com/api/mcp/asset/c6fa1fcf-0893-4975-99c5-9b943ac780cd" alt="">
-        </div>
-        <div class="gi" style="width:604px;height:453px;">
-          <img src="https://www.figma.com/api/mcp/asset/8502ed0b-585c-471f-ba12-f5a903d82adf" alt="">
-        </div>
-      </div>
 
-      <!-- ROW 13: flex-1 self-stretch + complex right col (w=1118, h=680) -->
-      <div class="gal-row r-end" style="height:680px;">
-        <div class="gi f1 ss">
-          <img src="https://www.figma.com/api/mcp/asset/db3d5e57-1c84-4ee7-8c98-ca3b531b1545" alt="">
+        <div class="b-cell b-photo-3 ph-3">
+          <!-- Replace with: <img src="assets/images/photo-3.jpg" alt="Architecture"> -->
+          <p class="ph-label">Architecture</p>
         </div>
-        <div style="width:1118px;height:100%;display:flex;flex-direction:column;gap:24px;flex-shrink:0;">
-          <div style="height:446px;display:flex;gap:24px;align-items:flex-end;flex-shrink:0;">
-            <div class="gi f1" style="height:100%;">
-              <img src="https://www.figma.com/api/mcp/asset/faba5d0e-f4d8-4883-955a-03b643d635e2" alt="">
-            </div>
-            <div class="gi" style="width:501px;height:100%;flex-shrink:0;">
-              <img src="https://www.figma.com/api/mcp/asset/30f17e20-a8c3-4284-b4b4-78c275a7b686" alt="">
+
+        <div class="b-cell b-photo-4 ph-4">
+          <!-- Replace with: <img src="assets/images/photo-4.jpg" alt="Portraits"> -->
+          <p class="ph-label">Portraits</p>
+        </div>
+
+        <div class="b-cell b-text-2">
+          <div class="b-text-inner">
+            <p class="b-text-label">Design Connection</p>
+            <p class="b-text-body">Photography sharpened my eye for <strong>light, composition, and negative space</strong> — which bleeds directly into layout and hierarchy decisions in UI work.</p>
+          </div>
+        </div>
+
+        <div class="b-cell b-tag-row">
+          <div class="b-tag-inner">
+            <p class="b-tag-row-label">Interests</p>
+            <div class="b-tags">
+              <span class="b-tag">Street Photography</span>
+              <span class="b-tag">Portraits</span>
+              <span class="b-tag">Architecture</span>
+              <span class="b-tag">Travel</span>
+              <span class="b-tag">AI Tools</span>
+              <span class="b-tag">EdTech</span>
             </div>
           </div>
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/578e48a4-588f-4c43-8606-32c21601723a" alt="">
+        </div>
+
+        <div class="b-cell b-photo-5 ph-5">
+          <!-- Replace with: <img src="assets/images/photo-5.jpg" alt="Travel · India"> -->
+          <p class="ph-label">Travel · India</p>
+        </div>
+
+        <div class="b-cell b-text-3">
+          <div class="b-text-inner">
+            <p class="b-text-label">Always Learning</p>
+            <p class="b-text-body">Outside Figma I'm exploring <strong>AI tools</strong>, reading about EdTech, and finding new places to photograph.</p>
           </div>
         </div>
-      </div>
 
-      <!-- ROW 14: portrait fixed (h=770) + flex-1 self-stretch -->
-      <div class="gal-row r-center">
-        <div class="gi" style="width:609px;height:770px;">
-          <img src="https://www.figma.com/api/mcp/asset/b2352a5d-3928-4db2-9481-54b610751d52" alt="">
-        </div>
-        <div class="gi f1 ss">
-          <img src="https://www.figma.com/api/mcp/asset/733b7e7a-7bc0-49b1-abd8-687a2ea7514d" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 15: flex-1 self-stretch + portrait fixed (h=770) -->
-      <div class="gal-row r-center">
-        <div class="gi f1 ss">
-          <img src="https://www.figma.com/api/mcp/asset/1f3e2d82-7dec-438c-addf-cbebef887822" alt="">
-        </div>
-        <div class="gi" style="width:609px;height:770px;">
-          <img src="https://www.figma.com/api/mcp/asset/8aa0010c-b6c0-40a3-a2f5-79aea78bc9b0" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 16: fixed (w=771, h=765) + flex-1 self-stretch -->
-      <div class="gal-row r-start">
-        <div class="gi" style="width:771px;height:765px;">
-          <img src="https://www.figma.com/api/mcp/asset/2453222a-9afa-4a0a-83ab-db0d0c631d83" alt="">
-        </div>
-        <div class="gi f1 ss">
-          <img src="https://www.figma.com/api/mcp/asset/94537cec-7a4d-4005-ba7a-57f2626a1a56" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 17: 3 equal flex-1 cols, h=887px -->
-      <div class="gal-row r-center" style="height:887px;">
-        <div class="gi f1" style="height:100%;">
-          <img src="https://www.figma.com/api/mcp/asset/6b512993-d4a7-40a9-9682-f700dc84ae9b" alt="">
-        </div>
-        <div class="gi f1" style="height:100%;">
-          <img src="https://www.figma.com/api/mcp/asset/ab2c3689-4d63-4034-b661-40d0a040eb0d" alt="">
-        </div>
-        <div class="gi f1" style="height:100%;">
-          <img src="https://www.figma.com/api/mcp/asset/1587815d-c3fb-49f5-9dce-63b5750890c1" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 18: fixed (w=771, h=765) + flex-1 self-stretch -->
-      <div class="gal-row r-start">
-        <div class="gi" style="width:771px;height:765px;">
-          <img src="https://www.figma.com/api/mcp/asset/716829a8-68fc-4ac1-8a5b-11713c56e24a" alt="">
-        </div>
-        <div class="gi f1 ss">
-          <img src="https://www.figma.com/api/mcp/asset/1bb0f309-fd5d-458e-a7de-4604d41129f5" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 19: square fixed (738×738) + 2-item col (w=358) + flex-1 -->
-      <div class="gal-row r-end">
-        <div class="gi" style="width:738px;height:738px;">
-          <img src="https://www.figma.com/api/mcp/asset/e9409067-cfa8-4295-8598-59fc7d19af1f" alt="">
-        </div>
-        <div class="gal-col ss" style="width:358px;">
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/421e4907-9b77-4359-a300-07ccf8cb21ee" alt="">
-          </div>
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/5c6be490-34c1-4374-970e-b41e9964b199" alt="">
+        <div class="b-cell b-stat-2">
+          <div class="b-stat-inner">
+            <div class="b-stat-num"><em>DE</em></div>
+            <div class="b-stat-label">Based in Germany</div>
           </div>
         </div>
-        <div class="gi f1 ss">
-          <img src="https://www.figma.com/api/mcp/asset/dcfffe69-72fd-44bf-ac88-dd44ed6a4961" alt="">
+
+        <div class="b-cell b-photo-6 ph-6">
+          <!-- Replace with: <img src="assets/images/photo-6.jpg" alt="Night · Long Exposure"> -->
+          <p class="ph-label">Night · Long Exposure</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERESTS -->
+  <section class="interests-sec">
+    <div class="container">
+      <div class="reveal">
+        <p class="sec-tag">What drives me</p>
+        <h2 class="sec-title">Life outside<br>of <em>Figma</em></h2>
+      </div>
+      <div class="interests-grid">
+        <div class="interest-card reveal">
+          <div class="interest-icon">📷</div>
+          <h3>Photography</h3>
+          <p>I shoot street, portrait, and architecture. The discipline of finding a frame has made me a more intentional designer — every design decision is a composition choice.</p>
+        </div>
+        <div class="interest-card reveal d1">
+          <div class="interest-icon">🤖</div>
+          <h3>AI & Emerging Tech</h3>
+          <p>Deeply curious about how AI is reshaping design workflows and education. I experiment with AI tools regularly and think about how they change the designer's role.</p>
+        </div>
+        <div class="interest-card reveal d2">
+          <div class="interest-icon">✈️</div>
+          <h3>Travel & Culture</h3>
+          <p>Moving from India to Germany for studies exposed me to radically different design cultures. Travel is the fastest way to expand empathy — the core muscle of UX.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- ROW 20: square fixed + landscape flex-1 -->
-      <div class="gal-row r-center">
-        <div class="gi" style="width:609px;height:609px;">
-          <img src="https://www.figma.com/api/mcp/asset/4cab45b1-b995-4a6c-b8e5-f807d9627a9f" alt="">
-        </div>
-        <div class="gi f1" style="height:609px;">
-          <img src="https://www.figma.com/api/mcp/asset/7086c247-58a3-4943-a001-da0b3a7c731a" alt="">
-        </div>
-      </div>
-
-      <!-- ROW 21: full-width single landscape -->
-      <div class="gi" style="width:100%;aspect-ratio:3741/1844;">
-        <img src="https://www.figma.com/api/mcp/asset/ec079c1d-5014-4ee2-ac80-4f41a0218202" alt="">
-      </div>
-
-      <!-- ROW 22: 2-col complex, h=1317px -->
-      <div class="gal-row r-start" style="height:1317px;">
-        <div class="gal-col" style="width:588px;height:100%;">
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/2cc63f3d-6baa-4053-98de-445bf835d71c" alt="">
-          </div>
-          <div class="gi" style="height:487px;width:100%;flex-shrink:0;">
-            <img src="https://www.figma.com/api/mcp/asset/9de9faf8-e6a0-458f-920a-0cefd765490e" alt="">
-          </div>
-        </div>
-        <div class="gal-col f1" style="height:100%;">
-          <div class="gi" style="aspect-ratio:2759/1552;flex-shrink:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/993f9ac9-456d-44b3-986d-d8f6a0436516" alt="">
-          </div>
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/85c990b8-5474-4431-b663-14cd2b63c9fa" alt="">
-          </div>
+  <!-- CTA -->
+  <section class="cta-sec">
+    <div class="container">
+      <div class="cta-inner">
+        <p class="cta-eyebrow reveal">Seen enough?</p>
+        <h2 class="cta-title reveal d1">
+          Let's make<br>something <em>great.</em>
+        </h2>
+        <div class="cta-actions reveal d2">
+          <a href="mailto:charanpreetsingh.designs@gmail.com" class="btn-fill">
+            Get in touch
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="Portfolio.html" class="btn-outline">View My Work</a>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- ROW 23: square fixed (738×738) + 2-item col (w=358) + flex-1 -->
-      <div class="gal-row r-end">
-        <div class="gi" style="width:738px;height:738px;">
-          <img src="https://www.figma.com/api/mcp/asset/464c9517-a49e-4ac4-ae4d-35abc9414889" alt="">
-        </div>
-        <div class="gal-col ss" style="width:358px;">
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/3ce4eeb9-8d43-48ca-8e36-410473eb668e" alt="">
-          </div>
-          <div class="gi" style="flex:1 0 0;min-height:0;width:100%;">
-            <img src="https://www.figma.com/api/mcp/asset/69ec3270-0bfe-458b-9737-0514f632d656" alt="">
-          </div>
-        </div>
-        <div class="gi f1 ss">
-          <img src="https://www.figma.com/api/mcp/asset/b9f404ea-7783-4f26-aeb5-78d7f0252f86" alt="">
-        </div>
-      </div>
-
-    </div><!-- /gallery -->
-  </div><!-- /gallery-wrap -->
-
-  <!-- ══ FOOTER ══ -->
-  <div class="footer"></div>
-
-  <!-- ══ SCROLL TO TOP ══ -->
-  <button class="scroll-top-btn"
-          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-    <span class="scroll-top-text">Scroll to Top</span>
-    <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
-      <path d="M8 27V2M8 2L1 9M8 2L15 9"
-            stroke="white" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span class="footer-l">© 2026 Charanpreet Singh · UX & Product Designer</span>
+    <div class="footer-r">
+      <a href="Portfolio.html">Work</a>
+      <a href="mailto:charanpreetsingh.designs@gmail.com">Contact</a>
+    </div>
+  </footer>
 
   <script>
-  (function () {
-    'use strict';
-
-    /* 1. Lazy-load all gallery images */
-    document.querySelectorAll('.gallery img').forEach(function (img) {
-      img.setAttribute('loading', 'lazy');
-    });
-
-    /* 2. Auto-mark elements for scroll reveal */
-    [
-      '.gallery > *',
-      '.quote-section',
-      '.body-text'
-    ].forEach(function (sel) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        el.classList.add('reveal');
-      });
-    });
-
-    /* 3. Intersection Observer */
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.reveal').forEach(function (el) {
-        el.classList.add('visible');
-      });
-      return;
-    }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          io.unobserve(entry.target);
-        }
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
       });
     }, { threshold: 0.08 });
-
-    document.querySelectorAll('.reveal').forEach(function (el) {
-      io.observe(el);
-    });
-  }());
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   </script>
 
 </body>
