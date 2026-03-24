@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Web Experience — Charanpreet Singh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    :root {
+      --bg:     #F5F3EE;
+      --bg-alt: #ECEAE3;
+      --ink:    #111008;
+      --muted:  #7A7871;
+      --accent: #EB4A0A;
+      --border: #DDD9D0;
+      --white:  #FAFAF7;
+      --ease:   cubic-bezier(0.16, 1, 0.3, 1);
+      --dark:   #0C0C14;
+      --purple: #7C5CFC;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--ink);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    ::selection { background: var(--accent); color: var(--white); }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px; padding: 0 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(12,12,20,0.88); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: #fff; }
+    .nav-logo em { font-style: italic; color: var(--purple); }
+    .nav-back {
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6);
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: #fff; }
+    .nav-back::before { content: '←'; }
+
+    /* HERO */
+    .cs-hero {
+      background: var(--dark);
+      padding-top: 64px;
+      min-height: 480px;
+      display: flex; align-items: flex-end;
+      position: relative; overflow: hidden;
+    }
+    .cs-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(124,92,252,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(235,74,10,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .cs-hero-inner {
+      max-width: 900px; margin: 0 auto; width: 100%;
+      padding: 64px 48px 56px;
+      position: relative;
+    }
+    .cs-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--purple);
+      background: rgba(124,92,252,0.12);
+      border: 1px solid rgba(124,92,252,0.3);
+      border-radius: 20px; padding: 4px 12px;
+      margin-bottom: 20px;
+    }
+    .cs-hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .cs-hero-title em { font-style: italic; color: var(--purple); }
+    .cs-hero-sub {
+      font-size: 16px; line-height: 1.65;
+      color: rgba(255,255,255,0.5);
+      max-width: 560px;
+    }
+
+    /* META BAR */
+    .meta-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .meta-cell {
+      padding: 24px 32px;
+      border-right: 1px solid var(--border);
+    }
+    .meta-cell:last-child { border-right: none; }
+    .meta-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+    .meta-val { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.4; }
+
+    /* SECTIONS */
+    .cs-section {
+      max-width: 900px; margin: 0 auto;
+      padding: 72px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section:last-of-type { border-bottom: none; }
+
+    .sec-label {
+      display: block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .sec-h {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .sec-h em { font-style: italic; color: var(--accent); }
+    .body-text {
+      font-size: 15px; line-height: 1.75;
+      color: var(--muted); max-width: 640px;
+    }
+
+    /* STACK CHIPS */
+    .stack-row {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 28px;
+    }
+    .stack-chip {
+      font-size: 13px; font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--ink);
+    }
+    .stack-chip.hi { border-color: var(--purple); color: var(--purple); background: rgba(124,92,252,0.06); }
+
+    /* SCENE BREAKDOWN */
+    .scene-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 28px;
+    }
+    .scene-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+    .scene-card-num {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; color: var(--purple);
+      margin-bottom: 8px;
+    }
+    .scene-card-title {
+      font-size: 15px; font-weight: 600;
+      color: var(--ink); margin-bottom: 6px;
+    }
+    .scene-card-desc {
+      font-size: 13px; line-height: 1.6; color: var(--muted);
+    }
+
+    /* CODE BLOCK */
+    .code-wrap {
+      margin-top: 28px;
+      background: #0C0C14;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .code-bar {
+      display: flex; align-items: center; gap: 6px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-bar span { font-size: 11px; color: rgba(255,255,255,0.3); margin-left: 8px; font-family: monospace; }
+    pre {
+      padding: 24px;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 12.5px; line-height: 1.8;
+      color: rgba(255,255,255,0.75);
+    }
+    .tok-tag { color: #7C9CF8; }
+    .tok-attr { color: #9ECBFF; }
+    .tok-val { color: #CE9178; }
+    .tok-comment { color: rgba(255,255,255,0.3); font-style: italic; }
+
+    /* LIVE PREVIEW */
+    .preview-wrap {
+      margin-top: 28px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--dark);
+      position: relative;
+    }
+    .preview-label {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px;
+      background: rgba(124,92,252,0.08);
+      border-bottom: 1px solid rgba(124,92,252,0.15);
+    }
+    .preview-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple); }
+    .preview-label span { font-size: 11px; font-weight: 600; color: var(--purple); letter-spacing: 0.06em; text-transform: uppercase; }
+    .preview-label a { font-size: 11px; color: var(--muted); margin-left: auto; }
+    .preview-label a:hover { color: var(--ink); }
+    iframe {
+      width: 100%; height: 520px;
+      border: none; display: block;
+    }
+
+    /* LEARNINGS */
+    .learning-list { margin-top: 32px; display: flex; flex-direction: column; gap: 0; }
+    .learning-item {
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .learning-item:last-child { border-bottom: none; }
+    .learning-num { font-size: 11px; font-weight: 700; color: var(--purple); min-width: 28px; padding-top: 2px; letter-spacing: 0.04em; }
+    .learning-text { font-size: 14px; line-height: 1.7; color: var(--muted); }
+    .learning-text strong { color: var(--ink); }
+
+    /* FOOTER */
+    .site-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 48px;
+      border-top: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .footer-l { font-size: 12px; color: var(--muted); }
+    .footer-r { display: flex; gap: 24px; font-size: 12px; }
+    .footer-r a { color: var(--muted); transition: color 0.2s; }
+    .footer-r a:hover { color: var(--ink); }
+
+    /* REVEAL */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+      .reveal.in { opacity: 1; transform: none; }
+      .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .cs-hero-inner { padding: 40px 20px 36px; }
+      .meta-bar { grid-template-columns: 1fr 1fr; }
+      .meta-cell { padding: 20px; border-right: none; border-bottom: 1px solid var(--border); }
+      .cs-section { padding: 48px 20px; }
+      .scene-grid { grid-template-columns: 1fr; }
+      .site-footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">C<em>.</em></div>
+    <a href="Portfolio.html" class="nav-back">Back to Portfolio</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="cs-hero">
+    <div class="cs-hero-inner">
+      <div class="cs-tag">College Assignment · 3D Design</div>
+      <h1 class="cs-hero-title">My first <em>3D web</em><br>experience</h1>
+      <p class="cs-hero-sub">Building an interactive 3D scene from scratch — a clickable gift box and animated cup model, all in a browser using A-Frame and raw HTML.</p>
+    </div>
+  </div>
+
+  <!-- META -->
+  <div class="meta-bar">
+    <div class="meta-cell">
+      <div class="meta-label">Assignment</div>
+      <div class="meta-val">3D Design & Coding</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Framework</div>
+      <div class="meta-val">A-Frame (WebXR)</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Language</div>
+      <div class="meta-val">HTML5</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Assets</div>
+      <div class="meta-val">GLTF / GLB, JPG textures</div>
+    </div>
+  </div>
+
+  <!-- BRIEF -->
+  <div class="cs-section">
+    <span class="sec-label reveal">The Brief</span>
+    <h2 class="sec-h reveal">First time <em>touching 3D</em></h2>
+    <p class="body-text reveal d1">This was my first assignment involving 3D design and code. The goal was to build an interactive 3D scene that runs entirely in a web browser — no Unity, no Blender exports to an app, just HTML and a framework called A-Frame. I had no prior experience with 3D environments or WebXR, so this was starting from zero.</p>
+
+    <div class="stack-row reveal d2">
+      <div class="stack-chip hi">A-Frame 1.5</div>
+      <div class="stack-chip hi">GLTF / GLB Models</div>
+      <div class="stack-chip">HTML5</div>
+      <div class="stack-chip">JPG Textures</div>
+      <div class="stack-chip">WebXR / VR</div>
+      <div class="stack-chip">CSS Animations → A-Frame Animations</div>
+    </div>
+  </div>
+
+  <!-- WHAT WAS BUILT -->
+  <div class="cs-section">
+    <span class="sec-label reveal">The Scene</span>
+    <h2 class="sec-h reveal">What <em>I built</em></h2>
+    <p class="body-text reveal d1">A single interactive 3D room with two main objects. Everything — lighting, camera, geometry, textures, animations — is declared in HTML tags inside an <code style="font-family:monospace;font-size:13px;background:var(--bg-alt);padding:2px 6px;border-radius:4px;">&lt;a-scene&gt;</code>.</p>
+
+    <div class="scene-grid reveal d2">
+      <div class="scene-card">
+        <div class="scene-card-num">01 — CUP MODEL</div>
+        <div class="scene-card-title">3D Cup (GLTF/GLB)</div>
+        <div class="scene-card-desc">A pre-made 3D cup model loaded via <code style="font-size:12px;font-family:monospace;">&lt;a-gltf-model&gt;</code>. On click it slides forward and continuously rotates — both animations triggered by the same click event.</div>
+      </div>
+      <div class="scene-card">
+        <div class="scene-card-num">02 — GIFT BOX</div>
+        <div class="scene-card-title">Box Built from Primitives</div>
+        <div class="scene-card-desc">A gift box assembled entirely from A-Frame's <code style="font-size:12px;font-family:monospace;">&lt;a-box&gt;</code> primitives — base, four walls, lid, and an animated front flap that pivots open on click.</div>
+      </div>
+      <div class="scene-card">
+        <div class="scene-card-num">03 — ENVIRONMENT</div>
+        <div class="scene-card-title">Textured Room</div>
+        <div class="scene-card-desc">A floor plane with a table texture, a 360° skybox image wrapping the entire scene, and directional + ambient lighting to give the objects depth and shadow.</div>
+      </div>
+      <div class="scene-card">
+        <div class="scene-card-num">04 — INTERACTIVITY</div>
+        <div class="scene-card-title">Click-based Animations</div>
+        <div class="scene-card-desc">A-Frame's built-in animation component handles all motion — <code style="font-size:12px;font-family:monospace;">startEvents: click</code> triggers position changes, rotations, and flap pivots without a single line of JavaScript.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CODE -->
+  <div class="cs-section">
+    <span class="sec-label reveal">The Code</span>
+    <h2 class="sec-h reveal">Key <em>snippets</em></h2>
+    <p class="body-text reveal d1">The entire scene is ~110 lines of HTML. Here are the two most interesting parts — the cup animation and the gift box flap.</p>
+
+    <div class="code-wrap reveal d2">
+      <div class="code-bar">
+        <div class="code-dot" style="background:#FF5F57;"></div>
+        <div class="code-dot" style="background:#FEBC2E;"></div>
+        <div class="code-dot" style="background:#28C840;"></div>
+        <span>index.html — Cup model with click animations</span>
+      </div>
+      <pre><span class="tok-comment">&lt;!-- 3D Cup: slides forward + spins on click --&gt;</span>
+<span class="tok-tag">&lt;a-gltf-model</span>
+  <span class="tok-attr">src</span>=<span class="tok-val">"lib/Cup.glb"</span>
+  <span class="tok-attr">position</span>=<span class="tok-val">"0 0.1 -1.5"</span>
+  <span class="tok-attr">rotation</span>=<span class="tok-val">"0 48 0"</span>
+  <span class="tok-attr">scale</span>=<span class="tok-val">"1.5 1.5 1.5"</span>
+  <span class="tok-attr">animation__slide</span>=<span class="tok-val">"
+    property: position;
+    to: 0 0.25 0.6;
+    dur: 1000;
+    easing: easeOutCubic;
+    startEvents: click"</span>
+  <span class="tok-attr">animation__rotate</span>=<span class="tok-val">"
+    property: rotation;
+    to: 0 360 0;
+    loop: true;
+    dur: 3000;
+    easing: linear;
+    startEvents: click"</span><span class="tok-tag">&gt;
+&lt;/a-gltf-model&gt;</span>
+
+<span class="tok-comment">&lt;!-- Gift box flap — pivots open on click --&gt;</span>
+<span class="tok-tag">&lt;a-entity</span>
+  <span class="tok-attr">id</span>=<span class="tok-val">"bottomFlapPivot"</span>
+  <span class="tok-attr">position</span>=<span class="tok-val">"0 0.12 1.72"</span>
+  <span class="tok-attr">animation__open</span>=<span class="tok-val">"
+    property: rotation;
+    to: 90 0 0;
+    dur: 800;
+    easing: easeInOutQuad;
+    startEvents: click"</span><span class="tok-tag">&gt;
+  &lt;a-box</span>
+    <span class="tok-attr">position</span>=<span class="tok-val">"0 0.6 0"</span>
+    <span class="tok-attr">width</span>=<span class="tok-val">"1.85"</span> <span class="tok-attr">height</span>=<span class="tok-val">"1.2"</span> <span class="tok-attr">depth</span>=<span class="tok-val">"0.15"</span>
+    <span class="tok-attr">src</span>=<span class="tok-val">"lib/Gift.jpg"</span><span class="tok-tag">&gt;
+  &lt;/a-box&gt;
+&lt;/a-entity&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- LIVE OUTPUT -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Final Output</span>
+    <h2 class="sec-h reveal">Live <em>in browser</em></h2>
+    <p class="body-text reveal d1">The scene runs directly in the browser. Click the cup to animate it, and click the gift box flap to open it. Use mouse drag to look around the 3D space.</p>
+
+    <div class="preview-wrap reveal d2">
+      <div class="preview-label">
+        <div class="preview-dot"></div>
+        <span>Live Preview — project/index.html</span>
+        <a href="project/index.html" target="_blank">Open full screen ↗</a>
+      </div>
+      <iframe src="project/index.html" title="3D Web Scene" loading="lazy" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- LEARNINGS -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Key Learnings</span>
+    <h2 class="sec-h reveal">What <em>I took away</em></h2>
+    <div class="learning-list">
+      <div class="learning-item reveal d1">
+        <span class="learning-num">01</span>
+        <p class="learning-text"><strong>3D is just another coordinate system.</strong> X, Y, Z positions felt intimidating until I realised it's the same logic as CSS layout — just with a depth axis added. Once that clicked, placing objects in space became intuitive.</p>
+      </div>
+      <div class="learning-item reveal d2">
+        <span class="learning-num">02</span>
+        <p class="learning-text"><strong>Primitives can build anything.</strong> The gift box has no 3D modelling involved — it's five <code style="font-family:monospace;font-size:12px;background:var(--bg-alt);padding:1px 5px;border-radius:3px;">&lt;a-box&gt;</code> elements carefully positioned. Constraints push creative problem-solving.</p>
+      </div>
+      <div class="learning-item reveal d2">
+        <span class="learning-num">03</span>
+        <p class="learning-text"><strong>Declarative 3D lowers the barrier massively.</strong> A-Frame lets you write a fully interactive 3D scene in HTML, with zero JavaScript for animations. It changed how I think about what "coding" a visual experience means.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span class="footer-l">© 2026 Charanpreet Singh · UX & Product Designer</span>
+    <div class="footer-r">
+      <a href="Portfolio.html">Portfolio</a>
+      <a href="AboutMe.html">Photography</a>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
