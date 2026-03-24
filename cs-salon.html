@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salon Booking App — Charanpreet Singh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    :root {
+      --bg:     #F5F3EE;
+      --bg-alt: #ECEAE3;
+      --ink:    #111008;
+      --muted:  #7A7871;
+      --accent: #EB4A0A;
+      --border: #DDD9D0;
+      --white:  #FAFAF7;
+      --ease:   cubic-bezier(0.16, 1, 0.3, 1);
+      --dark:   #111A18;
+      --green:  #2FA67A;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--ink);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    ::selection { background: var(--green); color: #fff; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px; padding: 0 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(17,26,24,0.9); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: #fff; }
+    .nav-logo em { font-style: italic; color: var(--green); }
+    .nav-back {
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.55);
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: #fff; }
+    .nav-back::before { content: '←'; }
+
+    /* HERO */
+    .cs-hero {
+      background: var(--dark);
+      padding-top: 64px;
+      min-height: 500px;
+      display: flex; align-items: flex-end;
+      position: relative; overflow: hidden;
+    }
+    .cs-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 70%, rgba(47,166,122,0.16) 0%, transparent 55%),
+                  radial-gradient(ellipse at 75% 15%, rgba(47,166,122,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .cs-hero-inner {
+      max-width: 900px; margin: 0 auto; width: 100%;
+      padding: 72px 48px 60px;
+      position: relative;
+    }
+    .cs-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--green);
+      background: rgba(47,166,122,0.12);
+      border: 1px solid rgba(47,166,122,0.28);
+      border-radius: 20px; padding: 4px 12px;
+      margin-bottom: 22px;
+    }
+    .cs-hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(36px, 6vw, 62px);
+      font-weight: 900; line-height: 1.04;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .cs-hero-title em { font-style: italic; color: var(--green); }
+    .cs-hero-sub {
+      font-size: 16px; line-height: 1.7;
+      color: rgba(255,255,255,0.48);
+      max-width: 580px;
+    }
+
+    /* META BAR */
+    .meta-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .meta-cell {
+      padding: 24px 32px;
+      border-right: 1px solid var(--border);
+    }
+    .meta-cell:last-child { border-right: none; }
+    .meta-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+    .meta-val { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.4; }
+
+    /* SECTIONS */
+    .cs-section {
+      max-width: 900px; margin: 0 auto;
+      padding: 72px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-section:last-of-type { border-bottom: none; }
+
+    .sec-label {
+      display: block;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .sec-h {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .sec-h em { font-style: italic; color: var(--accent); }
+    .body-text {
+      font-size: 15px; line-height: 1.75;
+      color: var(--muted); max-width: 660px;
+    }
+
+    /* BRAINSTORM TAGS */
+    .tag-cloud {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 28px;
+    }
+    .tag {
+      font-size: 13px; font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--ink);
+    }
+    .tag.hi { border-color: var(--green); color: var(--green); background: rgba(47,166,122,0.07); }
+
+    /* INTERVIEW GRID */
+    .interview-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 32px;
+    }
+    .iv-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+    .iv-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+    .iv-name {
+      font-size: 15px; font-weight: 600; color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .iv-context {
+      font-size: 12px; color: var(--muted);
+    }
+    .iv-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      color: var(--green); white-space: nowrap; padding-top: 2px;
+    }
+    .iv-row { margin-bottom: 12px; }
+    .iv-row:last-child { margin-bottom: 0; }
+    .iv-row-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .iv-row-text {
+      font-size: 13px; line-height: 1.6; color: var(--ink);
+    }
+    .iv-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .iv-tag {
+      font-size: 11px; font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: var(--bg-alt);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    /* CARD SORT */
+    .sort-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 32px;
+    }
+    .sort-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+    .sort-card-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      color: var(--green); text-transform: uppercase; margin-bottom: 10px;
+    }
+    .sort-card-title {
+      font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 10px;
+    }
+    .sort-items { display: flex; flex-wrap: wrap; gap: 6px; }
+    .sort-item {
+      font-size: 11px; padding: 3px 9px;
+      border-radius: 10px; background: var(--bg-alt);
+      color: var(--muted); border: 1px solid var(--border);
+    }
+
+    /* IA SECTION */
+    .ia-tree {
+      margin-top: 32px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .ia-branch {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex; align-items: flex-start; gap: 20px;
+    }
+    .ia-branch-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--green);
+      min-width: 100px; padding-top: 2px;
+    }
+    .ia-branch-items { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ia-item {
+      font-size: 12px; font-weight: 500;
+      padding: 4px 12px; border-radius: 14px;
+      background: var(--bg-alt); color: var(--ink);
+      border: 1px solid var(--border);
+    }
+
+    /* FRAMEWORK / DESIGN SYSTEM */
+    .fw-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px; margin-top: 32px;
+    }
+    .fw-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+    }
+    .fw-card-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      color: var(--green); margin-bottom: 8px;
+    }
+    .fw-card-title {
+      font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px;
+    }
+    .fw-card-desc {
+      font-size: 12px; line-height: 1.6; color: var(--muted);
+    }
+
+    /* UI SCROLL */
+    .cs-section--screens { border-bottom: none; padding-bottom: 24px; }
+    .ui-scroll-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-alt);
+      padding: 40px 0 40px 48px;
+      margin-bottom: 0;
+    }
+    .ui-scroll {
+      display: flex; gap: 20px;
+      overflow-x: auto; overflow-y: visible;
+      padding-bottom: 12px; padding-right: 48px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .ui-scroll::-webkit-scrollbar { height: 3px; }
+    .ui-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .ui-frame-wrap {
+      flex-shrink: 0; scroll-snap-align: start;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .ui-frame {
+      width: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--white);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .ui-frame img {
+      width: 100%; height: auto; display: block;
+    }
+    .ui-frame-label {
+      font-size: 11px; font-weight: 500; color: var(--muted);
+    }
+
+    /* USABILITY */
+    .ut-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 32px;
+    }
+    .ut-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+    .ut-card-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .ut-card-label.pos { color: var(--green); }
+    .ut-card-label.warn { color: #E0A800; }
+    .ut-card-label.imp { color: var(--accent); }
+    .ut-list { display: flex; flex-direction: column; gap: 10px; }
+    .ut-list-item {
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .ut-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      margin-top: 6px; flex-shrink: 0;
+    }
+    .ut-dot.pos { background: var(--green); }
+    .ut-dot.warn { background: #E0A800; }
+    .ut-dot.imp { background: var(--accent); }
+    .ut-item-text {
+      font-size: 13px; line-height: 1.6; color: var(--muted);
+    }
+
+    /* TASKS TABLE */
+    .tasks-list {
+      margin-top: 28px; display: flex; flex-direction: column; gap: 0;
+    }
+    .task-row {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .task-row:first-child { border-top: 1px solid var(--border); }
+    .task-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      color: var(--green); min-width: 28px; padding-top: 2px;
+    }
+    .task-text {
+      font-size: 14px; line-height: 1.6; color: var(--muted);
+    }
+    .task-text strong { color: var(--ink); }
+
+    /* LEARNINGS */
+    .learning-list { margin-top: 32px; display: flex; flex-direction: column; gap: 0; }
+    .learning-item {
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .learning-item:last-child { border-bottom: none; }
+    .learning-num { font-size: 11px; font-weight: 700; color: var(--green); min-width: 28px; padding-top: 2px; letter-spacing: 0.04em; }
+    .learning-text { font-size: 14px; line-height: 1.7; color: var(--muted); }
+    .learning-text strong { color: var(--ink); }
+
+    /* FOOTER */
+    .site-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 48px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-l { font-size: 12px; color: var(--muted); }
+    .footer-r { display: flex; gap: 24px; font-size: 12px; }
+    .footer-r a { color: var(--muted); transition: color 0.2s; }
+    .footer-r a:hover { color: var(--ink); }
+
+    /* REVEAL */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+      .reveal.in { opacity: 1; transform: none; }
+      .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .cs-hero-inner { padding: 48px 20px 40px; }
+      .meta-bar { grid-template-columns: 1fr 1fr; }
+      .meta-cell { padding: 18px 20px; border-right: none; border-bottom: 1px solid var(--border); }
+      .cs-section { padding: 48px 20px; }
+      .interview-grid, .sort-grid, .ut-grid, .fw-grid { grid-template-columns: 1fr; }
+      .ui-scroll-wrap { padding: 32px 0 32px 20px; }
+      .ui-scroll { padding-right: 20px; }
+      .ui-frame { width: 180px; }
+      .ia-branch { flex-direction: column; gap: 10px; }
+      .site-footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">C<em>.</em></div>
+    <a href="Portfolio.html" class="nav-back">Back to Portfolio</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="cs-hero">
+    <div class="cs-hero-inner">
+      <div class="cs-tag">Final Exam Assignment · Experience Design & HCI</div>
+      <h1 class="cs-hero-title">Designing a <em>salon</em><br>booking app</h1>
+      <p class="cs-hero-sub">From user interviews and card sorting to a full design system and usability tested screens — a 5-day end-to-end UX process for a salon management tool.</p>
+    </div>
+  </div>
+
+  <!-- META -->
+  <div class="meta-bar">
+    <div class="meta-cell">
+      <div class="meta-label">Assignment</div>
+      <div class="meta-val">Experience Design & Human Interaction</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Duration</div>
+      <div class="meta-val">5 Days</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Role</div>
+      <div class="meta-val">UX Designer</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Tools</div>
+      <div class="meta-val">Figma · Think-Aloud Testing</div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Overview</span>
+    <h2 class="sec-h reveal">A booking app built for <em>real salons</em></h2>
+    <p class="body-text reveal d1">This was the final exam for Experience Design & Human Interaction. The brief: design a digital product from scratch within 5 days — research, structure, design, and test. I chose a salon management and booking app after noticing how fragmented most salon tools are. The full process went from brainstorming, through 6 user interviews, card sorting, IA mapping, a design system, high-fidelity screens, and finished with a usability test.</p>
+
+    <div class="tag-cloud reveal d2">
+      <div class="tag hi">UX Research</div>
+      <div class="tag hi">User Interviews</div>
+      <div class="tag hi">Card Sorting</div>
+      <div class="tag hi">Information Architecture</div>
+      <div class="tag hi">Interaction Design</div>
+      <div class="tag">Usability Testing</div>
+      <div class="tag">Figma</div>
+      <div class="tag">AI-assisted Design</div>
+    </div>
+  </div>
+
+  <!-- BRAINSTORMING -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Phase 01 — Discovery</span>
+    <h2 class="sec-h reveal">Starting with a <em>mind map</em></h2>
+    <p class="body-text reveal d1">Before any interviews, I mapped out every possible feature a salon booking app could have — no filtering, no prioritisation, just everything. This helped me go into research with breadth rather than assumptions.</p>
+
+    <div class="tag-cloud reveal d2">
+      <div class="tag hi">AI Client Manager</div>
+      <div class="tag hi">Smart Scheduling</div>
+      <div class="tag hi">Book Slots</div>
+      <div class="tag hi">Staff Management</div>
+      <div class="tag hi">Buffer Time</div>
+      <div class="tag">Push Notifications</div>
+      <div class="tag">Price Control</div>
+      <div class="tag">Revenue Insights</div>
+      <div class="tag">Client Profiles</div>
+      <div class="tag">Walk-in Booking</div>
+      <div class="tag">Products Inventory</div>
+      <div class="tag">Calendar View</div>
+      <div class="tag">Business Analytics</div>
+      <div class="tag">Repeat Customers</div>
+    </div>
+  </div>
+
+  <!-- RESEARCH -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Phase 02 — Research</span>
+    <h2 class="sec-h reveal">6 interviews, <em>6 perspectives</em></h2>
+    <p class="body-text reveal d1">I interviewed salon owners and staff across different contexts — luxury, city centre, barbershop, trend boutique, and international. Each conversation followed the same structure: context, goals, pain points, and required features.</p>
+
+    <div class="interview-grid reveal d1">
+
+      <div class="iv-card">
+        <div class="iv-header">
+          <div>
+            <div class="iv-name">Christian</div>
+            <div class="iv-context">Luxury Salon · High-end clientele</div>
+          </div>
+          <span class="iv-num">INT 01</span>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">User Goals</div>
+          <div class="iv-row-text">Maintain consistent service quality, personalise client experience, manage staff scheduling efficiently.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Pain Points</div>
+          <div class="iv-row-text">No centralised client history, manual rebooking reminders, double-booking errors.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Required Functions</div>
+          <div class="iv-tags">
+            <span class="iv-tag">Client Profiles</span>
+            <span class="iv-tag">Rebooking Reminders</span>
+            <span class="iv-tag">Staff Availability</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="iv-card">
+        <div class="iv-header">
+          <div>
+            <div class="iv-name">Kerstin & Maria</div>
+            <div class="iv-context">City Centre Salon · High foot traffic</div>
+          </div>
+          <span class="iv-num">INT 02</span>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">User Goals</div>
+          <div class="iv-row-text">Handle walk-ins alongside bookings, see real-time staff availability, reduce wait time confusion.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Pain Points</div>
+          <div class="iv-row-text">Overlapping bookings during peak hours, staff not knowing queue length, no simple walk-in flow.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Required Functions</div>
+          <div class="iv-tags">
+            <span class="iv-tag">Walk-in Queue</span>
+            <span class="iv-tag">Live Calendar</span>
+            <span class="iv-tag">Buffer Times</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="iv-card">
+        <div class="iv-header">
+          <div>
+            <div class="iv-name">Murat</div>
+            <div class="iv-context">Barbershop · Small team, fast pace</div>
+          </div>
+          <span class="iv-num">INT 03</span>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">User Goals</div>
+          <div class="iv-row-text">Quick appointment entry, minimal setup, easy to hand the phone to a client for self-booking.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Pain Points</div>
+          <div class="iv-row-text">Complex apps take too long to learn, no time to manage digital tools during busy slots.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Required Functions</div>
+          <div class="iv-tags">
+            <span class="iv-tag">Quick Booking</span>
+            <span class="iv-tag">Simple UI</span>
+            <span class="iv-tag">Today's View</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="iv-card">
+        <div class="iv-header">
+          <div>
+            <div class="iv-name">Sven & Lars</div>
+            <div class="iv-context">Trend Boutique Salon · Style-forward</div>
+          </div>
+          <span class="iv-num">INT 04</span>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">User Goals</div>
+          <div class="iv-row-text">Track client style preferences, upsell products, send personalised follow-up communications.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Pain Points</div>
+          <div class="iv-row-text">Losing track of what style a client had last visit, no link between product sales and client records.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Required Functions</div>
+          <div class="iv-tags">
+            <span class="iv-tag">Style History</span>
+            <span class="iv-tag">Product Tracking</span>
+            <span class="iv-tag">Notifications</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="iv-card">
+        <div class="iv-header">
+          <div>
+            <div class="iv-name">Roberto</div>
+            <div class="iv-context">International Salon Chain · Multi-location</div>
+          </div>
+          <span class="iv-num">INT 05</span>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">User Goals</div>
+          <div class="iv-row-text">Consistent experience across locations, centralised staff management, business-level revenue visibility.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Pain Points</div>
+          <div class="iv-row-text">Scattered data across multiple tools, no single dashboard for performance, onboarding new staff is slow.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Required Functions</div>
+          <div class="iv-tags">
+            <span class="iv-tag">Revenue Dashboard</span>
+            <span class="iv-tag">Staff Onboarding</span>
+            <span class="iv-tag">Multi-location</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="iv-card">
+        <div class="iv-header">
+          <div>
+            <div class="iv-name">Anna</div>
+            <div class="iv-context">Independent Stylist · Solo operator</div>
+          </div>
+          <span class="iv-num">INT 06</span>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">User Goals</div>
+          <div class="iv-row-text">Self-manage all bookings without admin overhead, send automated reminders, track income easily.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Pain Points</div>
+          <div class="iv-row-text">No-shows, forgetting to send reminders, no clean way to view weekly revenue at a glance.</div>
+        </div>
+        <div class="iv-row">
+          <div class="iv-row-label">Required Functions</div>
+          <div class="iv-tags">
+            <span class="iv-tag">Auto Reminders</span>
+            <span class="iv-tag">Income Tracking</span>
+            <span class="iv-tag">No-show Management</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CARD SORTING -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Phase 03 — Structure</span>
+    <h2 class="sec-h reveal">Card sorting into <em>4 clusters</em></h2>
+    <p class="body-text reveal d1">After interviews, I did open card sorting on all feature ideas to find natural groupings. The 4 categories that emerged informed both the navigation structure and the IA hierarchy.</p>
+
+    <div class="sort-grid reveal d1">
+      <div class="sort-card">
+        <div class="sort-card-label">Category 01</div>
+        <div class="sort-card-title">Appointment Scheduling & Availability</div>
+        <div class="sort-items">
+          <span class="sort-item">Book Slots</span>
+          <span class="sort-item">Calendar View</span>
+          <span class="sort-item">Buffer Time</span>
+          <span class="sort-item">Walk-in Queue</span>
+          <span class="sort-item">Staff Availability</span>
+          <span class="sort-item">Reschedule</span>
+        </div>
+      </div>
+      <div class="sort-card">
+        <div class="sort-card-label">Category 02</div>
+        <div class="sort-card-title">AI Assistant & Smart Automation</div>
+        <div class="sort-items">
+          <span class="sort-item">AI Client Manager</span>
+          <span class="sort-item">Smart Suggestions</span>
+          <span class="sort-item">Auto Reminders</span>
+          <span class="sort-item">No-show Prediction</span>
+          <span class="sort-item">Rebooking AI</span>
+        </div>
+      </div>
+      <div class="sort-card">
+        <div class="sort-card-label">Category 03</div>
+        <div class="sort-card-title">Client Personalization & Experience</div>
+        <div class="sort-items">
+          <span class="sort-item">Client Profiles</span>
+          <span class="sort-item">Style History</span>
+          <span class="sort-item">Preferences</span>
+          <span class="sort-item">Product Linking</span>
+          <span class="sort-item">Visit Notes</span>
+        </div>
+      </div>
+      <div class="sort-card">
+        <div class="sort-card-label">Category 04</div>
+        <div class="sort-card-title">Communication & Business Insights</div>
+        <div class="sort-items">
+          <span class="sort-item">Push Notifications</span>
+          <span class="sort-item">Revenue Dashboard</span>
+          <span class="sort-item">Price Control</span>
+          <span class="sort-item">Staff Management</span>
+          <span class="sort-item">Products Inventory</span>
+          <span class="sort-item">Business Analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFORMATION ARCHITECTURE -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Phase 04 — Architecture</span>
+    <h2 class="sec-h reveal">Mapping the <em>information</em></h2>
+    <p class="body-text reveal d1">The card sort results became a handwritten IA before going into Figma. Three top-level tabs — Home, Customers, Business — each with clear sub-sections that match how salons actually think about their work.</p>
+
+    <div class="ia-tree reveal d1">
+      <div class="ia-branch">
+        <div class="ia-branch-label">Home</div>
+        <div class="ia-branch-items">
+          <span class="ia-item">Today's Schedule</span>
+          <span class="ia-item">Calendar View</span>
+          <span class="ia-item">Walk-in Booking</span>
+          <span class="ia-item">Quick Appointment</span>
+          <span class="ia-item">Notifications</span>
+        </div>
+      </div>
+      <div class="ia-branch">
+        <div class="ia-branch-label">Customers</div>
+        <div class="ia-branch-items">
+          <span class="ia-item">All Clients</span>
+          <span class="ia-item">Filters</span>
+          <span class="ia-item">Booked Appointments</span>
+          <span class="ia-item">Client Profiles</span>
+          <span class="ia-item">Style History</span>
+          <span class="ia-item">Visit Notes</span>
+        </div>
+      </div>
+      <div class="ia-branch">
+        <div class="ia-branch-label">Business</div>
+        <div class="ia-branch-items">
+          <span class="ia-item">Staff Management</span>
+          <span class="ia-item">Price Control</span>
+          <span class="ia-item">Products</span>
+          <span class="ia-item">Revenue Insights</span>
+          <span class="ia-item">Analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESIGN FRAMEWORK -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Phase 05 — Design System</span>
+    <h2 class="sec-h reveal">Building the <em>framework</em></h2>
+    <p class="body-text reveal d1">Before touching screens, I established the visual language — typeface, colours, and mood. I pulled references from Dribbble and Behance, and used Figma AI to explore directions, then converged on a clean, professional feel with enough warmth for a people-centric business.</p>
+
+    <div class="fw-grid reveal d2">
+      <div class="fw-card">
+        <div class="fw-card-num">TYPOGRAPHY</div>
+        <div class="fw-card-title">Inter throughout</div>
+        <div class="fw-card-desc">Single typeface, variable weight. Clean, legible at small sizes — critical for a scheduling UI with dense information.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-card-num">COLOR</div>
+        <div class="fw-card-title">Dark base, green accent</div>
+        <div class="fw-card-desc">Deep navy-green background creates a premium, focused feel. Green accent signals actions, availability, and positive states.</div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-card-num">INSPIRATION</div>
+        <div class="fw-card-title">Dribbble + Figma AI</div>
+        <div class="fw-card-desc">Mood references from Dribbble and Behance, refined with Figma AI prompts to test visual directions before committing to a direction.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="cs-section cs-section--screens">
+    <span class="sec-label reveal">Phase 06 — Design</span>
+    <h2 class="sec-h reveal">High-fidelity <em>screens</em></h2>
+    <p class="body-text reveal d1">The design covers the full core flow — from the moment a salon owner opens the app in the morning to the end-of-day business view.</p>
+  </div>
+
+  <div class="ui-scroll-wrap reveal">
+    <div class="ui-scroll">
+      <div class="ui-frame-wrap">
+        <div class="ui-frame"><img src="assets/images/EXP/Home.png" alt="Home screen"></div>
+        <div class="ui-frame-label">Home</div>
+      </div>
+      <div class="ui-frame-wrap">
+        <div class="ui-frame"><img src="assets/images/EXP/Home-1.png" alt="Screen 2"></div>
+        <div class="ui-frame-label">Screen 2</div>
+      </div>
+      <div class="ui-frame-wrap">
+        <div class="ui-frame"><img src="assets/images/EXP/Home-2.png" alt="Screen 3"></div>
+        <div class="ui-frame-label">Screen 3</div>
+      </div>
+      <div class="ui-frame-wrap">
+        <div class="ui-frame"><img src="assets/images/EXP/Home-3.png" alt="Screen 4"></div>
+        <div class="ui-frame-label">Screen 4</div>
+      </div>
+      <div class="ui-frame-wrap">
+        <div class="ui-frame"><img src="assets/images/EXP/Home-4.png" alt="Screen 5"></div>
+        <div class="ui-frame-label">Screen 5</div>
+      </div>
+      <div class="ui-frame-wrap">
+        <div class="ui-frame"><img src="assets/images/EXP/Home-5.png" alt="Screen 6"></div>
+        <div class="ui-frame-label">Screen 6</div>
+      </div>
+      <div class="ui-frame-wrap">
+        <div class="ui-frame"><img src="assets/images/EXP/Home-6.png" alt="Screen 7"></div>
+        <div class="ui-frame-label">Screen 7</div>
+      </div>
+      <div class="ui-frame-wrap">
+        <div class="ui-frame"><img src="assets/images/EXP/Home-7.png" alt="Screen 8"></div>
+        <div class="ui-frame-label">Screen 8</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USABILITY TESTING -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Phase 07 — Testing</span>
+    <h2 class="sec-h reveal">Think-aloud with <em>a real user</em></h2>
+    <p class="body-text reveal d1">I ran one in-person usability test using think-aloud protocol with Rohit Kumar, a participant unfamiliar with salon management tools. The session covered 6 core tasks, each reflecting a real daily action a salon owner would take.</p>
+
+    <div class="tasks-list reveal d1">
+      <div class="task-row">
+        <span class="task-num">T1</span>
+        <p class="task-text"><strong>Open today's schedule</strong> and identify which stylist has the most appointments this morning.</p>
+      </div>
+      <div class="task-row">
+        <span class="task-num">T2</span>
+        <p class="task-text"><strong>Book a walk-in appointment</strong> for a new client wanting a haircut with any available stylist in the next 30 minutes.</p>
+      </div>
+      <div class="task-row">
+        <span class="task-num">T3</span>
+        <p class="task-text"><strong>Find a returning client</strong> named "Sara" and view her last visit notes and style history.</p>
+      </div>
+      <div class="task-row">
+        <span class="task-num">T4</span>
+        <p class="task-text"><strong>Update the price</strong> for a haircut service from the Business tab.</p>
+      </div>
+      <div class="task-row">
+        <span class="task-num">T5</span>
+        <p class="task-text"><strong>Check this week's revenue</strong> broken down by service type.</p>
+      </div>
+      <div class="task-row">
+        <span class="task-num">T6</span>
+        <p class="task-text"><strong>Edit a staff member's schedule</strong> to mark them unavailable on Friday afternoon.</p>
+      </div>
+    </div>
+
+    <div class="ut-grid reveal d2" style="margin-top: 32px;">
+      <div class="ut-card">
+        <div class="ut-card-label pos">What worked well</div>
+        <div class="ut-list">
+          <div class="ut-list-item">
+            <div class="ut-dot pos"></div>
+            <div class="ut-item-text">Today's schedule was immediately understood — "I can see exactly what's happening today."</div>
+          </div>
+          <div class="ut-list-item">
+            <div class="ut-dot pos"></div>
+            <div class="ut-item-text">Walk-in booking flow was completed without hesitation — the shortcut on home screen was noticed quickly.</div>
+          </div>
+          <div class="ut-list-item">
+            <div class="ut-dot pos"></div>
+            <div class="ut-item-text">Client profile page felt comprehensive — all relevant info in one place without feeling overwhelming.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ut-card">
+        <div class="ut-card-label warn">Minor confusions</div>
+        <div class="ut-list">
+          <div class="ut-list-item">
+            <div class="ut-dot warn"></div>
+            <div class="ut-item-text">Revenue section wasn't found immediately — user expected it under Home rather than Business tab.</div>
+          </div>
+          <div class="ut-list-item">
+            <div class="ut-dot warn"></div>
+            <div class="ut-item-text">The price control modal's save action wasn't obvious — participant looked for a floating "Save" button.</div>
+          </div>
+          <div class="ut-list-item">
+            <div class="ut-dot warn"></div>
+            <div class="ut-item-text">Staff schedule edit required one extra tap — participant expected to edit directly from the staff card.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ut-card" style="grid-column: 1 / -1;">
+        <div class="ut-card-label imp">UI improvements identified</div>
+        <div class="ut-list">
+          <div class="ut-list-item">
+            <div class="ut-dot imp"></div>
+            <div class="ut-item-text">Add a Revenue shortcut or summary widget to the Home dashboard so it's accessible without navigating to Business.</div>
+          </div>
+          <div class="ut-list-item">
+            <div class="ut-dot imp"></div>
+            <div class="ut-item-text">Make the price save action a sticky bottom bar inside the modal rather than a standard inline button.</div>
+          </div>
+          <div class="ut-list-item">
+            <div class="ut-dot imp"></div>
+            <div class="ut-item-text">Inline edit on staff cards — tap the availability chip to toggle availability directly without going deeper.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEARNINGS -->
+  <div class="cs-section">
+    <span class="sec-label reveal">Key Learnings</span>
+    <h2 class="sec-h reveal">What <em>I took away</em></h2>
+    <div class="learning-list">
+      <div class="learning-item reveal d1">
+        <span class="learning-num">01</span>
+        <p class="learning-text"><strong>Research reveals hidden simplicity.</strong> The mind map started with 20+ features. Six interviews cut it to a focused set. Users don't want everything — they want the five things they do every day to feel effortless.</p>
+      </div>
+      <div class="learning-item reveal d2">
+        <span class="learning-num">02</span>
+        <p class="learning-text"><strong>Card sorting is faster than IA debates.</strong> Instead of deciding what goes where based on assumptions, letting real feature names group themselves revealed an IA that matched how salon owners actually talk about their work.</p>
+      </div>
+      <div class="learning-item reveal d2">
+        <span class="learning-num">03</span>
+        <p class="learning-text"><strong>One test is infinitely more valuable than zero.</strong> Even a single think-aloud session with one participant caught three genuine friction points that weren't visible during design. Testing always humbles you.</p>
+      </div>
+      <div class="learning-item reveal d3">
+        <span class="learning-num">04</span>
+        <p class="learning-text"><strong>Navigation placement shapes mental models.</strong> The Revenue section confusion showed that users build expectations from the first screen. High-value data should live where users look first — not where it "logically belongs."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span class="footer-l">© 2026 Charanpreet Singh · UX & Product Designer</span>
+    <div class="footer-r">
+      <a href="Portfolio.html">Portfolio</a>
+      <a href="AboutMe.html">Photography</a>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
